@@ -5,14 +5,14 @@ import UserDetails from './components/UserDetails';
 import BackBtn from './components/BackBtn';
 import EditProfile from './components/EditProfile';
 
-function App() {
+function UserProfile() {
 
   return (
     <>
     <BackBtn />
       <UserHeader 
-      username="User Name"
-      profilepicture="./src/assets/profilepicture.png"
+      userName="User Name"
+      profilePicture="./src/assets/profilepicture.png"
       />
       <div className="flex items-center flex-col">
         <div className='p-10'>
@@ -47,4 +47,4 @@ function App() {
   )
 }
 
-export default App
+export default UserProfile
