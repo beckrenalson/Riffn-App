@@ -10,13 +10,11 @@ String Instruments:
 
     Harp
 
-    Mandolin
+    Double Bass
 
     Banjo
 
     Ukulele
-
-    Sitar
 
 Percussion Instruments:
 

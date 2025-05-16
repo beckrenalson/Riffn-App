@@ -1,7 +1,7 @@
 function BackBtn() {
     return (
         <>
-            <div className="p-2">
+            <div className="p-5">
                 <button>
                     <img
                         className="h-5 w-7"
