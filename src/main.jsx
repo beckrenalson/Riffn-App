@@ -7,8 +7,8 @@ import UserPublic from './UserPublic.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <UserProfile /> */}
+    <UserProfile />
     {/* <InstrumentSelection /> */}
-    <UserPublic />
+    {/* <UserPublic /> */}
   </StrictMode>,
 )

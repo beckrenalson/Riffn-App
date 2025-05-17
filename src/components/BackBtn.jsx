@@ -2,7 +2,7 @@ function BackBtn() {
     return (
         <>
             <div className="p-5">
-                <button>
+                <button className="cursor-pointer">
                     <img
                         className="h-5 w-7"
                         src="./src/assets/back.png" />

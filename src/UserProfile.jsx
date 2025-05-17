@@ -1,18 +1,21 @@
 import { useState } from 'react'
 import './App.css';
-import UserHeader from './components/UserHeader';
-import UserDetails from './components/UserDetails';
+import UserHeader from './components/UserProfile/UserHeader';
+import UserDetails from './components/UserProfile/UserDetails';
 import BackBtn from './components/BackBtn';
-import EditProfile from './components/EditProfile';
+import EditProfile from './components/UserProfile/EditProfile';
+import NavBar from './components/NavBar';
 
 function UserProfile() {
 
+  //  const userName = [userName, setUserName] = useState('User Name');
+
   return (
     <>
-    <BackBtn />
-      <UserHeader 
-      userName="User Name"
-      profilePicture="./src/assets/profilepicture.png"
+      <BackBtn />
+      <UserHeader
+        userName='User Name'
+        profilePicture="./src/assets/profilepicture.png"
       />
       <div className="flex items-center flex-col">
         <div className='p-10'>
@@ -42,6 +45,9 @@ function UserProfile() {
           />
         </div>
         <EditProfile />
+      </div>
+      <div className='m-10'>
+        <NavBar />
       </div>
     </>
   )

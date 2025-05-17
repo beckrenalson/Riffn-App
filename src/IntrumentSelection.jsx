@@ -1,4 +1,4 @@
-import Instrument from "./components/Instrument"
+import Instrument from "./components/InstrumentSelection/Instrument"
 import BackBtn from "./components/BackBtn"
 
 function InstrumentSelection() {

@@ -1,4 +1,5 @@
 function UserHeader({userName, profilePicture}) {
+
     return (
         <>
             <div className='flex-col flex items-center'>
