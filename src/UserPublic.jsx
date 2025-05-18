@@ -22,7 +22,7 @@ function UserPublic() {
                     <div className="border rounded h-20">
                         <input placeholder="bio"></input>
                     </div>
-                    <div className="border rounded h-20">
+                    <div>
                         <a href="www.soundcloud.com">Links</a>
                     </div>
                 </div>
