@@ -1,7 +1,9 @@
-function InstrumentType({instrumentType}) {
+import { NavLink } from "react-router"
+
+function InstrumentType({instrumentType, selectInstrument}) {
     return (
         <>
-            <button className="cursor-pointer border p-5 w-1/2 flex justify-center">{instrumentType}</button>
+            <NavLink to={selectInstrument} className="cursor-pointer border p-5 w-1/2 flex justify-center">{instrumentType}</NavLink>
         </>
     )
 }
