@@ -2,6 +2,9 @@ import Instrument from "./components/InstrumentSelection/Instrument"
 import BackBtn from "./components/BackBtn"
 
 function InstrumentSelection() {
+
+    // const strings = ["Guitar", "Bass Guitar"]
+
     return (
         <>
         <BackBtn />
@@ -42,10 +45,6 @@ function InstrumentSelection() {
                  <Instrument
                     instrumentIcon="./src/assets/instruments/harp.png"
                     instrumentName="Harp"
-                />
-                <Instrument
-                    instrumentIcon="./src/assets/instruments/bro.png"
-                    instrumentName="Ok"
                 />
                 </div>
             </div>

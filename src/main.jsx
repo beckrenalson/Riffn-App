@@ -12,7 +12,8 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<InstrumentTypeSelection />} />
+        <Route path="/" element={<UserSelection />} />
+        <Route path="/InstrumentTypeSelection" element={<InstrumentTypeSelection />} />
         <Route path="/InstrumentSelection" element={<InstrumentSelection />} />
       </Routes>
     </BrowserRouter>
