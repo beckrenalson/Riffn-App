@@ -6,7 +6,7 @@ function UserSelection() {
         <>
         <BackBtn />
             <div className="flex flex-col justify-center h-screen gap-20">
-                <NavLink to="/InstrumentTypeSelection" className="flex flex-col items-center">
+                <NavLink to="/instrumenttype" className="flex flex-col items-center">
                     <div className="rounded-full border-3 p-5">
                         <img
                             className="w-30"

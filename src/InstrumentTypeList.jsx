@@ -1,7 +1,8 @@
 import BackBtn from "./components/BackBtn"
 import InstrumentType from "./components/InstrumentSelection/InstrumentType"
 
-function InstrumentTypeSelection() {
+function InstrumentTypeList({instrumentType}) {
+    // console.log(instrumentType)
     return (
         <>
         <BackBtn 
@@ -10,10 +11,11 @@ function InstrumentTypeSelection() {
             <div className="flex flex-col items-center gap-10">
                 <InstrumentType 
                 instrumentType="Strings"
-                selectInstrument="/InstrumentSelection"
+               
                 />
                 <InstrumentType 
                 instrumentType="Percussion"
+                
                 />
                 <InstrumentType 
                 instrumentType="Wind"
@@ -32,4 +34,4 @@ function InstrumentTypeSelection() {
     )
 }
 
-export default InstrumentTypeSelection
+export default InstrumentTypeList

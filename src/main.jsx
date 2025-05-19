@@ -5,7 +5,7 @@ import UserProfile from './UserProfile.jsx'
 import UserPublic from './UserPublic.jsx'
 import UserSelection from './UserSelection.jsx'
 import InstrumentSelection from './IntrumentSelection.jsx'
-import InstrumentTypeSelection from './InstrumentTypeSelection.jsx'
+import InstrumentTypeSelection from './InstrumentTypeList.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -13,8 +13,8 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<UserSelection />} />
-        <Route path="/InstrumentTypeSelection" element={<InstrumentTypeSelection />} />
-        <Route path="/InstrumentSelection" element={<InstrumentSelection />} />
+        <Route path="/instrumenttype" element={<InstrumentTypeSelection />} />
+        <Route path="/instrumenttype/:type" element={<InstrumentSelection />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
