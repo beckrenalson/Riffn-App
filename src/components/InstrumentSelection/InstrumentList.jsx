@@ -1,7 +1,7 @@
 import { NavLink } from "react-router"
 
 function Instrument({ instruments }) {
-    console.log(instruments)
+    // console.log(instruments)
     return (
         <>
             <NavLink to="" className="">

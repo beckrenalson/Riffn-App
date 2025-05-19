@@ -1,13 +1,11 @@
-import BackBtn from "./components/BackBtn"
-import InstrumentType from "./components/InstrumentSelection/InstrumentType"
+import BackBtn from "../BackBtn"
+import InstrumentType from "./InstrumentType"
 
 function InstrumentTypeList({instrumentType}) {
     // console.log(instrumentType)
     return (
         <>
-        <BackBtn 
-        goBack="/UserSelection"
-        />
+        <BackBtn />
             <div className="flex flex-col items-center gap-10">
                 <InstrumentType 
                 instrumentType="Strings"

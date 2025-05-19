@@ -1,13 +1,12 @@
-import InstrumentList from "./components/InstrumentSelection/InstrumentList"
-import BackBtn from "./components/BackBtn"
-import { useState } from 'react'
+import InstrumentList from "./InstrumentList"
+import BackBtn from "../BackBtn"
 import { useParams } from "react-router";
 
 function InstrumentSelection({instrumentType}) {
 
     let { type } = useParams();
     
-    console.log(type)
+    // console.log(type)
 
     let instruments = [];
 
@@ -15,35 +14,35 @@ function InstrumentSelection({instrumentType}) {
 
     const stringInstruments = [
         {
-            instrumentIcon: "./src/assets/instruments/guitar.png",
+            instrumentIcon: "/src/assets/instruments/guitar.png",
             instrumentName: "Guitar"
         },
         {
-            instrumentIcon: "./src/assets/instruments/bass-guitar.png",
+            instrumentIcon: "/src/assets/instruments/bass-guitar.png",
             instrumentName: "Bass Guitar"
         },
         {
-            instrumentIcon: "./src/assets/instruments/banjo.png",
+            instrumentIcon: "/src/assets/instruments/banjo.png",
             instrumentName: "Banjo"
         },
         {
-            instrumentIcon: "./src/assets/instruments/ukelele.png",
+            instrumentIcon: "/src/assets/instruments/ukelele.png",
             instrumentName: "Ukelele"
         },
         {
-            instrumentIcon: "./src/assets/instruments/violin.png",
+            instrumentIcon: "/src/assets/instruments/violin.png",
             instrumentName: "Violin"
         },
         {
-            instrumentIcon: "./src/assets/instruments/cello.png",
+            instrumentIcon: "/src/assets/instruments/cello.png",
             instrumentName: "Cello"
         },
         {
-            instrumentIcon: "./src/assets/instruments/doublebass.png",
+            instrumentIcon: "/src/assets/instruments/doublebass.png",
             instrumentName: "Double Bass"
         },
         {
-            instrumentIcon: "./src/assets/instruments/harp.png",
+            instrumentIcon: "/src/assets/instruments/harp.png",
             instrumentName: "Harp"
         }
     ]
@@ -62,7 +61,7 @@ function InstrumentSelection({instrumentType}) {
         instruments = stringInstruments;
     }
 
-    console.log(instruments)
+    // console.log(instruments)
 
     return (
         <>

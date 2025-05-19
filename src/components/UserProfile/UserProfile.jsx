@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import './App.css';
-import UserHeader from './components/UserProfile/UserHeader';
-import UserDetails from './components/UserProfile/UserDetails';
-import BackBtn from './components/BackBtn';
-import EditProfile from './components/UserProfile/EditProfile';
-import NavBar from './components/NavBar';
+import UserHeader from './UserHeader';
+import UserDetails from './UserDetails';
+import BackBtn from '../BackBtn';
+import EditProfile from './EditProfile';
+import NavBar from '../NavBar';
 
 function UserProfile() {
 
