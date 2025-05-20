@@ -1,10 +1,9 @@
 import { NavLink } from "react-router"
 
-function Instrument({ instruments }) {
-    // console.log(instruments)
+function Instrument({ instruments }) { 
     return (
         <>
-            <NavLink to="" className="">
+            <NavLink to="" className="grid grid-cols-3 gap-2 p-2">
                 {instruments.map((instrument, index) => (
                     <div key={index} className="flex flex-col items-center">
                         <div className="rounded-full border-3 p-5">

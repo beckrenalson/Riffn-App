@@ -66,7 +66,7 @@ function InstrumentSelection({instrumentType}) {
     return (
         <>
             <BackBtn />
-            <div className="flex justify-center gap-2 mt-10">
+            <div className="flex flex-wrap gap-2 mt-10">
                 <InstrumentList
                     instruments={instruments}
                 />
