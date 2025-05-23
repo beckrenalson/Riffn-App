@@ -2,10 +2,10 @@ import InstrumentList from "./InstrumentList"
 import BackBtn from "../BackBtn"
 import { useParams } from "react-router";
 
-function InstrumentSelection({instrumentType}) {
+function InstrumentSelection({ instrumentType }) {
 
     let { type } = useParams();
-    
+
     // console.log(type)
 
     let instruments = [];
@@ -55,10 +55,18 @@ function InstrumentSelection({instrumentType}) {
     ]
 
 
-    if (type == "Percussion") {
-        instruments = percussionInstruments;
-    } else if (type == "Strings") {
+    if (type == "Strings") {
         instruments = stringInstruments;
+    } else if (type == "Percussion") {
+        instruments = percussionInstruments;
+    } else if (type == "Wind") {
+        instruments = windInstruments;
+    } else if (type == "Keys") {
+        instruments = keyInstruments;
+    } else if (type == "Electronic") {
+        instruments = electronicInstruments;
+    } else if (type == "Vocal") {
+        instruments = vocalInstruments;
     }
 
     // console.log(instruments)
@@ -66,7 +74,7 @@ function InstrumentSelection({instrumentType}) {
     return (
         <>
             <BackBtn />
-            <div className="flex flex-wrap gap-2 mt-10">
+            <div className="flex justify-center mt-10">
                 <InstrumentList
                     instruments={instruments}
                 />
