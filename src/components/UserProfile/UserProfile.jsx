@@ -43,6 +43,7 @@ function UserProfile() {
             icon="/images/eye.png"
           />
         </div>
+        <EditProfile />
       </div>
       <NavBar />
     </>

@@ -1,7 +1,7 @@
 import BackBtn from "../BackBtn"
 import InstrumentType from "./InstrumentType"
 
-function InstrumentTypeList({instrumentType}) {
+function InstrumentTypeList() {
     return (
         <>
         <BackBtn />

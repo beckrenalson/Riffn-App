@@ -6,7 +6,7 @@ function SearchForBand() {
     return (
         <>
             <BackBtn />
-            <div className="flex flex-col gap-10 m-10 mb-24">
+            <div className="flex flex-col gap-6 m-10 mb-24">
                 <BandList />
                 <BandList />
                 <BandList />

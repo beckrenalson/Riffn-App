@@ -1,8 +1,9 @@
 import InstrumentList from "./InstrumentList"
 import BackBtn from "../BackBtn"
 import { useParams } from "react-router";
+import Continue from "../InstrumentSelection/Continue";
 
-function InstrumentSelection({ instrumentType }) {
+function InstrumentSelection() {
 
     let { type } = useParams();
     let instruments = [];
@@ -84,6 +85,7 @@ function InstrumentSelection({ instrumentType }) {
                 <InstrumentList
                     instruments={instruments}
                 />
+                <Continue />
             </div>
         </>
     )

@@ -11,20 +11,23 @@ import SignUp from './components/CreateProfile/SignUp.jsx';
 import Login from './components/CreateProfile/Login.jsx';
 import SearchForBand from './components/SearchForBand/SearchForBand.jsx';
 import BandPublic from './BandPublic.jsx';
+import GenreSelection from './components/GenreSelection/GenreSelection.jsx';
+import GenreList from './components/GenreSelection/GenreList.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SearchForBand />} />
-        {/* <Route path="/" element={<SignUp />} /> */}
+        <Route path="/" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/userselection" element={<UserSelection />} />
         <Route path="/selectinstrument" element={<InstrumentTypeList />} />
         <Route path="/selectinstrument/:type" element={<InstrumentSelection />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/search" element={<SearchForBand />} />
+        <Route path="/selectgenre" element={<GenreList />} />
+        <Route path="/selectgenre/:type" element={<GenreSelection />} />
+        <Route path="/search/bands" element={<SearchForBand />} />
         <Route path="/bandpublic" element={<BandPublic />} />
+        <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
