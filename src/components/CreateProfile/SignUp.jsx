@@ -1,4 +1,5 @@
-import { NavLink } from "react-router"
+import { useNavigate } from "react-router";
+import { NavLink } from "react-router";
 import { useState } from "react";
 
 function SignUp() {
@@ -8,6 +9,8 @@ function SignUp() {
     email: "",
     password: "",
   });
+  
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,6 +20,7 @@ function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Sign Up Data:", formData);
+    navigate("/userselection")
   };
 
   return (
@@ -35,7 +39,7 @@ function SignUp() {
               className="w-full pl-4 p-2 border rounded-lg focus:outline-none"
             />
           </div>
-           <div>
+          <div>
             <input
               type="text"
               name="lastName"
@@ -75,7 +79,14 @@ function SignUp() {
             SIGN UP
           </button>
         </form>
-        <p className="mt-6 text-center">Already have an account? <NavLink to="/login" className="underline font-bold">Login</NavLink></p>
+        <p className="mt-6 text-center">Already have an account?
+          <NavLink
+            to="/login"
+            className="underline font-bold"
+          >
+            Login
+          </NavLink>
+        </p>
       </div>
     </div>
   );

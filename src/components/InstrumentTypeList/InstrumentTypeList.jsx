@@ -2,7 +2,6 @@ import BackBtn from "../BackBtn"
 import InstrumentType from "./InstrumentType"
 
 function InstrumentTypeList({instrumentType}) {
-    // console.log(instrumentType)
     return (
         <>
         <BackBtn />

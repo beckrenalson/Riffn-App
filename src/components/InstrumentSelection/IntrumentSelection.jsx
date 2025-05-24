@@ -5,12 +5,7 @@ import { useParams } from "react-router";
 function InstrumentSelection({ instrumentType }) {
 
     let { type } = useParams();
-
-    // console.log(type)
-
     let instruments = [];
-
-    // console.log(window.location.href)
 
     const stringInstruments = [
         {
@@ -54,7 +49,6 @@ function InstrumentSelection({ instrumentType }) {
         }
     ]
 
-
     if (type == "Strings") {
         instruments = stringInstruments;
     } else if (type == "Percussion") {
@@ -68,8 +62,6 @@ function InstrumentSelection({ instrumentType }) {
     } else if (type == "Vocal") {
         instruments = vocalInstruments;
     }
-
-    // console.log(instruments)
 
     return (
         <>
