@@ -7,7 +7,7 @@ function BandList() {
                 <div>
                     <img
                         className="rounded-full w-20"
-                        src="src/assets/profilepicture.png" />
+                        src="/images/profilepicture.png" />
                 </div>
                 <div>
                     <div className='pl-4'>

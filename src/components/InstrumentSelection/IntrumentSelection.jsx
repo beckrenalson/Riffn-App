@@ -8,59 +8,59 @@ function InstrumentSelection({ instrumentType }) {
     let instruments = [];
 
     const stringInstruments = [
-        { instrumentIcon: "/src/assets/instruments/guitar.png", instrumentName: "Guitar" },
-        { instrumentIcon: "/src/assets/instruments/bass-guitar.png", instrumentName: "Bass Guitar" },
-        { instrumentIcon: "/src/assets/instruments/violin.png", instrumentName: "Violin" },
-        { instrumentIcon: "/src/assets/instruments/cello.png", instrumentName: "Cello" },
-        { instrumentIcon: "/src/assets/instruments/harp.png", instrumentName: "Harp" },
-        { instrumentIcon: "/src/assets/instruments/doublebass.png", instrumentName: "Double Bass" },
-        { instrumentIcon: "/src/assets/instruments/banjo.png", instrumentName: "Banjo" },
-        { instrumentIcon: "/src/assets/instruments/ukelele.png", instrumentName: "Ukulele" }
+        { instrumentIcon: "/images/instruments/guitar.png", instrumentName: "Guitar" },
+        { instrumentIcon: "/images/instruments/bass-guitar.png", instrumentName: "Bass Guitar" },
+        { instrumentIcon: "/images/instruments/violin.png", instrumentName: "Violin" },
+        { instrumentIcon: "/images/instruments/cello.png", instrumentName: "Cello" },
+        { instrumentIcon: "/images/instruments/harp.png", instrumentName: "Harp" },
+        { instrumentIcon: "/images/instruments/doublebass.png", instrumentName: "Double Bass" },
+        { instrumentIcon: "/images/instruments/banjo.png", instrumentName: "Banjo" },
+        { instrumentIcon: "/images/instruments/ukelele.png", instrumentName: "Ukulele" }
     ];
 
     const percussionInstruments = [
-        { instrumentIcon: "/src/assets/instruments/drums.png", instrumentName: "Drums" },
-        { instrumentIcon: "/src/assets/instruments/cajon.png", instrumentName: "Cajón" },
-        { instrumentIcon: "/src/assets/instruments/bongos.png", instrumentName: "Bongo" },
-        { instrumentIcon: "/src/assets/instruments/djembe.png", instrumentName: "Djembe" },
-        { instrumentIcon: "/src/assets/instruments/tabla.png", instrumentName: "Tabla" },
-        { instrumentIcon: "/src/assets/instruments/tambourine.png", instrumentName: "Tambourine" },
-        { instrumentIcon: "/src/assets/instruments/maracas.png", instrumentName: "Maracas" },
-        { instrumentIcon: "/src/assets/instruments/xylophone.png", instrumentName: "Xylophone" },
-        { instrumentIcon: "/src/assets/instruments/timpani.png", instrumentName: "Timpani" }
+        { instrumentIcon: "/images/instruments/drums.png", instrumentName: "Drums" },
+        { instrumentIcon: "/images/instruments/cajon.png", instrumentName: "Cajón" },
+        { instrumentIcon: "/images/instruments/bongos.png", instrumentName: "Bongo" },
+        { instrumentIcon: "/images/instruments/djembe.png", instrumentName: "Djembe" },
+        { instrumentIcon: "/images/instruments/tabla.png", instrumentName: "Tabla" },
+        { instrumentIcon: "/images/instruments/tambourine.png", instrumentName: "Tambourine" },
+        { instrumentIcon: "/images/instruments/maracas.png", instrumentName: "Maracas" },
+        { instrumentIcon: "/images/instruments/xylophone.png", instrumentName: "Xylophone" },
+        { instrumentIcon: "/images/instruments/timpani.png", instrumentName: "Timpani" }
     ];
 
     const windInstruments = [
-        { instrumentIcon: "/src/assets/instruments/saxophone.png", instrumentName: "Saxophone" },
-        { instrumentIcon: "/src/assets/instruments/trumpet.png", instrumentName: "Trumpet" },
-        { instrumentIcon: "/src/assets/instruments/flute.png", instrumentName: "Flute" },
-        { instrumentIcon: "/src/assets/instruments/clarinet.png", instrumentName: "Clarinet" },
-        { instrumentIcon: "/src/assets/instruments/trombone.png", instrumentName: "Trombone" },
-        { instrumentIcon: "/src/assets/instruments/fluglehorn.png", instrumentName: "Flugelhorn" },
-        { instrumentIcon: "/src/assets/instruments/voltorna.png", instrumentName: "Voltorna" },
-        { instrumentIcon: "/src/assets/instruments/harmonica.png", instrumentName: "Harmonica" }
+        { instrumentIcon: "/images/instruments/saxophone.png", instrumentName: "Saxophone" },
+        { instrumentIcon: "/images/instruments/trumpet.png", instrumentName: "Trumpet" },
+        { instrumentIcon: "/images/instruments/flute.png", instrumentName: "Flute" },
+        { instrumentIcon: "/images/instruments/clarinet.png", instrumentName: "Clarinet" },
+        { instrumentIcon: "/images/instruments/trombone.png", instrumentName: "Trombone" },
+        { instrumentIcon: "/images/instruments/fluglehorn.png", instrumentName: "Flugelhorn" },
+        { instrumentIcon: "/images/instruments/voltorna.png", instrumentName: "Voltorna" },
+        { instrumentIcon: "/images/instruments/harmonica.png", instrumentName: "Harmonica" }
     ];
 
     const keyInstruments = [
-        { instrumentIcon: "/src/assets/instruments/piano.png", instrumentName: "Piano" },
-        { instrumentIcon: "/src/assets/instruments/keyboard.png", instrumentName: "Electric Keyboard" },
-        { instrumentIcon: "/src/assets/instruments/organ.png", instrumentName: "Organ" },
-        { instrumentIcon: "/src/assets/instruments/accordion.png", instrumentName: "Accordion" }
+        { instrumentIcon: "/images/instruments/piano.png", instrumentName: "Piano" },
+        { instrumentIcon: "/images/instruments/keyboard.png", instrumentName: "Electric Keyboard" },
+        { instrumentIcon: "/images/instruments/organ.png", instrumentName: "Organ" },
+        { instrumentIcon: "/images/instruments/accordion.png", instrumentName: "Accordion" }
 
     ];
 
     const electronicInstruments = [
-        { instrumentIcon: "/src/assets/instruments/synthetiser.png", instrumentName: "Synthesisers" },
-        { instrumentIcon: "/src/assets/instruments/drummachine.png", instrumentName: "Drum Machines" },
-        { instrumentIcon: "/src/assets/instruments/midi.png", instrumentName: "MIDI Controllers" },
-        { instrumentIcon: "/src/assets/instruments/sampler.png", instrumentName: "Samplers" }
+        { instrumentIcon: "/images/instruments/synthetiser.png", instrumentName: "Synthesisers" },
+        { instrumentIcon: "/images/instruments/drummachine.png", instrumentName: "Drum Machines" },
+        { instrumentIcon: "/images/instruments/midi.png", instrumentName: "MIDI Controllers" },
+        { instrumentIcon: "/images/instruments/sampler.png", instrumentName: "Samplers" }
     ];
 
     const vocalInstruments = [
-        { instrumentIcon: "/src/assets/instruments/leadvocal.png", instrumentName: "Lead Vocals" },
-        { instrumentIcon: "/src/assets/instruments/backing-vocals.png", instrumentName: "Backing Vocals" },
-        { instrumentIcon: "/src/assets/instruments/beatboxing.png", instrumentName: "Beatboxing" },
-        { instrumentIcon: "/src/assets/instruments/choir.png", instrumentName: "Choral Arrangement" }
+        { instrumentIcon: "/images/instruments/leadvocal.png", instrumentName: "Lead Vocals" },
+        { instrumentIcon: "/images/instruments/backing-vocals.png", instrumentName: "Backing Vocals" },
+        { instrumentIcon: "/images/instruments/beatboxing.png", instrumentName: "Beatboxing" },
+        { instrumentIcon: "/images/instruments/choir.png", instrumentName: "Choral Arrangement" }
     ];
 
     if (type == "Strings") {

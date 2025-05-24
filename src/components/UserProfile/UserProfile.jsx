@@ -14,33 +14,33 @@ function UserProfile() {
       <BackBtn />
       <UserHeader
         userName='User Name'
-        profilePicture="./src/assets/profilepicture.png"
+        profilePicture="/images/profilepicture.png"
       />
       <div className="flex items-center flex-col">
         <div className='p-10'>
           <UserDetails
             details="User Name"
-            icon="./src/assets/circle-user.png"
+            icon="/images/circle-user.png"
           />
           <UserDetails
             details="021 123 4567"
-            icon="./src/assets/phone-flip.png"
+            icon="/images/phone-flip.png"
           />
           <UserDetails
             details="SoundCloud"
-            icon="./src/assets/soundcloud.png"
+            icon="/images/soundcloud.png"
           />
           <UserDetails
             details="Spotify"
-            icon="./src/assets/spotify.png"
+            icon="/images/spotify.png"
           />
           <UserDetails
             details="email@gmail.com"
-            icon="./src/assets/envelope.png"
+            icon="/images/envelope.png"
           />
           <UserDetails
             details="Password"
-            icon="./src/assets/eye.png"
+            icon="/images/eye.png"
           />
         </div>
       </div>

@@ -10,7 +10,7 @@ function UserSelection() {
                     <div className="rounded-full border-3 p-5">
                         <img
                             className="w-30"
-                            src="./src/assets/soloartist.png" />
+                            src="/images/soloartist.png" />
                     </div>
                     <p className="font-bold">Solo Musician</p>
                 </NavLink>
@@ -18,7 +18,7 @@ function UserSelection() {
                     <div className="rounded-full border-3 p-5">
                         <img
                             className="w-30"
-                            src="./src/assets/band.png" />
+                            src="/images/band.png" />
                     </div>
                     <p className="font-bold">Band</p>
                 </button>

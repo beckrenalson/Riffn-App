@@ -2,7 +2,7 @@ function UserPublic() {
     return (
         <>
             <div className="p-8">
-                <img className="rounded-full w-35" src="./src/assets/profilepicture.png" />
+                <img className="rounded-full w-35" src="/images/profilepicture.png" />
 
                 <div className="flex gap-20">
                     <div>
