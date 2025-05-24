@@ -11,7 +11,7 @@ function BackBtn() {
                     <div onClick={() => navigate(-1)} className="cursor-pointer">
                         <img
                             className="h-5 w-7"
-                            src="/src/assets/back.png" />
+                            src="/images/back.png" />
                     </div>
                 </div>
        
