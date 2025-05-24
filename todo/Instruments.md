@@ -48,9 +48,9 @@ Wind Instruments:
 
     Trombone
 
-    Oboe
+    Voltorna
 
-    Bassoon
+    Fluglehorn
 
     Harmonica
 

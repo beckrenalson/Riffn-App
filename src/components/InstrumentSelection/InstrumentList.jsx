@@ -3,11 +3,11 @@ import { useState } from "react";
 function InstrumentList({ instruments }) {
     const [selectedInstrument, setSelectedInstrument] = useState([]);
 
- const toggleSelection = (index) => {
+    const toggleSelection = (index) => {
         setSelectedInstrument((prevSelected) =>
             prevSelected.includes(index)
                 ? prevSelected.filter((i) => i !== index)
-                : [...prevSelected, index]              
+                : [...prevSelected, index]
         );
     };
 
@@ -19,10 +19,9 @@ function InstrumentList({ instruments }) {
                     onClick={() => toggleSelection(index)}
                     className="flex flex-col items-center p-2"
                 >
-                    <div className={`rounded-full border-2 p-5 transition-colors ${
-                        selectedInstrument.includes(index)
-                            ? "bg-blue-400"
-                            : "bg-transparent"
+                    <div className={`rounded-full border-2 p-5 transition-colors ${selectedInstrument.includes(index)
+                        ? "bg-blue-400"
+                        : "bg-transparent"
                         }`}>
                         <img className="w-16" src={instrument.instrumentIcon} alt="" />
                     </div>
