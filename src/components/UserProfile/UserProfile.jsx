@@ -43,11 +43,8 @@ function UserProfile() {
             icon="./src/assets/eye.png"
           />
         </div>
-        <EditProfile />
       </div>
-      <div className='m-10'>
-        <NavBar />
-      </div>
+      <NavBar />
     </>
   )
 }

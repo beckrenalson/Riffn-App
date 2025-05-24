@@ -9,16 +9,22 @@ import InstrumentSelection from './components/InstrumentSelection/IntrumentSelec
 import InstrumentTypeList from './components/InstrumentTypeList/InstrumentTypeList.jsx'
 import SignUp from './components/CreateProfile/SignUp.jsx';
 import Login from './components/CreateProfile/Login.jsx';
+import SearchForBand from './components/SearchForBand/SearchForBand.jsx';
+import BandPublic from './BandPublic.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SignUp />} />
+        <Route path="/" element={<SearchForBand />} />
+        {/* <Route path="/" element={<SignUp />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/userselection" element={<UserSelection />} />
         <Route path="/selectinstrument" element={<InstrumentTypeList />} />
         <Route path="/selectinstrument/:type" element={<InstrumentSelection />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/search" element={<SearchForBand />} />
+        <Route path="/bandpublic" element={<BandPublic />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

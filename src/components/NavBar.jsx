@@ -1,13 +1,15 @@
+import { NavLink } from "react-router"
+
 function NavBar() {
     return (
         <>
-            <nav className="flex justify-between">
-                <button to="/" end className="w-10">
+            <nav className="flex justify-around fixed bottom-0 w-full border p-2 bg-blue-400">
+                <NavLink to="/search" end className="w-10">
                     <img src="./src/assets/search.png" />
-                </button>
-                 <button to="/" end className="w-10">
+                </NavLink>
+                 <NavLink to="/profile" end className="w-10">
                     <img src="./src/assets/circle-user.png" />
-                </button>
+                </NavLink>
             </nav>
         </>
     )
