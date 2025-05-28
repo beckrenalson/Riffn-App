@@ -1,5 +1,5 @@
 import BackBtn from "../BackBtn"
-import InstrumentType from "./InstrumentType"
+import InstrumentType from "./IntrumentSelection"
 
 function InstrumentTypeList() {
     return (

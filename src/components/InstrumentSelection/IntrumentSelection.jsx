@@ -6,12 +6,9 @@ import { useState, useEffect } from "react";
 
 function InstrumentSelection() {
 
-    let { type } = useParams();
-    let instruments = [];
+    let { type } = useParams()
 
     const [instrumentList, setInstrumentList] = useState([])
-
-    let { type } = useParams();
 
     useEffect(() => {
         if (instrumentList.length === 0) {
@@ -28,7 +25,7 @@ function InstrumentSelection() {
         <>
             <BackBtn />
             <div className="flex justify-center mt-10">
-                {genresList.length > 0 && <InstrumentList
+                {isntrumentList.length > 0 && <InstrumentList
                     instruments={instrumentList}
                 />}
                 <Continue />

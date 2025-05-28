@@ -1,8 +1,9 @@
-require('dotenv').config();
-
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors'
+import dotenv from 'dotenv';
+
+dotenv.config(); // Load environment variables
 
 const app = express();
 app.use(express.json());

@@ -6,7 +6,7 @@ import UserProfile from './components/UserProfile/UserProfile.jsx'
 import UserPublic from './UserPublic.jsx'
 import UserSelection from './UserSelection.jsx'
 import InstrumentSelection from './components/InstrumentSelection/IntrumentSelection.jsx'
-import InstrumentTypeList from './components/InstrumentTypeList/InstrumentTypeList.jsx'
+import InstrumentTypeList from './components/InstrumentSelection/InstrumentTypeList.jsx'
 import SignUp from './components/CreateProfile/SignUp.jsx';
 import Login from './components/CreateProfile/Login.jsx';
 import SearchForBand from './components/SearchForBand/SearchForBand.jsx';
