@@ -17,7 +17,7 @@ function UserProfile() {
         profilePicture="/images/profilepicture.png"
       />
       <div className="flex items-center flex-col">
-        <div className='p-10'>
+        <div className='p-6 w-full'>
           <UserDetails
             details="User Name"
             icon="/images/circle-user.png"

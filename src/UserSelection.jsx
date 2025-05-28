@@ -5,9 +5,9 @@ function UserSelection() {
     return (
         <>
         <BackBtn />
-            <div className="flex flex-col justify-center gap-20 mt-10">
-                <NavLink to="/selectinstrument" className="flex flex-col items-center">
-                    <div className="rounded-full border-3 p-5">
+            <div className="flex flex-col gap-20 mt-20">
+                <NavLink to="/instruments" className="flex flex-col items-center">
+                    <div className="rounded-full border-3 p-10">
                         <img
                             className="w-30"
                             src="/images/soloartist.png" />
@@ -15,7 +15,7 @@ function UserSelection() {
                     <p className="font-bold">Solo Musician</p>
                 </NavLink>
                 <NavLink to="/selectgenre" className="flex flex-col items-center">
-                    <div className="rounded-full border-3 p-5">
+                    <div className="rounded-full border-3 p-10">
                         <img
                             className="w-30"
                             src="/images/band.png" />

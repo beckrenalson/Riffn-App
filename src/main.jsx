@@ -18,15 +18,15 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<SignUp />} /> */}
         <Route path="/login" element={<Login />} />
-        <Route path="/userselection" element={<UserSelection />} />
-        <Route path="/" element={<InstrumentTypeList />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="/" element={<UserSelection />} />
+        <Route path="/instruments" element={<InstrumentTypeList />} />
         <Route path="/instruments/:type" element={<InstrumentSelection />} />
-        <Route path="/subgenres" element={<GenreList />} />
+        <Route path="/selectgenre" element={<GenreList />} />
         <Route path="/subgenres/:type" element={<GenreSelection />} />
         <Route path="/search/bands" element={<SearchForBand />} />
-        <Route path="/bandpublic" element={<BandPublic />} />
+        <Route path="/search/bands/bandpublic" element={<BandPublic />} />
         <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </BrowserRouter>

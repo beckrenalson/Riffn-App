@@ -1,4 +1,5 @@
 import BackBtn from "./components/BackBtn"
+import NavBar from "./components/NavBar"
 
 function BandPublic() {
     return (
@@ -29,6 +30,7 @@ function BandPublic() {
                     </div>
                 </div>
             </div>
+            <NavBar />
         </>
     )
 }
