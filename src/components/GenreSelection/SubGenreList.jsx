@@ -23,7 +23,7 @@ function GenreList({ genres }) {
                         ? "bg-blue-400"
                         : "bg-transparent"
                         }`}>
-                        <p>{genre.genreName}</p>
+                        <p>{genre.name}</p>
                     </div>
                 </button>
             ))}

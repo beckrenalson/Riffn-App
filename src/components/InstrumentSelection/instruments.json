@@ -1,0 +1,180 @@
+    [
+        {
+            "icon": "/images/instruments/guitar.png",
+            "name": "Guitar",
+            "type": "strings"
+        },
+        {
+            "icon": "/images/instruments/bass-guitar.png",
+            "name": "Bass Guitar",
+            "type": "strings"
+        },
+        {
+            "icon": "/images/instruments/violin.png",
+            "name": "Violin",
+            "type": "strings"
+        },
+        {
+            "icon": "/images/instruments/cello.png",
+            "name": "Cello",
+            "type": "strings"
+        },
+        {
+            "icon": "/images/instruments/harp.png",
+            "name": "Harp",
+            "type": "strings"
+        },
+        {
+            "icon": "/images/instruments/doublebass.png",
+            "name": "Double Bass",
+            "type": "strings"
+        },
+        {
+            "icon": "/images/instruments/banjo.png",
+            "name": "Banjo",
+            "type": "strings"
+        },
+        {
+            "icon": "/images/instruments/ukelele.png",
+            "name": "Ukulele",
+            "type": "strings"
+        },
+        {
+            "icon": "/images/instruments/drums.png",
+            "name": "Drums",
+            "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/cajon.png",
+            "name": "Cajón",
+             "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/bongos.png",
+            "name": "Bongo",
+             "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/djembe.png",
+            "name": "Djembe",
+             "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/tabla.png",
+            "name": "Tabla",
+             "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/tambourine.png",
+            "name": "Tambourine",
+             "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/maracas.png",
+            "name": "Maracas",
+             "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/xylophone.png",
+            "name": "Xylophone",
+             "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/timpani.png",
+            "name": "Timpani",
+             "type": "percussion"
+        },
+        {
+            "icon": "/images/instruments/saxophone.png",
+            "name": "Saxophone",
+             "type": "wind"
+        },
+        {
+            "icon": "/images/instruments/trumpet.png",
+            "name": "Trumpet",
+              "type": "wind"
+        },
+        {
+            "icon": "/images/instruments/flute.png",
+            "name": "Flute",
+              "type": "wind"
+        },
+        {
+            "icon": "/images/instruments/clarinet.png",
+            "name": "Clarinet",
+              "type": "wind"
+        },
+        {
+            "icon": "/images/instruments/trombone.png",
+            "name": "Trombone",
+              "type": "wind"
+        },
+        {
+            "icon": "/images/instruments/fluglehorn.png",
+            "name": "Flugelhorn",
+              "type": "wind"
+        },
+        {
+            "icon": "/images/instruments/voltorna.png",
+            "name": "Voltorna",
+              "type": "wind"
+        },
+        {
+            "icon": "/images/instruments/harmonica.png",
+            "name": "Harmonica",
+              "type": "wind"
+        },
+        {
+            "icon": "/images/instruments/piano.png",
+            "name": "Piano",
+                "type": "keys"
+        },
+        {
+            "icon": "/images/instruments/keyboard.png",
+            "name": "Electric Keyboard",
+             "type": "keys"
+        },
+        {
+            "icon": "/images/instruments/organ.png",
+            "name": "Organ",
+             "type": "keys"
+        },
+        {
+            "icon": "/images/instruments/accordion.png",
+            "name": "Accordion",
+             "type": "keys"
+        },
+        {
+            "icon": "/images/instruments/synthetiser.png",
+            "name": "Synthesisers",
+             "type": "synths"
+        },
+        {
+            "icon": "/images/instruments/drummachine.png",
+            "name": "Drum Machines"
+        },
+        {
+            "icon": "/images/instruments/midi.png",
+            "name": "MIDI Controllers"
+        },
+        {
+            "icon": "/images/instruments/sampler.png",
+            "name": "Samplers"
+        },
+        {
+            "icon": "/images/instruments/leadvocal.png",
+            "name": "Lead Vocals"
+        },
+        {
+            "icon": "/images/instruments/backing-vocals.png",
+            "name": "Backing Vocals"
+        },
+        {
+            "icon": "/images/instruments/beatboxing.png",
+            "name": "Beatboxing"
+        },
+        {
+            "icon": "/images/instruments/choir.png",
+            "name": "Choral Arrangement"
+        }
+    ]

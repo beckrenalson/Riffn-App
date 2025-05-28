@@ -14,14 +14,14 @@ function UserSelection() {
                     </div>
                     <p className="font-bold">Solo Musician</p>
                 </NavLink>
-                <button className="flex flex-col items-center">
+                <NavLink to="/selectgenre" className="flex flex-col items-center">
                     <div className="rounded-full border-3 p-5">
                         <img
                             className="w-30"
                             src="/images/band.png" />
                     </div>
                     <p className="font-bold">Band</p>
-                </button>
+                </NavLink>
             </div>
         </>
     )

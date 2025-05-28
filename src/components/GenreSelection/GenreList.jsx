@@ -10,7 +10,7 @@ function GenreList() {
                 <Genre genre="Rock" />
                 <Genre genre="Pop" />
                 <Genre genre="Electronic" />
-                <Genre genre="HipHop" />
+                <Genre genre="Rap" />
                 <Genre genre="Classical" />
                 <Genre genre="Jazz" />
                 <Genre genre="Country" />
