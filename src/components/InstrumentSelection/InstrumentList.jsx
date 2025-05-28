@@ -25,9 +25,9 @@ function InstrumentList({ instruments }) {
                         ? "bg-blue-400"
                         : "bg-transparent"
                         }`}>
-                        <img className="w-16" src={instrument.instrumentIcon} alt="" />
+                        <img className="w-16" src={instrument.icon} alt="" />
                     </div>
-                    <p className="font-bold">{instrument.instrumentName}</p>
+                    <p className="font-bold">{instrument.name}</p>
                 </NavLink>
             ))}
         </div>

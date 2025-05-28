@@ -2,179 +2,186 @@
         {
             "icon": "/images/instruments/guitar.png",
             "name": "Guitar",
-            "type": "strings"
+            "type": "Strings"
         },
         {
             "icon": "/images/instruments/bass-guitar.png",
             "name": "Bass Guitar",
-            "type": "strings"
+            "type": "Strings"
         },
         {
             "icon": "/images/instruments/violin.png",
             "name": "Violin",
-            "type": "strings"
+            "type": "Strings"
         },
         {
             "icon": "/images/instruments/cello.png",
             "name": "Cello",
-            "type": "strings"
+            "type": "Strings"
         },
         {
             "icon": "/images/instruments/harp.png",
             "name": "Harp",
-            "type": "strings"
+            "type": "Strings"
         },
         {
             "icon": "/images/instruments/doublebass.png",
             "name": "Double Bass",
-            "type": "strings"
+            "type": "Strings"
         },
         {
             "icon": "/images/instruments/banjo.png",
             "name": "Banjo",
-            "type": "strings"
+            "type": "Strings"
         },
         {
             "icon": "/images/instruments/ukelele.png",
             "name": "Ukulele",
-            "type": "strings"
+            "type": "Strings"
         },
         {
             "icon": "/images/instruments/drums.png",
             "name": "Drums",
-            "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/cajon.png",
             "name": "Cajón",
-             "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/bongos.png",
             "name": "Bongo",
-             "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/djembe.png",
             "name": "Djembe",
-             "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/tabla.png",
             "name": "Tabla",
-             "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/tambourine.png",
             "name": "Tambourine",
-             "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/maracas.png",
             "name": "Maracas",
-             "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/xylophone.png",
             "name": "Xylophone",
-             "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/timpani.png",
             "name": "Timpani",
-             "type": "percussion"
+            "type": "Percussion"
         },
         {
             "icon": "/images/instruments/saxophone.png",
             "name": "Saxophone",
-             "type": "wind"
+            "type": "Wind"
         },
         {
             "icon": "/images/instruments/trumpet.png",
             "name": "Trumpet",
-              "type": "wind"
+            "type": "Wind"
         },
         {
             "icon": "/images/instruments/flute.png",
             "name": "Flute",
-              "type": "wind"
+            "type": "Wind"
         },
         {
             "icon": "/images/instruments/clarinet.png",
             "name": "Clarinet",
-              "type": "wind"
+            "type": "Wind"
         },
         {
             "icon": "/images/instruments/trombone.png",
             "name": "Trombone",
-              "type": "wind"
+            "type": "Wind"
         },
         {
             "icon": "/images/instruments/fluglehorn.png",
             "name": "Flugelhorn",
-              "type": "wind"
+            "type": "Wind"
         },
         {
             "icon": "/images/instruments/voltorna.png",
             "name": "Voltorna",
-              "type": "wind"
+            "type": "Wind"
         },
         {
             "icon": "/images/instruments/harmonica.png",
             "name": "Harmonica",
-              "type": "wind"
+            "type": "Wind"
         },
         {
             "icon": "/images/instruments/piano.png",
             "name": "Piano",
-                "type": "keys"
+            "type": "Keys"
         },
         {
             "icon": "/images/instruments/keyboard.png",
             "name": "Electric Keyboard",
-             "type": "keys"
+            "type": "Keys"
         },
         {
             "icon": "/images/instruments/organ.png",
             "name": "Organ",
-             "type": "keys"
+            "type": "Keys"
         },
         {
             "icon": "/images/instruments/accordion.png",
             "name": "Accordion",
-             "type": "keys"
+            "type": "Keys"
         },
         {
             "icon": "/images/instruments/synthetiser.png",
             "name": "Synthesisers",
-             "type": "synths"
+            "type": "Electronic"
         },
         {
             "icon": "/images/instruments/drummachine.png",
-            "name": "Drum Machines"
+            "name": "Drum Machines",
+            "type": "Electronic"
         },
         {
             "icon": "/images/instruments/midi.png",
-            "name": "MIDI Controllers"
+            "name": "MIDI Controllers",
+            "type": "Electronic"
         },
         {
             "icon": "/images/instruments/sampler.png",
-            "name": "Samplers"
+            "name": "Samplers",
+            "type": "Electronic"
         },
         {
             "icon": "/images/instruments/leadvocal.png",
-            "name": "Lead Vocals"
+            "name": "Lead Vocals",
+            "type": "Vocals"
         },
         {
             "icon": "/images/instruments/backing-vocals.png",
-            "name": "Backing Vocals"
+            "name": "Backing Vocals",
+            "type": "Vocals"
         },
         {
             "icon": "/images/instruments/beatboxing.png",
-            "name": "Beatboxing"
+            "name": "Beatboxing",
+            "type": "Vocals"
         },
         {
             "icon": "/images/instruments/choir.png",
-            "name": "Choral Arrangement"
+            "name": "Choral Arrangement",
+            "type": "Vocals"
         }
     ]

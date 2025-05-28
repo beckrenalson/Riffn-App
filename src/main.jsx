@@ -21,9 +21,9 @@ createRoot(document.getElementById('root')).render(
         {/* <Route path="/" element={<SignUp />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/userselection" element={<UserSelection />} />
-        <Route path="/selectinstrument" element={<InstrumentTypeList />} />
-        <Route path="/selectinstrument/:type" element={<InstrumentSelection />} />
-        <Route path="/" element={<GenreList />} />
+        <Route path="/" element={<InstrumentTypeList />} />
+        <Route path="/instruments/:type" element={<InstrumentSelection />} />
+        <Route path="/subgenres" element={<GenreList />} />
         <Route path="/subgenres/:type" element={<GenreSelection />} />
         <Route path="/search/bands" element={<SearchForBand />} />
         <Route path="/bandpublic" element={<BandPublic />} />

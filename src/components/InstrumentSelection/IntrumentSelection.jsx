@@ -25,7 +25,7 @@ function InstrumentSelection() {
         <>
             <BackBtn />
             <div className="flex justify-center mt-10">
-                {isntrumentList.length > 0 && <InstrumentList
+                {instrumentList.length > 0 && <InstrumentList
                     instruments={instrumentList}
                 />}
                 <Continue />

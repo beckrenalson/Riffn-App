@@ -1,30 +1,31 @@
 import BackBtn from "../BackBtn"
-import InstrumentType from "./IntrumentSelection"
+import InstrumentType from "./InstrumentType"
+
 
 function InstrumentTypeList() {
     return (
         <>
-        <BackBtn />
+            <BackBtn />
             <div className="flex flex-col items-center gap-10 mt-10">
-                <InstrumentType 
-                instrumentType="Strings"
-               
+                <InstrumentType
+                    type="Strings"
+
                 />
-                <InstrumentType 
-                instrumentType="Percussion"
-                
+                <InstrumentType
+                    type="Percussion"
+
                 />
-                <InstrumentType 
-                instrumentType="Wind"
+                <InstrumentType
+                    type="Wind"
                 />
-                <InstrumentType 
-                instrumentType="Keys"
+                <InstrumentType
+                    type="Keys"
                 />
-                <InstrumentType 
-                instrumentType="Electronic"
+                <InstrumentType
+                    type="Electronic"
                 />
-                <InstrumentType 
-                instrumentType="Vocal"
+                <InstrumentType
+                    type="Vocals"
                 />
             </div>
         </>

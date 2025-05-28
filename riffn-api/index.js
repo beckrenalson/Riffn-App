@@ -20,6 +20,14 @@ const subGenreSchema = new mongoose.Schema({
 
 const SubGenre = mongoose.model('SubGenre', subGenreSchema);
 
+const instrumentSchema = new mongoose.Schema({
+  name: String,
+  icon: String,
+  type: String
+})
+
+const Instrument = mongoose.model('Instrument', instrumentSchema)
+
 // API Endpoints
 
 app.get('/subgenres', async (req, res) => {
@@ -38,6 +46,24 @@ app.post('/subgenres', async (req, res) => {
   const subgenres = new SubGenre(req.body);
   await subgenres.save();
   res.json(subgenres);
+});
+
+app.get('/instruments', async (req, res) => {
+  const instruments = await Instrument.find();
+  res.json(instruments);
+});
+
+app.get('/instruments/:type', async (req, res) => {
+  const { type } = req.params
+
+  const query = await Instrument.find({ type });
+  res.json(query);
+});
+
+app.post('/instruments', async (req, res) => {
+  const instruments = new Instrument(req.body);
+  await instruments.save();
+  res.json(instruments);
 });
 
 // app.get('/students/:id', async (req, res) => {
