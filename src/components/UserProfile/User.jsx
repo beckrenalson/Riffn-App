@@ -3,7 +3,8 @@ export const User = [
         {lastName: String},
         {email: String},
         {password: String},
-        {selectedInstruments: String},
-        {selectedGenres: String}
+        {selectedInstruments: Array},
+        {selectedGenres: Array},
+        {profile: String}
     ]
 

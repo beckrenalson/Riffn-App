@@ -22,13 +22,13 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        <Route path="/signup" element={<SignUpLayout />}>
+        <Route path="/" element={<SignUpLayout />}>
           <Route index element={<SignUp />} />
           <Route path="/signup/userselection" element={<UserSelection />} />
           <Route path="/signup/instruments" element={<InstrumentTypeList />} />
           <Route path="/signup/instruments/:type" element={<InstrumentSelection />} />
           <Route path="/signup/genres" element={<GenreList />} />
-          <Route path="/signup/subgenres/:type" element={<GenreSelection />} />
+          <Route path="/signup/genres/:type" element={<GenreSelection />} />
         </Route>
 
         <Route path="/search/bands" element={<SearchForBand />} />
