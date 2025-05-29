@@ -7,8 +7,6 @@ import NavBar from '../NavBar';
 
 function UserProfile() {
 
-  //  const userName = [userName, setUserName] = useState('User Name');
-
   return (
     <>
       <BackBtn />

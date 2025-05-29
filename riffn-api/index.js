@@ -28,42 +28,75 @@ const instrumentSchema = new mongoose.Schema({
 
 const Instrument = mongoose.model('Instrument', instrumentSchema)
 
+const userSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  email: String,
+  password: String,
+  selectedInstruments: Array,
+  selectedGenres: Array,
+  profile: String
+})
+
 // API Endpoints
 
 app.get('/subgenres', async (req, res) => {
-  const subgenres = await SubGenre.find();
-  res.json(subgenres);
+  try {
+    const subgenres = await SubGenre.find();
+    res.json(subgenres);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
 });
 
 app.get('/subgenres/:genre', async (req, res) => {
-  const { genre } = req.params
-  console.log(genre)
-  const query = await SubGenre.find({ genre });
-  res.json(query);
+  try {
+    const { genre } = req.params
+    console.log(genre)
+    const query = await SubGenre.find({ genre });
+    res.json(query);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
 });
 
 app.post('/subgenres', async (req, res) => {
+  try {
   const subgenres = new SubGenre(req.body);
   await subgenres.save();
   res.json(subgenres);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
 });
 
 app.get('/instruments', async (req, res) => {
+  try{
   const instruments = await Instrument.find();
   res.json(instruments);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
 });
 
 app.get('/instruments/:type', async (req, res) => {
+  try {
   const { type } = req.params
-
   const query = await Instrument.find({ type });
   res.json(query);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
 });
 
 app.post('/instruments', async (req, res) => {
+  try {
   const instruments = new Instrument(req.body);
   await instruments.save();
   res.json(instruments);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
 });
 
 // app.get('/students/:id', async (req, res) => {
