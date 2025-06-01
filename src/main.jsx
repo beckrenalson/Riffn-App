@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserProfile from './components/UserProfile/UserProfile.jsx'
 import UserPublic from './UserPublic.jsx'
 import UserSelection from './UserSelection.jsx'
@@ -12,7 +12,6 @@ import SearchForBand from './components/SearchForBand/SearchForBand.jsx';
 import BandPublic from './BandPublic.jsx';
 import GenreSelection from './components/GenreSelection/GenreSelection.jsx';
 import GenreList from './components/GenreSelection/GenreList.jsx';
-import { User } from './components/UserProfile/User.jsx'
 import SignUpLayout from './components/CreateProfile/SignUpLayout.jsx';
 import SignUp from './components/CreateProfile/SignUp.jsx';
 
@@ -20,8 +19,6 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-
         <Route path="/" element={<SignUpLayout />}>
           <Route index element={<SignUp />} />
           <Route path="/signup/userselection" element={<UserSelection />} />
@@ -31,6 +28,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/signup/genres/:type" element={<GenreSelection />} />
         </Route>
 
+        <Route path="/login" element={<Login />} />
         <Route path="/search/bands" element={<SearchForBand />} />
         <Route path="/search/bands/bandpublic" element={<BandPublic />} />
         <Route path="/profile" element={<UserProfile />} />

@@ -38,6 +38,8 @@ const userSchema = new mongoose.Schema({
   profile: String
 })
 
+const User = mongoose.model('User', userSchema)
+
 // API Endpoints
 
 app.get('/subgenres', async (req, res) => {
@@ -52,7 +54,6 @@ app.get('/subgenres', async (req, res) => {
 app.get('/subgenres/:genre', async (req, res) => {
   try {
     const { genre } = req.params
-    console.log(genre)
     const query = await SubGenre.find({ genre });
     res.json(query);
   } catch (error) {
@@ -94,6 +95,25 @@ app.post('/instruments', async (req, res) => {
   const instruments = new Instrument(req.body);
   await instruments.save();
   res.json(instruments);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
+});
+
+app.get('/signup', async (req, res) => {
+  try {
+    const user = await User.find();
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
+});
+
+app.post('/signup', async (req, res) => {
+  try {
+  const user = new User(req.body);
+  await user.save();
+  res.json(user);
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
   }

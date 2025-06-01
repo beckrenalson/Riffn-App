@@ -1,28 +1,39 @@
 import BackBtn from "./components/BackBtn"
-import { NavLink } from "react-router"
+import { useLocation, useNavigate } from "react-router-dom"
 
 function UserSelection() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleSelect = (profileType) => {
+        navigate("/signup/instruments", {
+            state: {
+                ...location.state,
+                profile: profileType,
+            },
+        });
+    };
 
     return (
         <>
-        <BackBtn />
+            <BackBtn />
             <div className="flex flex-col gap-20 mt-20">
-                <NavLink to="/signup/instruments" className="flex flex-col items-center">
+                <button onClick={() => handleSelect("solo")} className="flex flex-col items-center">
                     <div className="rounded-full border-3 p-10">
                         <img
                             className="w-30"
                             src="/images/soloartist.png" />
                     </div>
                     <p className="font-bold">Solo Musician</p>
-                </NavLink>
-                <NavLink to="/signup/genres" className="flex flex-col items-center">
+                </button>
+                <button onClick={() => handleSelect("band")} className="flex flex-col items-center">
                     <div className="rounded-full border-3 p-10">
                         <img
                             className="w-30"
                             src="/images/band.png" />
                     </div>
                     <p className="font-bold">Band</p>
-                </NavLink>
+                </button>
             </div>
         </>
     )

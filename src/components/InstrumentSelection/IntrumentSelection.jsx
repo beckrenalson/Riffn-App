@@ -1,10 +1,22 @@
 import InstrumentList from "./InstrumentList"
 import BackBtn from "../BackBtn"
-import { useParams } from "react-router";
-import Continue from "../InstrumentSelection/Continue";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 function InstrumentSelection() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [selectedInstruments, setSelectedInstruments] = useState([]);
+
+    const handleContinue = () => {
+        navigate("/signup/genres", {
+            state: {
+                ...location.state,
+                selectedInstruments: selectedInstruments,
+            },
+        });
+    };
+
 
     let { type } = useParams()
 
@@ -26,9 +38,13 @@ function InstrumentSelection() {
             <BackBtn />
             <div className="flex justify-center mt-10">
                 {instrumentList.length > 0 && <InstrumentList
-                    instruments={instrumentList}
+                    instruments={instrumentList} onSelectionChange={setSelectedInstruments}
                 />}
-                <Continue />
+                <button
+                    onClick={handleContinue}
+                    disabled={selectedInstruments.length === 0}>
+                    Continue
+                </button>
             </div>
         </>
     )

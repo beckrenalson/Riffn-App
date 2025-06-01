@@ -1,34 +1,33 @@
 import { useState } from "react";
-import { NavLink } from "react-router";
 
-function InstrumentList({ instruments }) {
-    const [selectedInstrument, setSelectedInstrument] = useState([]);
+function InstrumentList({ instruments, onSelectionChange }) {
+    const [selectedInstruments, setSelectedInstruments] = useState([]);
 
-    const toggleSelection = (index) => {
-        setSelectedInstrument((prevSelected) =>
-            prevSelected.includes(index)
-                ? prevSelected.filter((i) => i !== index)
-                : [...prevSelected, index]
-        );
+    const toggleSelection = (instrumentName) => {
+        const updatedSelection = selectedInstruments.includes(instrumentName)
+            ? selectedInstruments.filter((name) => name !== instrumentName)
+            : [...selectedInstruments, instrumentName]
+
+        setSelectedInstruments(updatedSelection);
+        onSelectionChange(updatedSelection);
     };
 
     return (
         <div className="grid grid-cols-3 gap-2 p-2">
             {instruments.map((instrument, index) => (
-                <NavLink
-                    to=""
+                <button
                     key={index}
-                    onClick={() => toggleSelection(index)}
+                    onClick={() => toggleSelection(instrument.name)}
                     className="flex flex-col items-center p-2"
                 >
-                    <div className={`rounded-full border-2 p-5 transition-colors ${selectedInstrument.includes(index)
+                    <div className={`rounded-full border-2 p-5 transition-colors ${selectedInstruments.includes(instrument.name)
                         ? "bg-blue-400"
                         : "bg-transparent"
                         }`}>
                         <img className="w-16" src={instrument.icon} alt="" />
                     </div>
                     <p className="font-bold">{instrument.name}</p>
-                </NavLink>
+                </button>
             ))}
         </div>
     );

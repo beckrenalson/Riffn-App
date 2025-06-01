@@ -1,26 +1,25 @@
-import { useNavigate } from "react-router";
-import { NavLink } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function SignUp() {
-  const [formData, setFormData] = useState({
+
+  const navigate = useNavigate();
+
+  const [signUpData, setSignupData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   });
 
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setSignupData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Sign Up Data:", formData);
-    navigate("/signup/userselection")
+    navigate("/signup/userselection", { state: signUpData })
   };
 
   return (
@@ -33,7 +32,7 @@ function SignUp() {
               <input
                 type="text"
                 name="firstName"
-                value={formData.firstName}
+                value={signUpData.firstName}
                 onChange={handleChange}
                 required
                 placeholder="First Name"
@@ -44,7 +43,7 @@ function SignUp() {
               <input
                 type="text"
                 name="lastName"
-                value={formData.lastName}
+                value={signUpData.lastName}
                 onChange={handleChange}
                 required
                 placeholder="Last Name"
@@ -55,7 +54,7 @@ function SignUp() {
               <input
                 type="email"
                 name="email"
-                value={formData.email}
+                value={signUpData.email}
                 onChange={handleChange}
                 required
                 placeholder="Email"
@@ -66,7 +65,7 @@ function SignUp() {
               <input
                 type="password"
                 name="password"
-                value={formData.password}
+                value={signUpData.password}
                 onChange={handleChange}
                 required
                 placeholder="Password"
@@ -81,12 +80,11 @@ function SignUp() {
             </button>
           </form>
           <p className="mt-6 text-center">Already have an account?
-            <NavLink
-              to="/login"
+            {/* <button onClick={navigate("/login")}
               className="underline font-bold"
             >
               Login
-            </NavLink>
+            </button> */}
           </p>
         </div>
       </div>

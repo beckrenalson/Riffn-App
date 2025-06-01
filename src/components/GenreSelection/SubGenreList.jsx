@@ -1,14 +1,15 @@
 import { useState } from "react";
 
-function GenreList({ genres }) {
-    const [selectedGenre, setSelectedGenre] = useState([]);
+function SubGenreList({ genres, onSelectionChange }) {
+    const [selectedGenres, setSelectedGenres] = useState([]);
 
-    const toggleSelection = (index) => {
-        setSelectedGenre((prevSelected) =>
-            prevSelected.includes(index)
-                ? prevSelected.filter((i) => i !== index)
-                : [...prevSelected, index]
-        );
+    const toggleSelection = (genreName) => {
+        const updatedSelection = selectedGenres.includes(genreName)
+            ? selectedGenres.filter((name) => name !== genreName)
+            : [...selectedGenres, genreName]
+
+        setSelectedGenres(updatedSelection)
+        onSelectionChange(updatedSelection)
     };
 
     return (
@@ -17,9 +18,9 @@ function GenreList({ genres }) {
                 <button
                     className="flex flex-col mt-10 w-full"
                     key={index}
-                    onClick={() => toggleSelection(index)}
+                    onClick={() => toggleSelection(genre.name)}
                 >
-                    <div className={`cursor-pointer border p-4 rounded-lg w-full transition-colors ${selectedGenre.includes(index)
+                    <div className={`cursor-pointer border p-4 rounded-lg w-full transition-colors ${selectedGenres.includes(genre.name)
                         ? "bg-blue-400"
                         : "bg-transparent"
                         }`}>
@@ -31,4 +32,4 @@ function GenreList({ genres }) {
     );
 }
 
-export default GenreList;
+export default SubGenreList
