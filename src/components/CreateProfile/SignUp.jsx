@@ -73,7 +73,7 @@ function SignUp() {
               />
             </div>
             <button
-              type="submit"
+              onClick={handleSubmit}
               className="w-full border p-2 rounded-lg cursor-pointer"
             >
               CONTINUE

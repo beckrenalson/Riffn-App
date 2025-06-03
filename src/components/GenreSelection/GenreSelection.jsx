@@ -20,7 +20,7 @@ function GenreSelection() {
         }
         console.log("Final signup data:", finalData);
         try {
-            const response = await fetch(`http://localhost:3000/signup`, {
+            const response = await fetch("http://localhost:3000/subgenres", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(finalData)
