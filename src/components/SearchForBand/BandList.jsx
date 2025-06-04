@@ -3,7 +3,7 @@
 function BandList() {
     return (
         <>
-            {/* <NavLink to="/search/bands/bandpublic" className='flex-row flex items-center border p-2 rounded-lg'>
+            <NavLink to="/search/bands/bandpublic" className='flex-row flex items-center border p-2 rounded-lg'>
                 <div>
                     <img
                         className="rounded-full w-20"
@@ -15,7 +15,7 @@ function BandList() {
                         <h1 className="text-l">City</h1>
                     </div>
                 </div>
-            </NavLink> */}
+            </NavLink>
         </>
     )
 }

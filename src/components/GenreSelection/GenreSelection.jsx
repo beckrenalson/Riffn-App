@@ -18,19 +18,7 @@ function GenreSelection() {
             ...location.state,
             selectedGenres: selectedGenres
         }
-        console.log("Final signup data:", finalData);
-        try {
-            const response = await fetch("http://localhost:3000/subgenres", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(finalData)
-            })
-            if (response.ok) {
-                navigate("/search/bands")
-            }
-        } catch (error) {
-            console.error("Signup error:", error)
-        }
+      
     }
 
 
@@ -38,7 +26,7 @@ function GenreSelection() {
         console.log("location state", location.state)
         if (genresList.length === 0) {
             const getSubGenres = async () => {
-                const response = await fetch(`http://localhost:3000/subgenres/${type}`);
+                const response = await fetch(`https://riffn-api.onrender.com/subgenres/${type}`);
                 const data = await response.json();
                 setGenresList(data)
             }

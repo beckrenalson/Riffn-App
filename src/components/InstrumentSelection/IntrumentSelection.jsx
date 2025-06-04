@@ -25,7 +25,7 @@ function InstrumentSelection() {
     useEffect(() => {
         if (instrumentList.length === 0) {
             const getInstruments = async () => {
-                const response = await fetch(`http://localhost:3000/instruments/${type}`);
+                const response = await fetch(`https://riffn-api.onrender.com/instruments/${type}`);
                 const data = await response.json();
                 setInstrumentList(data)
             }

@@ -17,10 +17,24 @@ function SignUp() {
     setSignupData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/signup/userselection", { state: signUpData })
+
+    try {
+      const response = await fetch("https://riffn-api.onrender.com/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(signUpData)
+      })
+      if (response.ok) {
+        navigate("/signup/userselection")
+      }
+    } catch (error) {
+      console.error("Signup error:", error)
+    }
   };
+
+
 
   return (
     <>
