@@ -1,16 +1,18 @@
 import BackBtn from "./components/BackBtn"
 import { useLocation, useNavigate } from "react-router-dom"
+import SignUp from "./components/CreateProfile/SignUp";
 
 function UserSelection() {
     const location = useLocation();
     const navigate = useNavigate();
 
     const handleSelect = (profileType) => {
+
         navigate("/signup/instruments", {
             state: {
-                ...location.state,
-                profile: profileType,
-            },
+                ...location.state.signUpData,
+                profile: profileType
+            }
         });
     };
 

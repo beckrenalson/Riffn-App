@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 function InstrumentList({ instruments, onSelectionChange }) {
+
     const [selectedInstruments, setSelectedInstruments] = useState([]);
 
     const toggleSelection = (instrumentName) => {

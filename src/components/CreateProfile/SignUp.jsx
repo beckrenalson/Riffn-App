@@ -9,7 +9,7 @@ function SignUp() {
     firstName: "",
     lastName: "",
     email: "",
-    password: "",
+    password: ""
   });
 
   const handleChange = (e) => {
@@ -21,20 +21,18 @@ function SignUp() {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://riffn-api.onrender.com/signup", {
+      const response = await fetch("http://localhost:5000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(signUpData)
       })
       if (response.ok) {
-        navigate("/signup/userselection")
+        navigate("/signup/userselection", { state: { signUpData } })
       }
     } catch (error) {
       console.error("Signup error:", error)
     }
   };
-
-
 
   return (
     <>

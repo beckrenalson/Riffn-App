@@ -2,6 +2,9 @@ import BackBtn from "../BackBtn"
 import Genre from "./Genre"
 
 function GenreList() {
+
+    console.log(location.state)
+
     return (
         <>
             <BackBtn />

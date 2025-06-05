@@ -7,6 +7,21 @@ import NavBar from '../NavBar';
 
 function UserProfile() {
 
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/users/:id", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData)
+        })
+      } catch (error) {
+        console.error("Error:", error)
+      }
+    }
+  }, []);
+
+
   return (
     <>
       <BackBtn />
