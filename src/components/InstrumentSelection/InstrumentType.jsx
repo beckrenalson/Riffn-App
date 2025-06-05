@@ -5,12 +5,16 @@ function InstrumentType({ type }) {
     const navigate = useNavigate()
     const location = useLocation();
 
-    console.log(location.state)
+    console.log("location.state:", location.state)
 
     const handleSubmit = () => {
         navigate(`/signup/instruments/${type}`, {
-            state: { ...location.state.signUpData }
-        })
+            state: {
+                signUpData: {
+                    ...location.state?.signUpData
+                }
+            }
+        });
     }
 
     return (

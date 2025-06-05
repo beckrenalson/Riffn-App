@@ -10,7 +10,6 @@ function InstrumentSelection() {
 
     console.log("location.state:", location.state)
     console.log("signUpData:", location.state?.signUpData)
-    console.log("selectedInstruments:", selectedInstruments)
 
     const handleContinue = () => {
         navigate("/signup/genres", {
