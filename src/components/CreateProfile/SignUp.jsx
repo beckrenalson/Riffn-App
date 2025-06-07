@@ -83,7 +83,7 @@ function SignUp() {
           </form>
           <p className="mt-6 text-center">Already have an account?
             <button onClick={login}
-              className="underline font-bold"
+              className="underline font-bold cursor-pointer" style={{ backgroundColor: 'transparent' }}
             >
               Login
             </button>
