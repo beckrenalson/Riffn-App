@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
 import BackBtn from '../BackBtn';
