@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BackBtn from "../BackBtn"
 import SubGenreList from "./SubGenreList"
+import SignUpStore from "../CreateProfile/SignUpStore";
 
 function GenreSelection() {
 
     const [genresList, setGenresList] = useState([])
-
     let { type } = useParams();
-
-    const location = useLocation();
+    const signUpData = SignUpStore((state) => state.signUpData);
+    const setSignUpData = SignUpStore((state) => state.setSignUpData);
     const navigate = useNavigate();
     const [selectedGenres, setSelectedGenres] = useState([]);
 
-    const handleSubmit = async () => {
-        const finalData = {
-            ...location.state,
-            selectedGenres: selectedGenres
-        }
-        navigate("/search/bands")
+    const handleContine = async () => {
+        setSignUpData({
+            ...signUpData,
+            selectedGenres
+        })
+        navigate("/signup/confirm")
     }
 
 
     useEffect(() => {
-        console.log("location state", location.state.signUpData)
+        console.log(signUpData)
         if (genresList.length === 0) {
             const getSubGenres = async () => {
                 const response = await fetch(`http://localhost:5000/subgenres/${type}`);
@@ -47,7 +47,7 @@ function GenreSelection() {
                 </div>
                 <button
                     className="flex items-center fixed bottom-10 w-fit border p-2 bg-white"
-                    onClick={handleSubmit}
+                    onClick={handleContine}
                     disabled={selectedGenres.length === 0}>
                     SIGN UP
                 </button>

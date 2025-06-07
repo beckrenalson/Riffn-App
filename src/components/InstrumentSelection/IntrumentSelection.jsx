@@ -1,23 +1,21 @@
 import InstrumentList from "./InstrumentList"
 import BackBtn from "../BackBtn"
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import SignUpStore from "../CreateProfile/SignUpStore";
 
 function InstrumentSelection() {
-    const location = useLocation();
     const navigate = useNavigate();
+    const signUpData = SignUpStore((state) => state.signUpData);
+    const setSignUpData = SignUpStore((state) => state.setSignUpData);
     const [selectedInstruments, setSelectedInstruments] = useState([]);
 
-    console.log("location.state:", location.state)
-    console.log("signUpData:", location.state?.signUpData)
-
     const handleContinue = () => {
-        navigate("/signup/genres", {
-            state: {
-                ...location.state.signUpData,
-                selectedInstruments: selectedInstruments,
-            },
-        });
+        setSignUpData({
+            ...signUpData,
+            selectedInstruments
+        })
+        navigate("/signup/genres")
     };
 
     let { type } = useParams()

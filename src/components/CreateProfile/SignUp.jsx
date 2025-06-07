@@ -1,41 +1,27 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import SignUpStore from "./SignUpStore";
+
 
 function SignUp() {
 
   const navigate = useNavigate();
 
-  const [signUpData, setSignupData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: ""
-  });
+  const signUpData = SignUpStore((state) => state.signUpData)
+  const setSignUpData = SignUpStore((state) => state.setSignUpData)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSignupData((prev) => ({ ...prev, [name]: value }));
+    setSignUpData({ [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      const response = await fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(signUpData)
-      })
-      if (response.ok) {
-        navigate("/signup/userselection", { state: { signUpData } })
-      }
-    } catch (error) {
-      console.error("Signup error:", error)
-    }
+    navigate("/signup/userselection")
   };
 
   return (
     <>
+
       <div className="h-screen flex items-center justify-center">
         <div className="">
           <h2 className="text-4xl font-bold mb-6 text-center">Riffn</h2>
@@ -85,7 +71,7 @@ function SignUp() {
               />
             </div>
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="w-full border p-2 rounded-lg cursor-pointer"
             >
               CONTINUE
@@ -100,6 +86,7 @@ function SignUp() {
           </p>
         </div>
       </div>
+
     </>
   );
 }

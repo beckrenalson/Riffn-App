@@ -14,6 +14,7 @@ import GenreSelection from './components/GenreSelection/GenreSelection.jsx';
 import GenreList from './components/GenreSelection/GenreList.jsx';
 import SignUpLayout from './components/CreateProfile/SignUpLayout.jsx';
 import SignUp from './components/CreateProfile/SignUp.jsx';
+import FinalSignUp from './components/CreateProfile/FinalSignUp.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/signup/instruments/:type" element={<InstrumentSelection />} />
           <Route path="/signup/genres" element={<GenreList />} />
           <Route path="/signup/genres/:type" element={<GenreSelection />} />
+          <Route path="/signup/confirm" element={<FinalSignUp />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

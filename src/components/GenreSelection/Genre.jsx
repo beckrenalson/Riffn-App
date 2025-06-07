@@ -1,18 +1,11 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 function Genre({ genre }) {
     const navigate = useNavigate()
-    const location = useLocation()
 
     const handleSubmit = () => {
-        navigate(`/signup/genres/${genre}`, {
-            state: {
-                ...location.state.signUpData
-            }
-        })
+        navigate(`/signup/genres/${genre}`)
     }
-
-    console.log(location.state)
 
     return (
         <>

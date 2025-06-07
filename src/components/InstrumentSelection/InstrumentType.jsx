@@ -1,20 +1,10 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function InstrumentType({ type }) {
-
     const navigate = useNavigate()
-    const location = useLocation();
-
-    console.log("location.state:", location.state)
 
     const handleSubmit = () => {
-        navigate(`/signup/instruments/${type}`, {
-            state: {
-                signUpData: {
-                    ...location.state?.signUpData
-                }
-            }
-        });
+        navigate(`/signup/instruments/${type}`)
     }
 
     return (
