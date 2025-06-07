@@ -3,22 +3,30 @@ import SignUpStore from "./SignUpStore";
 
 function FinalSignUp() {
 
+    const navigate = useNavigate()
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const response = await fetch("http://localhost:5000/users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(signUpData)
-            })
+                body: JSON.stringify(signUpData),
+            });
+
             if (response.ok) {
-                navigate("/signup/userselection", { state: { signUpData } })
+                const data = await response.json();
+                setSignUpData(data);
+
+                localStorage.setItem("userId", data._id);
+
+                navigate("/search/bands");
             }
         } catch (error) {
-            console.error("Signup error:", error)
+            console.error("Signup error:", error);
         }
     };
 
@@ -26,6 +34,15 @@ function FinalSignUp() {
 
     return (
         <>
+            <p>Name: {signUpData.firstName + signUpData.lastName}</p>
+            <p>Email: {signUpData.email}</p>
+            <p>Intruments Played: {signUpData.selectedInstruments}</p>
+            <p>Genres Played: {signUpData.selectedGenres}</p>
+            <div className="flex items-center justify-center h-screen">
+                <button
+                    onClick={handleSubmit}
+                    className="border p-2">SIGN UP</button>
+            </div>
         </>
     )
 }

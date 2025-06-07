@@ -1,43 +1,44 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
 import BackBtn from '../BackBtn';
 import EditProfile from './EditProfile';
 import NavBar from '../NavBar';
+import SignOut from './SignOut';
+import SignUpStore from '../CreateProfile/SignUpStore';
 
 function UserProfile() {
 
-  useEffect(() => {
-    const loadProfile = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/users/:id", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(userData)
-        })
-      } catch (error) {
-        console.error("Error:", error)
-      }
-    }
-  }, []);
+  const userData = SignUpStore((state) => state.signUpData);
+
+  if (!userData) return <div>Loading...</div>;
+
+  // useEffect(() => {
+  //   const loadProfile = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:5000/users/:id", {
+  //         method: "GET",
+  //         headers: { "Content-Type": "application/json" },
+  //       })
+  //     } catch (error) {
+  //       console.error("Error:", error)
+  //     }
+  //   }
+  // }, []);
 
 
   return (
     <>
       <BackBtn />
       <UserHeader
-        userName='User Name'
+        userName={`${userData.firstName} ${userData.lastName}`}
         profilePicture="/images/profilepicture.png"
       />
       <div className="flex items-center flex-col">
         <div className='p-6 w-full'>
           <UserDetails
-            details="User Name"
+            details={`${userData.firstName} ${userData.lastName}`}
             icon="/images/circle-user.png"
-          />
-          <UserDetails
-            details="021 123 4567"
-            icon="/images/phone-flip.png"
           />
           <UserDetails
             details="SoundCloud"
@@ -48,7 +49,7 @@ function UserProfile() {
             icon="/images/spotify.png"
           />
           <UserDetails
-            details="email@gmail.com"
+            details={userData.email}
             icon="/images/envelope.png"
           />
           <UserDetails
@@ -57,6 +58,7 @@ function UserProfile() {
           />
         </div>
         <EditProfile />
+        <SignOut />
       </div>
       <NavBar />
     </>
