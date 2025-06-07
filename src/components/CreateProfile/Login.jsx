@@ -1,11 +1,14 @@
 import { useState } from "react";
 import BackBtn from "../BackBtn";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,6 +17,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    navigate("/search/bands")
     console.log("Login Data:", formData);
   };
 

@@ -9,6 +9,10 @@ function SignUp() {
   const signUpData = SignUpStore((state) => state.signUpData)
   const setSignUpData = SignUpStore((state) => state.setSignUpData)
 
+  const login = () => {
+    navigate("/login")
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSignUpData({ [name]: value });
@@ -78,11 +82,11 @@ function SignUp() {
             </button>
           </form>
           <p className="mt-6 text-center">Already have an account?
-            {/* <button onClick={navigate("/login")}
+            <button onClick={login}
               className="underline font-bold"
             >
               Login
-            </button> */}
+            </button>
           </p>
         </div>
       </div>
