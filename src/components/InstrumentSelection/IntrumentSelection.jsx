@@ -27,7 +27,7 @@ function InstrumentSelection() {
     useEffect(() => {
         if (instrumentList.length === 0) {
             const getInstruments = async () => {
-                const response = await fetch(`${API_URL}`);
+                const response = await fetch(`${API_URL}/instruments/${type}`);
                 const data = await response.json();
                 setInstrumentList(data)
             }

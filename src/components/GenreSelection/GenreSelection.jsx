@@ -27,7 +27,7 @@ function GenreSelection() {
         console.log(signUpData)
         if (genresList.length === 0) {
             const getSubGenres = async () => {
-                const response = await fetch(`${API_URL}${type}`);
+                const response = await fetch(`${API_URL}/subgenres/${type}`);
                 const data = await response.json();
                 setGenresList(data)
             }
