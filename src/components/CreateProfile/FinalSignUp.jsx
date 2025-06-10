@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import SignUpStore from "./SignUpStore";
 
 function FinalSignUp() {
-    const API_KEY = process.meta.env.RIFFN_API
+    const API_KEY = process.meta.env.VITE_RIFFN_API
 
     const navigate = useNavigate()
     const signUpData = SignUpStore((state) => state.signUpData);
