@@ -6,6 +6,7 @@ import SignUpStore from "../CreateProfile/SignUpStore";
 
 function InstrumentSelection() {
     const API_URL = import.meta.env.VITE_RIFFN_API
+    console.log("API_URL:", API_URL);
 
     const navigate = useNavigate();
     const signUpData = SignUpStore((state) => state.signUpData);

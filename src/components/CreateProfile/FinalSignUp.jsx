@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import SignUpStore from "./SignUpStore";
 
 function FinalSignUp() {
-    const API_KEY = process.meta.env.VITE_RIFFN_API
+    const API_URL = import.meta.env.VITE_RIFFN_API
 
     const navigate = useNavigate()
     const signUpData = SignUpStore((state) => state.signUpData);
@@ -12,7 +12,7 @@ function FinalSignUp() {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${API_KEY}/users`, {
+            const response = await fetch(`${API_URL}/users`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(signUpData),
