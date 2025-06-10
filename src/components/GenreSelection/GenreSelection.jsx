@@ -5,6 +5,7 @@ import SubGenreList from "./SubGenreList"
 import SignUpStore from "../CreateProfile/SignUpStore";
 
 function GenreSelection() {
+    const API_URL = import.meta.env.RIFFN_API
 
     const [genresList, setGenresList] = useState([])
     let { type } = useParams();
@@ -26,7 +27,7 @@ function GenreSelection() {
         console.log(signUpData)
         if (genresList.length === 0) {
             const getSubGenres = async () => {
-                const response = await fetch(`http://localhost:5000/subgenres/${type}`);
+                const response = await fetch(`${API_URL}/subgenres/${type}`);
                 const data = await response.json();
                 setGenresList(data)
             }

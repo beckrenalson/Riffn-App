@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import SignUpStore from "../CreateProfile/SignUpStore";
 
 function InstrumentSelection() {
+    const API_URL = import.meta.env.RIFFN_API
+
     const navigate = useNavigate();
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
@@ -25,7 +27,7 @@ function InstrumentSelection() {
     useEffect(() => {
         if (instrumentList.length === 0) {
             const getInstruments = async () => {
-                const response = await fetch(`http://localhost:5000/instruments/${type}`);
+                const response = await fetch(`${API_URL}/instruments/${type}`);
                 const data = await response.json();
                 setInstrumentList(data)
             }
