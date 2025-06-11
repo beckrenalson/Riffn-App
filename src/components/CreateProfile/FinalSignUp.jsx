@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import SignUpStore from "./SignUpStore";
 
 function FinalSignUp() {
-     const API_URL = (import.meta?.env?.VITE_RIFFN_API) || "http://localhost:5000";
+    const API_URL = import.meta.env.VITE_RIFFN_API;
 
 
     const navigate = useNavigate()
