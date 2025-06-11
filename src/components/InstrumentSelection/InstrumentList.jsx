@@ -22,10 +22,10 @@ function InstrumentList({ instruments, onSelectionChange }) {
                     className="flex flex-col items-center p-2"
                 >
                     <div className={`rounded-full border-2 p-5 transition-colors ${selectedInstruments.includes(instrument.name)
-                        ? "bg-blue-400"
+                        ? "bg-purple-400"
                         : "bg-transparent"
                         }`}>
-                        <img className="w-16" src={instrument.icon} alt="" />
+                        <img className="w-16" src={instrument.icon} alt="" style={{ filter: 'invert(1)' }}/>
                     </div>
                     <p className="font-bold">{instrument.name}</p>
                 </button>

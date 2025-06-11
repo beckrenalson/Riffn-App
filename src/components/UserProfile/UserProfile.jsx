@@ -49,8 +49,9 @@ function UserProfile() {
           <UserDetails
             details={
               isEditing ? (
-                <>
+                <div className='flex flex-col'>
                   <input
+                    autoFocus
                     type="text"
                     value={formData.firstName}
                     onChange={(e) =>
@@ -65,7 +66,7 @@ function UserProfile() {
                       setFormData({ ...formData, lastName: e.target.value })
                     }
                   />
-                </>
+                </div>
               ) : (
                 `${userData.firstName} ${userData.lastName}`
               )
