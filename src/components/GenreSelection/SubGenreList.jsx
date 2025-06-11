@@ -21,7 +21,7 @@ function SubGenreList({ genres, onSelectionChange }) {
                     onClick={() => toggleSelection(genre.name)}
                 >
                     <div className={`cursor-pointer border p-4 rounded-lg w-full transition-colors ${selectedGenres.includes(genre.name)
-                        ? "bg-blue-400"
+                        ? "bg-purple-400"
                         : "bg-transparent"
                         }`}>
                         <p>{genre.name}</p>

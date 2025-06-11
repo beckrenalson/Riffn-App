@@ -48,10 +48,10 @@ function GenreSelection() {
 
                 </div>
                 <button
-                    className="flex items-center fixed bottom-10 w-fit border p-2 bg-white"
+                    className="flex items-center fixed bottom-10 w-fit border p-2 bg-black"
                     onClick={handleContine}
                     disabled={selectedGenres.length === 0}>
-                    SIGN UP
+                    Continue
                 </button>
             </div>
         </>

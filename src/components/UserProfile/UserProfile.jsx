@@ -36,7 +36,6 @@ function UserProfile() {
   //   }
   // }, []);
 
-  console.log(userData._id)
   return (
     <>
       <BackBtn />
@@ -122,11 +121,14 @@ function UserProfile() {
             details={userData.selectedGenres}
           /> */}
         </div>
-        <button onClick={() => setIsEditing(!isEditing)}>
-          {isEditing ? "Cancel" : "Edit Profile"}
+        <button
+          className='border p-2'
+          onClick={() => setIsEditing(!isEditing)}>
+          {isEditing ? "Cancel" : "Edit profile"}
         </button>
         {isEditing && (
           <button
+            className='border p-2'
             onClick={async () => {
               try {
                 const response = await fetch(`${API_URL}/users/${userData._id}`, {
@@ -149,7 +151,7 @@ function UserProfile() {
               }
             }}
           >
-            Save Changes
+            Save changes
           </button>
         )}
         <SignOut />
