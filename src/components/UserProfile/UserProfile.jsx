@@ -8,7 +8,7 @@ import SignOut from './SignOut';
 import SignUpStore from '../CreateProfile/SignUpStore';
 
 function UserProfile() {
-  const API_URL = (import.meta?.env?.VITE_RIFFN_API) || "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_RIFFN_API;
 
   const userData = SignUpStore((state) => state.signUpData);
 
