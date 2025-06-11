@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
 import BackBtn from '../BackBtn';
@@ -8,8 +8,18 @@ import SignOut from './SignOut';
 import SignUpStore from '../CreateProfile/SignUpStore';
 
 function UserProfile() {
+  const API_URL = (import.meta?.env?.VITE_RIFFN_API) || "http://localhost:5000";
 
   const userData = SignUpStore((state) => state.signUpData);
+
+  const [isEditing, setIsEditing] = useState(false)
+  const [formData, setFormData] = useState({
+    _id: userData._id,
+    firstName: userData.firstName || '',
+    lastName: userData.lastName || '',
+    email: userData.email || '',
+    password: userData.password || ''
+  })
 
   if (!userData) return <div>Loading...</div>;
 
@@ -26,7 +36,7 @@ function UserProfile() {
   //   }
   // }, []);
 
-
+  console.log(userData._id)
   return (
     <>
       <BackBtn />
@@ -37,7 +47,29 @@ function UserProfile() {
       <div className="flex items-center flex-col">
         <div className='p-6 w-full'>
           <UserDetails
-            details={`${userData.firstName} ${userData.lastName}`}
+            details={
+              isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    value={formData.firstName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, firstName: e.target.value })
+                    }
+                  />
+
+                  <input
+                    type="text"
+                    value={formData.lastName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, lastName: e.target.value })
+                    }
+                  />
+                </>
+              ) : (
+                `${userData.firstName} ${userData.lastName}`
+              )
+            }
             icon="/images/circle-user.png"
           />
           <UserDetails
@@ -49,15 +81,76 @@ function UserProfile() {
             icon="/images/spotify.png"
           />
           <UserDetails
-            details={userData.email}
+            details={
+              isEditing ? (
+                <input
+                  type="text"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                />
+              ) : (
+                `${userData.email}`
+              )
+            }
             icon="/images/envelope.png"
           />
           <UserDetails
-            details="Password"
+            details={
+
+              isEditing ? (
+                <input
+                  type="text"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                />
+              ) : (
+                `${userData.password}`
+              )
+            }
             icon="/images/eye.png"
           />
+          {/* <UserDetails 
+            details={userData.selectedInstruments}
+          
+          />
+          <UserDetails 
+            details={userData.selectedGenres}
+          /> */}
         </div>
-        <EditProfile />
+        <button onClick={() => setIsEditing(!isEditing)}>
+          {isEditing ? "Cancel" : "Edit Profile"}
+        </button>
+        {isEditing && (
+          <button
+            onClick={async () => {
+              try {
+                const response = await fetch(`${API_URL}/users/${userData._id}`, {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                  const updatedData = await response.json();
+                  SignUpStore.getState().setSignUpData(updatedData);
+                  setIsEditing(false);
+                } else {
+                  console.error("Failed to update");
+                }
+              } catch (error) {
+                console.error("Error:", error);
+              }
+            }}
+          >
+            Save Changes
+          </button>
+        )}
         <SignOut />
       </div>
       <NavBar />

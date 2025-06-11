@@ -1,7 +1,12 @@
-function EditProfile() {
+import { useState } from "react";
+
+function EditProfile({ userData }) {
+
+
+
     return (
         <>
-            <button className="border rounded-4xl p-2 cursor-pointer">Edit profile</button>
+           
         </>
     )
 }
