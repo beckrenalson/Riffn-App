@@ -23,8 +23,6 @@ function FinalSignUp() {
                 const data = await response.json();
                 setSignUpData(data);
 
-                localStorage.setItem("userId", data._id);
-
                 navigate("/search/bands");
             }
         } catch (error) {
