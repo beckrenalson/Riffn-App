@@ -17,7 +17,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/search/bands")
+    navigate("/search")
     console.log("Login Data:", formData);
   };
 
