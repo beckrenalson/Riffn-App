@@ -4,7 +4,7 @@ function NavBar() {
     return (
         <>
             <nav className="flex justify-around fixed bottom-0 w-full border p-2 bg-white">
-                <NavLink to="/search/bands" className="w-6">
+                <NavLink to="/search" className="w-6">
                     <img src="/images/search.png" />
                 </NavLink>
                  <NavLink to="/profile" className="w-6">

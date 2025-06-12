@@ -1784,7 +1784,8 @@
       "startBinding": null,
       "endBinding": null,
       "startArrowhead": null,
-      "endArrowhead": null
+      "endArrowhead": null,
+      "polygon": false
     },
     {
       "id": "9fRp7gSe05gE-4vimAcTK",
@@ -1829,7 +1830,8 @@
       "startBinding": null,
       "endBinding": null,
       "startArrowhead": null,
-      "endArrowhead": null
+      "endArrowhead": null,
+      "polygon": false
     },
     {
       "id": "oqlWh3p_d_fvH7jO-JNo7",
@@ -1874,7 +1876,8 @@
       "startBinding": null,
       "endBinding": null,
       "startArrowhead": null,
-      "endArrowhead": null
+      "endArrowhead": null,
+      "polygon": false
     },
     {
       "id": "a80SYGUL86s3m5-lpDuh2",
@@ -2555,7 +2558,8 @@
       "startBinding": null,
       "endBinding": null,
       "startArrowhead": null,
-      "endArrowhead": null
+      "endArrowhead": null,
+      "polygon": false
     },
     {
       "id": "d5994zvm8JI03zg8V-L-h",
@@ -3479,13 +3483,134 @@
       "originalText": "City",
       "autoResize": true,
       "lineHeight": 1.35
+    },
+    {
+      "id": "LliI2dgW4_qYVgS_5V_ub",
+      "type": "text",
+      "x": 622.4475007837009,
+      "y": -613.8229741351718,
+      "width": 252.93984985351562,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "b1K",
+      "roundness": null,
+      "seed": 285653292,
+      "version": 87,
+      "versionNonce": 1700335532,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1749642903423,
+      "link": null,
+      "locked": false,
+      "text": "What do u need 4 ur band\n",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "What do u need 4 ur band\n",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "KteY0q0cUEMoA0our-71e",
+      "type": "text",
+      "x": 651.2474275415134,
+      "y": -567.4229497211093,
+      "width": 184.79986572265625,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "b1L",
+      "roundness": null,
+      "seed": 235017388,
+      "version": 35,
+      "versionNonce": 1951051436,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1749642915989,
+      "link": null,
+      "locked": false,
+      "text": "What band needs u",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "What band needs u",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "L0A_BDhUFV-znsGNNn6v9",
+      "type": "arrow",
+      "x": 1540.847403127451,
+      "y": -154.6229619281405,
+      "width": 88,
+      "height": 430.4000244140625,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "b1M",
+      "roundness": {
+        "type": 2
+      },
+      "seed": 971768620,
+      "version": 28,
+      "versionNonce": 920438316,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1749642959488,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          88,
+          430.4000244140625
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": null,
+      "endBinding": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false
     }
   ],
   "appState": {
     "gridSize": 20,
     "gridStep": 5,
     "gridModeEnabled": false,
-    "viewBackgroundColor": "#ffffff"
+    "viewBackgroundColor": "#ffffff",
+    "lockedMultiSelections": {}
   },
   "files": {
     "c138618290047c5088ef61e3f427daa35ba95598": {

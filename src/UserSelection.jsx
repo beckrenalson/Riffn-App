@@ -11,7 +11,7 @@ function UserSelection() {
 
     const handleSelect = (profileType) => {
         setSignUpData({ profileType })
-        navigate("/signup/instruments");
+        navigate("/signup/createuser");
     };
 
     return (

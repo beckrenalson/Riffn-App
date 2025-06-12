@@ -5,7 +5,7 @@ import SubGenreList from "./SubGenreList"
 import SignUpStore from "../CreateProfile/SignUpStore";
 
 function GenreSelection() {
-    const API_URL = import.meta.env.VITE_RIFFN_API;
+    const API_URL = 'http://localhost:5000';
 
 
     const [genresList, setGenresList] = useState([])

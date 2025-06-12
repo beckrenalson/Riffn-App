@@ -36,12 +36,14 @@ function UserProfile() {
   //   }
   // }, []);
 
+  console.log("Profile image URL:", userData.profileImage);
+
   return (
     <>
       <BackBtn />
       <UserHeader
         userName={`${userData.firstName} ${userData.lastName}`}
-        profilePicture="/images/profilepicture.png"
+        profileImage={profileImage}
       />
       <div className="flex items-center flex-col">
         <div className='p-6 w-full'>

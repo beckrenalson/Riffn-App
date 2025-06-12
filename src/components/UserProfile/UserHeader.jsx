@@ -1,4 +1,4 @@
-function UserHeader({userName, profilePicture}) {
+function UserHeader({ userName, profileImage }) {
 
     return (
         <>
@@ -12,7 +12,7 @@ function UserHeader({userName, profilePicture}) {
                 <div>
                     <img
                         className="rounded-full w-40"
-                        src={profilePicture} />
+                        src={`http://localhost:5000/${userData.profileImage.replace(/\\/g, '/')}`} />
                 </div>
             </div>
         </>
