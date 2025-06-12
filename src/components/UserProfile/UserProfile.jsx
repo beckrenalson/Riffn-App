@@ -43,7 +43,6 @@ function UserProfile() {
       <BackBtn />
       <UserHeader
         userName={`${userData.firstName} ${userData.lastName}`}
-        profileImage={profileImage}
       />
       <div className="flex items-center flex-col">
         <div className='p-6 w-full'>

@@ -1,4 +1,7 @@
+import SignUpStore from "../CreateProfile/SignUpStore"
+
 function UserHeader({ userName, profileImage }) {
+    const userData = SignUpStore((state) => state.signUpData);
 
     return (
         <>
@@ -11,8 +14,10 @@ function UserHeader({ userName, profileImage }) {
 
                 <div>
                     <img
-                        className="rounded-full w-40"
-                        src={`http://localhost:5000/${userData.profileImage.replace(/\\/g, '/')}`} />
+                        src={`http://localhost:5000/${userData.profileImage.replace(/\\/g, '/')}`}
+                        alt="Profile"
+                        className="w-24 h-24 rounded-full object-cover"
+                    />
                 </div>
             </div>
         </>
