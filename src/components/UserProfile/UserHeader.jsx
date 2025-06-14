@@ -1,6 +1,8 @@
 import SignUpStore from "../CreateProfile/SignUpStore"
 
-function UserHeader({ userName, profileImage }) {
+function UserHeader({ userName }) {
+    const API_URL = import.meta.env.VITE_RIFFN_API;
+
     const userData = SignUpStore((state) => state.signUpData);
 
     return (
@@ -14,7 +16,7 @@ function UserHeader({ userName, profileImage }) {
 
                 <div>
                     <img
-                        src={`http://localhost:5000/${userData.profileImage.replace(/\\/g, '/')}`}
+                        src={`${API_URL}/${userData.profileImage.replace(/\\/g, '/')}`}
                         alt="Profile"
                         className="w-24 h-24 rounded-full object-cover"
                     />
