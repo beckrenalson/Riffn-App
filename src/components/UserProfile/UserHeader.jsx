@@ -16,7 +16,11 @@ function UserHeader({ userName }) {
 
                 <div>
                     <img
-                        src={`${API_URL}/${userData.profileImage.replace(/\\/g, '/')}`}
+                        src={
+                            typeof userData.profileImage === "string"
+                                ? `${API_URL}/${userData.profileImage.replace(/\\/g, '/')}`
+                                : URL.createObjectURL(userData.profileImage)
+                        }
                         alt="Profile"
                         className="w-24 h-24 rounded-full object-cover"
                     />
