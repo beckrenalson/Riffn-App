@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import SignUpStore from "../CreateProfile/SignUpStore";
 
 function InstrumentSelection() {
-    const API_URL = import.meta.env.VITE_RIFFN_API;
+    const API_URL = "http://localhost:5000";
 
 
     const navigate = useNavigate();

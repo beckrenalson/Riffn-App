@@ -4,10 +4,7 @@ import SignUpStore from "./components/CreateProfile/SignUpStore";
 
 function UserSelection() {
     const navigate = useNavigate();
-    const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
-
-    console.log(signUpData)
 
     const handleSelect = (profileType) => {
         setSignUpData({ profileType })

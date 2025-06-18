@@ -18,7 +18,6 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate("/search")
-    console.log("Login Data:", formData);
   };
 
   return (

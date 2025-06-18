@@ -86,6 +86,17 @@ function CreateUser() {
                 </div>
 
                 <div>
+                    <input 
+                    className="border p-2 w-full mt-4 rounded"
+                    placeholder="Enter location"
+                    type="text"
+                    value={signUpData.location}
+                    onChange={handleChange}
+                    name="location"
+                    />
+                </div>
+
+                <div>
                     <input
                         className="border p-2 w-full mt-4 rounded"
                         placeholder={`Enter ${signUpData.profileType} name`}

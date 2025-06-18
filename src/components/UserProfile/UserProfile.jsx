@@ -8,7 +8,7 @@ import SignOut from './SignOut';
 import SignUpStore from '../CreateProfile/SignUpStore';
 
 function UserProfile() {
-  const API_URL = import.meta.env.VITE_RIFFN_API;
+  const API_URL = "http://localhost:5000";
 
   const userData = SignUpStore((state) => state.signUpData);
 
@@ -35,8 +35,6 @@ function UserProfile() {
   //     }
   //   }
   // }, []);
-
-  console.log("Profile image URL:", userData.profileImage);
 
   return (
     <>
@@ -114,11 +112,11 @@ function UserProfile() {
             }
             icon="/images/eye.png"
           />
-          {/* <UserDetails 
+          {/* <UserDetails
             details={userData.selectedInstruments}
-          
+
           />
-          <UserDetails 
+          <UserDetails
             details={userData.selectedGenres}
           /> */}
         </div>

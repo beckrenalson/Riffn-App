@@ -4,14 +4,15 @@ import { persist } from "zustand/middleware";
 const SignUpStore = create(persist(
   (set) => ({
     signUpData: {
-      userName: "JamSorcerer",
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      password: "1234",
-      profileType: "solo",
-      selectedInstruments: ["Guitar", "Bass Guitar"],
-      selectedGenres: ["Punk Rock", "Classical"],
+      userName: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      profileType: "",
+      selectedInstruments: [],
+      selectedGenres: [],
+      location: "",
       openings: {
         instruments: [],
         genres: []

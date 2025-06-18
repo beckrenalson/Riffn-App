@@ -3,8 +3,6 @@ import InstrumentType from "./InstrumentType"
 
 function InstrumentTypeList() {
 
-    // console.log("state instrument type list", signUpData)
-
     return (
         <>
             <BackBtn />
