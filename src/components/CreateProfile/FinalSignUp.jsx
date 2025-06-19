@@ -53,6 +53,7 @@ function FinalSignUp() {
             <p>Instruments Played: {signUpData.selectedInstruments.join(', ')}</p>
             <p>Genres Played: {signUpData.selectedGenres.join(', ')}</p>
             <p>Location: {signUpData.location}</p>
+            {/* <p>Members: {signUpData.bandMembers.map((member) => member.name).join(', ')}</p> */}
             <div className="flex items-center justify-center h-screen">
                 <button
                     onClick={handleSubmit}

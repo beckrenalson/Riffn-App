@@ -3,6 +3,7 @@ import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
 import { useLocation } from "react-router-dom";
 import API_URL from "../../config/api";
+import { ClipLoader } from "react-spinners";
 
 function Search() {
   const currentUser = {
@@ -24,16 +25,23 @@ function Search() {
   };
 
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchUsers() {
-      const response = await fetch(`${API_URL}/users`, {
-        method: "GET",
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data);
+    const fetchUsers = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_URL}/users`, {
+          method: "GET",
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUsers(data);
+        }
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -64,6 +72,14 @@ function Search() {
   const matches = bands.filter(band => findMatchingBand(currentUser, band));
 
   console.log(matches)
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#4F46E5" size={60} />
+      </div>
+    );
+  }
 
   return (
     <>
