@@ -3,11 +3,9 @@ import BackBtn from "../BackBtn"
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SignUpStore from "../CreateProfile/SignUpStore";
+import API_URL from "../../config/api";
 
 function InstrumentSelection() {
-    const API_URL = "http://localhost:5000";
-
-
     const navigate = useNavigate();
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);

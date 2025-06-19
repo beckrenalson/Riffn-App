@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import SignUpStore from "./SignUpStore";
+import API_URL from "../../config/api";
 
 function FinalSignUp() {
-    const API_URL = "http://localhost:5000";
-
     const navigate = useNavigate()
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);

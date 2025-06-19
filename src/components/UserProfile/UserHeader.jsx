@@ -1,7 +1,7 @@
 import SignUpStore from "../CreateProfile/SignUpStore"
+import API_URL from "../../config/api";
 
 function UserHeader({ userName }) {
-    const API_URL = "http://localhost:5000";
 
     const userData = SignUpStore((state) => state.signUpData);
 

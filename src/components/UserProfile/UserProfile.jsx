@@ -6,9 +6,9 @@ import EditProfile from './EditProfile';
 import NavBar from '../NavBar';
 import SignOut from './SignOut';
 import SignUpStore from '../CreateProfile/SignUpStore';
+import API_URL from '../../config/api';
 
 function UserProfile() {
-  const API_URL = "http://localhost:5000";
 
   const userData = SignUpStore((state) => state.signUpData);
 

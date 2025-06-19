@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
 import { useLocation } from "react-router-dom";
+import API_URL from "../../config/api";
 
 function Search() {
   const currentUser = {
@@ -22,7 +23,6 @@ function Search() {
     bandMembers: [],
   };
 
-  const API_URL = "http://localhost:5000";
   const [users, setUsers] = useState([]);
 
   useEffect(() => {

@@ -3,11 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import BackBtn from "../BackBtn"
 import SubGenreList from "./SubGenreList"
 import SignUpStore from "../CreateProfile/SignUpStore";
+import API_URL from "../../config/api";
 
 function GenreSelection() {
-    const API_URL = "http://localhost:5000";
-
-
     const [genresList, setGenresList] = useState([])
     let { type } = useParams();
     const signUpData = SignUpStore((state) => state.signUpData);
