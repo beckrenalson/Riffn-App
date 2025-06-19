@@ -15,7 +15,7 @@ import GenreList from './components/GenreSelection/GenreList.jsx';
 import SignUpLayout from './components/CreateProfile/SignUpLayout.jsx';
 import SignUp from './components/CreateProfile/SignUp.jsx';
 import FinalSignUp from './components/CreateProfile/FinalSignUp.jsx';
-import CreateUser from  './components/CreateProfile/CreateUser.jsx';
+import CreateUser from './components/CreateProfile/CreateUser.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -24,7 +24,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<SignUpLayout />}>
           <Route index element={<SignUp />} />
           <Route path="/signup/userselection" element={<UserSelection />} />
-          <Route path="/signup/createuser" element={ <CreateUser />} />
+          <Route path="/signup/createuser" element={<CreateUser />} />
           <Route path="/signup/instruments" element={<InstrumentTypeList />} />
           <Route path="/signup/instruments/:type" element={<InstrumentSelection />} />
           <Route path="/signup/genres" element={<GenreList />} />
@@ -34,7 +34,7 @@ createRoot(document.getElementById('root')).render(
 
         <Route path="/login" element={<Login />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/search/publicprofile" element={<PublicProfile />} />
+        <Route path="/search/:userName" element={<PublicProfile />} />
         <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </BrowserRouter>

@@ -1,0 +1,494 @@
+[
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Liam",
+    "lastName": "Morris",
+    "email": "liam.morris@gmail.com",
+    "password": "pass123",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Drums"
+    ],
+    "selectedGenres": [
+      "Hard Rock"
+    ],
+    "location": "Auckland",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Emily",
+    "lastName": "Zhou",
+    "email": "emily.zhou@gmail.com",
+    "password": "emily2025",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Acoustic Guitar"
+    ],
+    "selectedGenres": [
+      "Folk",
+      "Indie"
+    ],
+    "location": "Wellington",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Jack",
+    "lastName": "Wilson",
+    "email": "jack.wilson@gmail.com",
+    "password": "wilson321",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Bass Guitar"
+    ],
+    "selectedGenres": [
+      "Jazz",
+      "Funk"
+    ],
+    "location": "Dunedin",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "Crimson Pines",
+    "firstName": "",
+    "lastName": "",
+    "email": "crimsonpines@gmail.com",
+    "password": "crimsonband",
+    "profileType": "band",
+    "selectedInstruments": [
+      "Guitar",
+      "Drums"
+    ],
+    "selectedGenres": [
+      "Alternative Rock"
+    ],
+    "location": "Auckland",
+    "openings": {
+      "instruments": [
+        "Vocals",
+        "Synth"
+      ],
+      "genres": [
+        "Pop Rock"
+      ]
+    },
+    "bandMembers": [
+      "Ryan Brooks",
+      "Ella Reed"
+    ]
+  },
+  {
+    "profileImage": null,
+    "userName": "Solar Veins",
+    "firstName": "",
+    "lastName": "",
+    "email": "solarveins@gmail.com",
+    "password": "solar123",
+    "profileType": "band",
+    "selectedInstruments": [
+      "Keyboard"
+    ],
+    "selectedGenres": [
+      "Psychedelic Rock"
+    ],
+    "location": "Christchurch",
+    "openings": {
+      "instruments": [
+        "Guitar"
+      ],
+      "genres": [
+        "Experimental"
+      ]
+    },
+    "bandMembers": [
+      "Zara Flynn"
+    ]
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Noah",
+    "lastName": "Peterson",
+    "email": "noah.peterson@gmail.com",
+    "password": "noah456",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Vocals"
+    ],
+    "selectedGenres": [
+      "Pop",
+      "Hip Hop"
+    ],
+    "location": "Wellington",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Ruby",
+    "lastName": "Nguyen",
+    "email": "ruby.nguyen@gmail.com",
+    "password": "ruby789",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Flute"
+    ],
+    "selectedGenres": [
+      "Classical"
+    ],
+    "location": "Hamilton",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "The Velvet Hour",
+    "firstName": "",
+    "lastName": "",
+    "email": "velvethour@gmail.com",
+    "password": "velvetpass",
+    "profileType": "band",
+    "selectedInstruments": [
+      "Violin",
+      "Drums"
+    ],
+    "selectedGenres": [
+      "Art Rock"
+    ],
+    "location": "Auckland",
+    "openings": {
+      "instruments": [
+        "Bass Guitar"
+      ],
+      "genres": [
+        "Chamber Pop"
+      ]
+    },
+    "bandMembers": [
+      "Tessa Holt",
+      "Ben Riley"
+    ]
+  },
+  {
+    "profileImage": null,
+    "userName": "Neon Mirage",
+    "firstName": "",
+    "lastName": "",
+    "email": "neonmirage@gmail.com",
+    "password": "neon321",
+    "profileType": "band",
+    "selectedInstruments": [
+      "Synth",
+      "Vocals"
+    ],
+    "selectedGenres": [
+      "Synthpop",
+      "Electro"
+    ],
+    "location": "Tauranga",
+    "openings": {
+      "instruments": [
+        "Drums"
+      ],
+      "genres": [
+        "Electronic"
+      ]
+    },
+    "bandMembers": [
+      "Dana Voss"
+    ]
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Oliver",
+    "lastName": "Kent",
+    "email": "oliver.kent@gmail.com",
+    "password": "kent987",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Saxophone"
+    ],
+    "selectedGenres": [
+      "Jazz",
+      "Funk"
+    ],
+    "location": "Wellington",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Grace",
+    "lastName": "Taylor",
+    "email": "grace.taylor@gmail.com",
+    "password": "grace456",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Cello"
+    ],
+    "selectedGenres": [
+      "Classical",
+      "Ambient"
+    ],
+    "location": "Nelson",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "Echo District",
+    "firstName": "",
+    "lastName": "",
+    "email": "echodistrict@gmail.com",
+    "password": "echoecho",
+    "profileType": "band",
+    "selectedInstruments": [
+      "Bass Guitar",
+      "Synth"
+    ],
+    "selectedGenres": [
+      "Alternative",
+      "Dream Pop"
+    ],
+    "location": "Wellington",
+    "openings": {
+      "instruments": [
+        "Vocals"
+      ],
+      "genres": [
+        "Indie Pop"
+      ]
+    },
+    "bandMembers": [
+      "Arlo Green"
+    ]
+  },
+  {
+    "profileImage": null,
+    "userName": "The Long Shadows",
+    "firstName": "",
+    "lastName": "",
+    "email": "longshadows@gmail.com",
+    "password": "shadow123",
+    "profileType": "band",
+    "selectedInstruments": [
+      "Electric Guitar",
+      "Drums"
+    ],
+    "selectedGenres": [
+      "Post-Rock"
+    ],
+    "location": "Christchurch",
+    "openings": {
+      "instruments": [
+        "Keyboard"
+      ],
+      "genres": [
+        "Ambient"
+      ]
+    },
+    "bandMembers": [
+      "Seth Cross",
+      "Isaac Neal"
+    ]
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Maya",
+    "lastName": "Reed",
+    "email": "maya.reed@gmail.com",
+    "password": "maya333",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Piano"
+    ],
+    "selectedGenres": [
+      "Neo-Classical",
+      "Jazz"
+    ],
+    "location": "Napier",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Daniel",
+    "lastName": "Shaw",
+    "email": "daniel.shaw@gmail.com",
+    "password": "danielshaw",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Trumpet"
+    ],
+    "selectedGenres": [
+      "Jazz",
+      "Latin"
+    ],
+    "location": "Invercargill",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "Lakeside Static",
+    "firstName": "",
+    "lastName": "",
+    "email": "lakesidestatic@gmail.com",
+    "password": "staticpass",
+    "profileType": "band",
+    "selectedInstruments": [
+      "Guitar",
+      "Vocals"
+    ],
+    "selectedGenres": [
+      "Shoegaze"
+    ],
+    "location": "Queenstown",
+    "openings": {
+      "instruments": [
+        "Drums"
+      ],
+      "genres": [
+        "Dream Pop"
+      ]
+    },
+    "bandMembers": [
+      "Finn Carter"
+    ]
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Isla",
+    "lastName": "Park",
+    "email": "isla.park@gmail.com",
+    "password": "islapark",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Harp"
+    ],
+    "selectedGenres": [
+      "Ambient",
+      "Classical"
+    ],
+    "location": "Palmerston North",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Leo",
+    "lastName": "Banks",
+    "email": "leo.banks@gmail.com",
+    "password": "leobanks",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "DJ Controller"
+    ],
+    "selectedGenres": [
+      "House",
+      "Techno"
+    ],
+    "location": "Auckland",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  },
+  {
+    "profileImage": null,
+    "userName": "Glass Parade",
+    "firstName": "",
+    "lastName": "",
+    "email": "glassparade@gmail.com",
+    "password": "glass321",
+    "profileType": "band",
+    "selectedInstruments": [
+      "Electric Guitar",
+      "Vocals"
+    ],
+    "selectedGenres": [
+      "Indie Rock"
+    ],
+    "location": "Hamilton",
+    "openings": {
+      "instruments": [
+        "Bass Guitar"
+      ],
+      "genres": [
+        "Garage Rock"
+      ]
+    },
+    "bandMembers": [
+      "Chloe Rae",
+      "Nathan Li"
+    ]
+  },
+  {
+    "profileImage": null,
+    "userName": "",
+    "firstName": "Toby",
+    "lastName": "Griffin",
+    "email": "toby.griffin@gmail.com",
+    "password": "tobygriffin",
+    "profileType": "solo",
+    "selectedInstruments": [
+      "Mandolin"
+    ],
+    "selectedGenres": [
+      "Bluegrass",
+      "Country"
+    ],
+    "location": "New Plymouth",
+    "openings": {
+      "instruments": [],
+      "genres": []
+    },
+    "bandMembers": []
+  }
+]

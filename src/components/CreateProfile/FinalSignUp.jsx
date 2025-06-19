@@ -51,8 +51,8 @@ function FinalSignUp() {
             <p>User/Band name:</p> {signUpData.userName}
             <p>Name: {signUpData.firstName + " " + signUpData.lastName}</p>
             <p>Email: {signUpData.email}</p>
-            <p>Instruments Played: {signUpData.selectedInstruments}</p>
-            <p>Genres Played: {signUpData.selectedGenres}</p>
+            <p>Instruments Played: {signUpData.selectedInstruments.join(', ')}</p>
+            <p>Genres Played: {signUpData.selectedGenres.join(', ')}</p>
             <p>Location: {signUpData.location}</p>
             <div className="flex items-center justify-center h-screen">
                 <button
