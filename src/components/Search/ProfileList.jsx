@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom"
+import API_URL from "../../config/api";
 
 function ProfileList({ header, profiles }) {
 
     const navigate = useNavigate()
 
-    const handleClick = (band) => {
-        const slug = band.userName.toLowerCase().replace(/\s+/g, '-'); // optional slugify
-        navigate(`/search/${slug}`, { state: { band } });
+    const handleClick = (user) => {
+        const slug = user.userName.toLowerCase().replace(/\s+/g, '-'); // optional slugify
+        navigate(`/search/solo/${slug}`, { state: { user } });
     }
 
     return (
@@ -14,28 +15,31 @@ function ProfileList({ header, profiles }) {
             <p>{header}</p>
 
             <ul className="p-5">
-                {profiles.map((band, index) => (
+                {profiles.map((user, index) => (
                     <button
                         key={index}
-                        className='flex items-center border p-2 rounded-lg w-full mb-5'
-                        onClick={() => handleClick(band)}
+                        className="flex items-center border p-2 rounded-lg w-full mb-5 text-left"
+                        onClick={() => handleClick(user)}
                     >
-                        <div>
-                            <img
-                                className="rounded-full w-20"
-                                src="/images/profilepicture.png" />
-                        </div>
-                        <div>
-                            <div className='pl-4'>
-                                <h1 className="text-xl">{band.userName}</h1>
-                                <h1 className="text-l">{band.location}</h1>
-                            </div>
+                        <img
+                            className="rounded-full w-20 h-20 object-cover"
+                            src={typeof user.profileImage === "string"
+                                ? `${API_URL}/${user.profileImage.replace(/\\/g, '/')}`
+                                : "/images/profilepicture.png"}
+                            alt="Profile"
+                        />
+                        <div className="pl-4 flex flex-col justify-center">
+                            <h1 className="text-xl font-semibold">{user.userName}</h1>
+                            <h2 className="text-sm text-gray-600">{user.location}</h2>
                         </div>
                     </button>
+
                 ))}
             </ul>
         </div>
     )
 }
+
+
 
 export default ProfileList

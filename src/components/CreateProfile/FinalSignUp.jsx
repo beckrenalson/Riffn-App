@@ -36,7 +36,12 @@ function FinalSignUp() {
             if (response.ok) {
                 const data = await response.json();
                 setSignUpData(data);
-                navigate("/search");
+                if (signUpData.profileType === "solo") {
+                    navigate("/search/band");
+                } else {
+                    navigate("/search/solo")
+                }
+
             } else {
                 console.error("Signup failed:", response.statusText);
             }

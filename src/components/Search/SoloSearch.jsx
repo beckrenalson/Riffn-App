@@ -5,15 +5,15 @@ import { useLocation } from "react-router-dom";
 import API_URL from "../../config/api";
 import { ClipLoader } from "react-spinners";
 
-function Search() {
+function BandSearch() {
   const currentUser = {
     profileImage: null,
-    userName: "",
+    userName: "Funky Band",
     firstName: "Liam",
     lastName: "Patel",
     email: "liam.patel@gmail.com",
     password: "liamsecure456",
-    profileType: "solo",
+    profileType: "band",
     selectedInstruments: ["Synth, Drums"],
     selectedGenres: ["Pop Rock"],
     location: "Tauranga",
@@ -68,8 +68,8 @@ function Search() {
     return isLocationMatch;
   };
 
-  const bands = users.filter(user => user.profileType === "band");
-  const matches = bands.filter(band => findMatchingBand(currentUser, band));
+  const solos = users.filter(user => user.profileType === "solo");
+  const matches = solos.filter(solo => findMatchingBand(currentUser, solo));
 
   console.log(matches)
 
@@ -84,11 +84,11 @@ function Search() {
   return (
     <>
       <div>
-        <ProfileList header="Band openings" profiles={matches} />
+        <ProfileList header="Solo artists looking for band" profiles={matches} />
       </div>
       <NavBar />
     </>
   );
 }
 
-export default Search;
+export default BandSearch;
