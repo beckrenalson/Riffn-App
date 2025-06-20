@@ -7,7 +7,12 @@ function ProfileList({ header, profiles }) {
 
     const handleClick = (user) => {
         const slug = user.userName.toLowerCase().replace(/\s+/g, '-'); // optional slugify
-        navigate(`/search/solo/${slug}`, { state: { user } });
+        if (user.profileType === "solo") {
+            navigate(`/search/solo/${slug}`, { state: { user } });
+        } else {
+            navigate(`/search/band/${slug}`, { state: { user } });
+        }
+
     }
 
     return (

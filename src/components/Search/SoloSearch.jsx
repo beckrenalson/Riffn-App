@@ -3,7 +3,7 @@ import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
 import { useLocation } from "react-router-dom";
 import API_URL from "../../config/api";
-import { ClipLoader } from "react-spinners";
+import Loading from "../Loading";
 
 function BandSearch() {
   const currentUser = {
@@ -75,10 +75,8 @@ function BandSearch() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <ClipLoader color="#4F46E5" size={60} />
-      </div>
-    );
+      <Loading />
+    )
   }
 
   return (

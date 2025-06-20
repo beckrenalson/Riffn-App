@@ -13,7 +13,7 @@ function PublicProfile() {
             <BackBtn />
             <div className="p-8">
                 <img
-                    className="rounded-full w-35 h-35"
+                    className="rounded-full w-35 h-35 object-cover"
                     src={typeof user.profileImage === "string"
                         ? `${API_URL}/${user.profileImage.replace(/\\/g, '/')}`
                         : "/images/profilepicture.png"} />

@@ -4,12 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SignUpStore from "../CreateProfile/SignUpStore";
 import API_URL from "../../config/api";
+import Loading from "../Loading";
 
 function InstrumentSelection() {
     const navigate = useNavigate();
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
     const [selectedInstruments, setSelectedInstruments] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const handleContinue = () => {
         setSignUpData({
@@ -26,13 +28,25 @@ function InstrumentSelection() {
     useEffect(() => {
         if (instrumentList.length === 0) {
             const getInstruments = async () => {
-                const response = await fetch(`${API_URL}/instruments/${type}`);
-                const data = await response.json();
-                setInstrumentList(data)
+                setLoading(true)
+                try {
+                    const response = await fetch(`${API_URL}/instruments/${type}`);
+                    const data = await response.json();
+                    setInstrumentList(data)
+                } finally {
+                    setLoading(false)
+                }
             }
             getInstruments();
         }
     }, [type])
+
+    if (loading) {
+        return (
+            <Loading />
+        );
+    }
+
 
     return (
         <>

@@ -4,6 +4,7 @@ import BackBtn from "../BackBtn"
 import SubGenreList from "./SubGenreList"
 import SignUpStore from "../CreateProfile/SignUpStore";
 import API_URL from "../../config/api";
+import Loading from "../Loading";
 
 function GenreSelection() {
     const [genresList, setGenresList] = useState([])
@@ -12,6 +13,7 @@ function GenreSelection() {
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
     const navigate = useNavigate();
     const [selectedGenres, setSelectedGenres] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const handleContine = async () => {
         setSignUpData({
@@ -25,13 +27,24 @@ function GenreSelection() {
     useEffect(() => {
         if (genresList.length === 0) {
             const getSubGenres = async () => {
-                const response = await fetch(`${API_URL}/subgenres/${type}`);
-                const data = await response.json();
-                setGenresList(data)
+                setLoading(true)
+                try {
+                    const response = await fetch(`${API_URL}/subgenres/${type}`);
+                    const data = await response.json();
+                    setGenresList(data)
+                } finally {
+                    setLoading(false)
+                }
             }
             getSubGenres();
         }
     }, [type])
+
+    if (loading) {
+        return (
+            <Loading />
+        );
+    }
 
     return (
         <>
