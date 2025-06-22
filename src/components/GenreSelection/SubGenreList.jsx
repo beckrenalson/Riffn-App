@@ -1,7 +1,7 @@
-import { useState } from "react";
+import GenreStore from "./GenreStore";
 
 function SubGenreList({ genres, onSelectionChange }) {
-    const [selectedGenres, setSelectedGenres] = useState([]);
+    const { selectedGenres, setSelectedGenres } = GenreStore();
 
     const toggleSelection = (genreName) => {
         const updatedSelection = selectedGenres.includes(genreName)

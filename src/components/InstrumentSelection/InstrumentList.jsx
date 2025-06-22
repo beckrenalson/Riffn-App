@@ -1,8 +1,8 @@
-import { useState } from "react";
+import InstrumentStore from "./InstrumentStore";
 
 function InstrumentList({ instruments, onSelectionChange }) {
 
-    const [selectedInstruments, setSelectedInstruments] = useState([]);
+    const { selectedInstruments, setSelectedInstruments } = InstrumentStore();
 
     const toggleSelection = (instrumentName) => {
         const updatedSelection = selectedInstruments.includes(instrumentName)
@@ -25,7 +25,7 @@ function InstrumentList({ instruments, onSelectionChange }) {
                         ? "bg-purple-400"
                         : "bg-transparent"
                         }`}>
-                        <img className="w-16" src={instrument.icon} alt="" style={{ filter: 'invert(1)' }}/>
+                        <img className="w-16" src={instrument.icon} alt="" style={{ filter: 'invert(1)' }} />
                     </div>
                     <p className="font-bold">{instrument.name}</p>
                 </button>

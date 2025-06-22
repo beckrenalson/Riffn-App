@@ -41,8 +41,6 @@ function InstrumentSelection() {
         }
     }, [type])
 
-    console.log(INSTRUMENTS_ENDPOINT)
-
     if (loading) {
         return (
             <Loading />
