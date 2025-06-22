@@ -3,7 +3,7 @@ import BackBtn from "../BackBtn"
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SignUpStore from "../CreateProfile/SignUpStore";
-import API_URL from "../../config/api";
+import { INSTRUMENTS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
 
 function InstrumentSelection() {
@@ -30,7 +30,7 @@ function InstrumentSelection() {
             const getInstruments = async () => {
                 setLoading(true)
                 try {
-                    const response = await fetch(`${API_URL}/instruments/${type}`);
+                    const response = await fetch(`${INSTRUMENTS_ENDPOINT}/${type}`);
                     const data = await response.json();
                     setInstrumentList(data)
                 } finally {
@@ -40,6 +40,8 @@ function InstrumentSelection() {
             getInstruments();
         }
     }, [type])
+
+    console.log(INSTRUMENTS_ENDPOINT)
 
     if (loading) {
         return (

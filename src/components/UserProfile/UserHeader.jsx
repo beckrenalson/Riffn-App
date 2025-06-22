@@ -1,5 +1,5 @@
 import SignUpStore from "../CreateProfile/SignUpStore"
-import API_URL from "../../config/api";
+import { USERS_ENDPOINT } from "../../config/api";
 
 function UserHeader({ userName }) {
 
@@ -17,7 +17,7 @@ function UserHeader({ userName }) {
                 <div>
                     <img
                         src={typeof userData.profileImage === "string"
-                            ? `${API_URL}/${userData.profileImage.replace(/\\/g, '/')}`
+                            ? `${USERS_ENDPOINT}/${userData.profileImage.replace(/\\/g, '/')}`
                             : "/images/profilepicture.png"}
                         alt="Profile"
                         className="w-30 h-30 rounded-full object-cover"

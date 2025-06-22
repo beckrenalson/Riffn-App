@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import SignUpStore from "./SignUpStore";
-import API_URL from "../../config/api";
+import { USERS_ENDPOINT } from "../../config/api";
 
 function FinalSignUp() {
     const navigate = useNavigate()
@@ -28,7 +28,7 @@ function FinalSignUp() {
         }
 
         try {
-            const response = await fetch(`${API_URL}/users`, {
+            const response = await fetch(USERS_ENDPOINT, {
                 method: "POST",
                 body: formData,
             });

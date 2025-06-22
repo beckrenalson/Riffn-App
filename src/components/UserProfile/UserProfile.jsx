@@ -6,7 +6,7 @@ import EditProfile from './EditProfile';
 import NavBar from '../NavBar';
 import SignOut from './SignOut';
 import SignUpStore from '../CreateProfile/SignUpStore';
-import API_URL from '../../config/api';
+import { USERS_ENDPOINT } from '../../config/api';
 
 function UserProfile() {
 
@@ -130,7 +130,7 @@ function UserProfile() {
             className='border p-2'
             onClick={async () => {
               try {
-                const response = await fetch(`${API_URL}/users/${userData._id}`, {
+                const response = await fetch(`${USERS_ENDPOINT}/${userData._id}`, {
                   method: "PATCH",
                   headers: {
                     "Content-Type": "application/json"

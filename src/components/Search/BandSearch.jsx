@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
-import { useLocation } from "react-router-dom";
-import API_URL from "../../config/api";
+import { USERS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
 
 function BandSearch() {
@@ -32,7 +31,7 @@ function BandSearch() {
     const fetchUsers = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`${API_URL}/users`, {
+        const response = await fetch(USERS_ENDPOINT, {
           method: "GET",
         });
 

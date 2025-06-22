@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import API_URL from "../../config/api";
+import { USERS_ENDPOINT } from "../../config/api";
 
 function ProfileList({ header, profiles }) {
 
@@ -29,7 +29,7 @@ function ProfileList({ header, profiles }) {
                         <img
                             className="rounded-full w-20 h-20 object-cover"
                             src={typeof user.profileImage === "string"
-                                ? `${API_URL}/${user.profileImage.replace(/\\/g, '/')}`
+                                ? `${USERS_ENDPOINT}/${user.profileImage.replace(/\\/g, '/')}`
                                 : "/images/profilepicture.png"}
                             alt="Profile"
                         />
