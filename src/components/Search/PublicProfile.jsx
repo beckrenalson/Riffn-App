@@ -1,7 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
 import BackBtn from "../BackBtn"
 import NavBar from "../NavBar"
-import { USERS_ENDPOINT } from '../../config/api';
+import API_URL from '../../config/api';
 
 function PublicProfile() {
     const { state } = useLocation()
@@ -15,7 +15,7 @@ function PublicProfile() {
                 <img
                     className="rounded-full w-35 h-35 object-cover"
                     src={typeof user.profileImage === "string"
-                        ? `${USERS_ENDPOINT}/${user.profileImage.replace(/\\/g, '/')}`
+                        ? `${API_URL}/${user.profileImage.replace(/\\/g, '/')}`
                         : "/images/profilepicture.png"} />
 
                 <div className="flex gap-20">

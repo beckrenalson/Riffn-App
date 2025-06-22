@@ -9,6 +9,8 @@ function FinalSignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        localStorage.removeItem("selected-instruments-storage");
+        localStorage.removeItem("selected-genres-storage");
 
         const formData = new FormData();
 
