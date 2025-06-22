@@ -3,25 +3,28 @@ import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
 import { USERS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
+import SignUpStore from "../CreateProfile/SignUpStore";
 
 function BandSearch() {
-  const currentUser = {
-    profileImage: null,
-    userName: "Funky Band",
-    firstName: "Liam",
-    lastName: "Patel",
-    email: "liam.patel@gmail.com",
-    password: "liamsecure456",
-    profileType: "band",
-    selectedInstruments: ["Synth, Drums"],
-    selectedGenres: ["Pop Rock"],
-    location: "Tauranga",
-    openings: {
-      instruments: [],
-      genres: [],
-    },
-    bandMembers: [],
-  };
+  // const currentUser = {
+  //   profileImage: null,
+  //   userName: "Funky Band",
+  //   firstName: "Liam",
+  //   lastName: "Patel",
+  //   email: "liam.patel@gmail.com",
+  //   password: "liamsecure456",
+  //   profileType: "band",
+  //   selectedInstruments: ["Synth, Drums"],
+  //   selectedGenres: ["Pop Rock"],
+  //   location: "Tauranga",
+  //   openings: {
+  //     instruments: [],
+  //     genres: [],
+  //   },
+  //   bandMembers: [],
+  // };
+
+  const currentUser = SignUpStore((state) => state.signUpData);
 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -66,6 +69,10 @@ function BandSearch() {
 
     return isLocationMatch;
   };
+
+  if (!currentUser || !currentUser.email) {
+    return <div className="text-white p-4">Please sign in to view matches.</div>;
+  }
 
   const solos = users.filter(user => user.profileType === "solo");
   const matches = solos.filter(solo => findMatchingBand(currentUser, solo));

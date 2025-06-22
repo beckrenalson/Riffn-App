@@ -5,23 +5,25 @@ import { USERS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
 
 function BandSearch() {
-  const currentUser = {
-    profileImage: null,
-    userName: "",
-    firstName: "Liam",
-    lastName: "Patel",
-    email: "liam.patel@gmail.com",
-    password: "liamsecure456",
-    profileType: "solo",
-    selectedInstruments: ["Synth, Drums"],
-    selectedGenres: ["Pop Rock"],
-    location: "Tauranga",
-    openings: {
-      instruments: [],
-      genres: [],
-    },
-    bandMembers: [],
-  };
+  // const currentUser = {
+  //   profileImage: null,
+  //   userName: "",
+  //   firstName: "Liam",
+  //   lastName: "Patel",
+  //   email: "liam.patel@gmail.com",
+  //   password: "liamsecure456",
+  //   profileType: "solo",
+  //   selectedInstruments: ["Synth, Drums"],
+  //   selectedGenres: ["Pop Rock"],
+  //   location: "Tauranga",
+  //   openings: {
+  //     instruments: [],
+  //     genres: [],
+  //   },
+  //   bandMembers: [],
+  // };
+
+  const currentUser = SignUpStore((state) => state.signUpData);
 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -66,6 +68,10 @@ function BandSearch() {
 
     return isLocationMatch;
   };
+
+  if (!currentUser || !currentUser.email) {
+    return <div className="text-white p-4">Please sign in to view matches.</div>;
+  }
 
   const bands = users.filter(user => user.profileType === "band");
   const matches = bands.filter(band => findMatchingBand(currentUser, band));

@@ -7,6 +7,7 @@ import NavBar from '../NavBar';
 import SignOut from './SignOut';
 import SignUpStore from '../CreateProfile/SignUpStore';
 import { USERS_ENDPOINT } from '../../config/api';
+import SelectLocation from '../CreateProfile/SelectLocation';
 
 function UserProfile() {
 
@@ -78,6 +79,21 @@ function UserProfile() {
           <UserDetails
             details="Spotify"
             icon="/images/spotify.png"
+          />
+          <UserDetails
+            details={
+              isEditing ? (
+                <SelectLocation
+                  signUpData={formData}
+                  handleChange={(e) =>
+                    setFormData({ ...formData, [e.target.name]: e.target.value })
+                  }
+                />
+              ) : (
+                `${userData.location}`
+              )
+            }
+            icon="/images/land-layer-location.png"
           />
           <UserDetails
             details={

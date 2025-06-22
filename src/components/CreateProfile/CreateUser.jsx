@@ -2,6 +2,7 @@ import { useState } from "react";
 import SignUpStore from "./SignUpStore";
 import BackBtn from "../BackBtn";
 import { useNavigate } from "react-router-dom";
+import SelectLocation from "./SelectLocation";
 
 function CreateUser() {
     const navigate = useNavigate()
@@ -63,7 +64,7 @@ function CreateUser() {
     return (
         <>
             <BackBtn />
-            <div className="p-4">
+            <div className="min-h-screen p-4">
                 <div>
                     <label htmlFor="profile-pic" className="cursor-pointer">
                         <div className="w-32 h-32 rounded-full overflow-hidden border">
@@ -86,13 +87,9 @@ function CreateUser() {
                 </div>
 
                 <div>
-                    <input 
-                    className="border p-2 w-full mt-4 rounded"
-                    placeholder="Enter location"
-                    type="text"
-                    value={signUpData.location}
-                    onChange={handleChange}
-                    name="location"
+                    <SelectLocation
+                        signUpData={signUpData}
+                        handleChange={handleChange}
                     />
                 </div>
 
