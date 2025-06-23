@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import BackBtn from "./components/BackBtn"
-import SignUpStore from "./components/CreateProfile/SignUpStore";
+import BackBtn from "../BackBtn";
+import SignUpStore from "./SignUpStore";
 
 function UserSelection() {
     const navigate = useNavigate();

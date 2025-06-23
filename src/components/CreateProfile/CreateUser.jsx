@@ -7,6 +7,7 @@ import SelectLocation from "./SelectLocation";
 function CreateUser() {
     const navigate = useNavigate()
 
+    const [useFullName, setUseFullName] = useState(false);
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
     const setProfileImage = SignUpStore((state) => state.setProfileImage);
@@ -102,40 +103,59 @@ function CreateUser() {
                         onChange={handleChange}
                         required
                         name="userName"
+                        disabled={useFullName}
                     />
+                    <div className="mt-4">
+                        <label className="flex items-center space-x-2">
+                            <input
+                                type="checkbox"
+                                checked={useFullName}
+                                onChange={(e) => {
+                                    setUseFullName(e.target.checked);
+                                    setSignUpData({
+                                        userName: e.target.checked
+                                            ? `${signUpData.firstName || ''} ${signUpData.lastName || ''}`
+                                            : ''
+                                    });
+                                }}
+                            />
+                            <span className="text-white">Use full name instead of a username</span>
+                        </label>
+                    </div>
                 </div>
 
-                <div>
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            className="border p-2 w-full mt-4 rounded"
-                            type="text"
-                            value={inputValue}
-                            onChange={handleInputChange}
-                            placeholder="Enter band member"
-                        />
-                        <button
-                            type="submit"
-                            className="border"
-                        >Add band member
-                        </button>
-                    </form>
-                    <ul>
-                        {members.map((member) => (
-                            <li
-                                key={member.id}
+                {signUpData.profileType === "band" && (
+                    <div className="mt-4">
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                className="border p-2 w-full rounded"
+                                type="text"
+                                value={inputValue}
+                                onChange={handleInputChange}
+                                placeholder="Enter band member"
+                            />
+                            <button
+                                type="submit"
+                                className="border mt-2 px-4 py-1 rounded"
                             >
-
-                                {member.text}
-                                <button
-                                    className="border rounded-full"
-                                    onClick={() => { handleDelete(member.id) }}
-                                >x
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                                Add band member
+                            </button>
+                        </form>
+                        <ul className="mt-2 space-y-1">
+                            {members.map((member) => (
+                                <li key={member.id} className="flex justify-between items-center border p-2 rounded">
+                                    {member.text}
+                                    <button
+                                        className="border px-2 py-0.5 rounded-full"
+                                        onClick={() => handleDelete(member.id)}
+                                    >
+                                        x
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
                 <button
                     onClick={handleContinue}

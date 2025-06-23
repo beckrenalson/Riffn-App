@@ -3,6 +3,7 @@ import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
 import { USERS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
+import SignUpStore from "../CreateProfile/SignUpStore";
 
 function BandSearch() {
   // const currentUser = {

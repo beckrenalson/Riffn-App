@@ -3,8 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserProfile from './components/UserProfile/UserProfile.jsx'
-import ProfileList from './components/Search/ProfileList.jsx';
-import UserSelection from './UserSelection.jsx'
+import UserSelection from './components/CreateProfile/UserSelection.jsx'
 import InstrumentSelection from './components/InstrumentSelection/IntrumentSelection.jsx'
 import InstrumentTypeList from './components/InstrumentSelection/InstrumentTypeList.jsx'
 import Login from './components/CreateProfile/Login.jsx';
