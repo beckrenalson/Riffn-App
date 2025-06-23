@@ -6,26 +6,8 @@ import Loading from "../Loading";
 import SignUpStore from "../CreateProfile/SignUpStore";
 
 function BandSearch() {
-  // const currentUser = {
-  //   profileImage: null,
-  //   userName: "",
-  //   firstName: "Liam",
-  //   lastName: "Patel",
-  //   email: "liam.patel@gmail.com",
-  //   password: "liamsecure456",
-  //   profileType: "solo",
-  //   selectedInstruments: ["Synth, Drums"],
-  //   selectedGenres: ["Pop Rock"],
-  //   location: "Tauranga",
-  //   openings: {
-  //     instruments: [],
-  //     genres: [],
-  //   },
-  //   bandMembers: [],
-  // };
 
   const currentUser = SignUpStore((state) => state.signUpData);
-
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 

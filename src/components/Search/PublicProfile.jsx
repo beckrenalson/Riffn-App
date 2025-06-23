@@ -14,7 +14,7 @@ function PublicProfile() {
             <div className="p-6 pt-4 space-y-6">
                 <div className="flex justify-center">
                     <img
-                        className="rounded-full w-32 h-32 object-cover border shadow"
+                        className="rounded-full w-32 h-32 object-cover border"
                         src={
                             typeof user?.profileImage === "string"
                                 ? `${API_URL}/${user.profileImage.replace(/\\/g, '/')}`
@@ -30,19 +30,27 @@ function PublicProfile() {
                     <p className="text-gray-500">{user?.contact || 'No contact listed'}</p>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg shadow space-y-2">
+                <div className="border p-4 rounded-lg space-y-2">
+                    {user?.profileType === "band" && (
+                        <div>
+                            <p className="text-sm font-semibold text-gray-500">Band members:</p>
+                            <p>{user?.bandMembers?.join(', ') || 'Not listed'}</p>
+                        </div>
+                    )}
                     <div>
-                        <p className="text-sm font-semibold text-gray-700">Band Members:</p>
-                        <p className="text-gray-800">{user?.bandMembers?.join(', ') || 'Not listed'}</p>
+                        <p className="text-sm font-semibold text-gray-500">
+                            {user?.profileType === "band" ? "Instruments needed:" : "Instruments played:"}
+                        </p>
+                        <p>{user?.selectedInstruments?.join(', ') || 'Not specified'}</p>
                     </div>
                     <div>
-                        <p className="text-sm font-semibold text-gray-700">Preferred Genres:</p>
-                        <p className="text-gray-800">{user?.openings?.genres?.join(', ') || 'Not specified'}</p>
+                        <p className="text-sm font-semibold text-gray-500">Preferred genres:</p>
+                        <p>{user?.selectedGenres?.join(', ') || 'Not specified'}</p>
                     </div>
                 </div>
 
                 <div className="space-y-4">
-                    <div className="border rounded p-4 bg-white shadow">
+                    <div className="border rounded-lg p-4">
                         <p className="text-sm text-gray-500 mb-2 font-semibold">Bio:</p>
                         <p>{user?.bio || "No bio provided."}</p>
                     </div>
