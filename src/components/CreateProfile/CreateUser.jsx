@@ -66,6 +66,7 @@ function CreateUser() {
         <>
             <BackBtn />
             <div className="min-h-screen p-4">
+
                 <div>
                     <label htmlFor="profile-pic" className="cursor-pointer">
                         <div className="w-32 h-32 rounded-full overflow-hidden border">
@@ -88,13 +89,6 @@ function CreateUser() {
                 </div>
 
                 <div>
-                    <SelectLocation
-                        signUpData={signUpData}
-                        handleChange={handleChange}
-                    />
-                </div>
-
-                <div>
                     <input
                         className="border p-2 w-full mt-4 rounded"
                         placeholder={`Enter ${signUpData.profileType} name`}
@@ -105,23 +99,32 @@ function CreateUser() {
                         name="userName"
                         disabled={useFullName}
                     />
-                    <div className="mt-4">
-                        <label className="flex items-center space-x-2">
-                            <input
-                                type="checkbox"
-                                checked={useFullName}
-                                onChange={(e) => {
-                                    setUseFullName(e.target.checked);
-                                    setSignUpData({
-                                        userName: e.target.checked
-                                            ? `${signUpData.firstName || ''} ${signUpData.lastName || ''}`
-                                            : ''
-                                    });
-                                }}
-                            />
-                            <span className="text-white">Use full name instead of a username</span>
-                        </label>
-                    </div>
+                    {signUpData.profileType === "solo" && (
+                        <div className="mt-4">
+                            <label className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    checked={useFullName}
+                                    onChange={(e) => {
+                                        setUseFullName(e.target.checked);
+                                        setSignUpData({
+                                            userName: e.target.checked
+                                                ? `${signUpData.firstName || ''} ${signUpData.lastName || ''}`
+                                                : ''
+                                        });
+                                    }}
+                                />
+                                <span className="text-white">Use full name instead of a username</span>
+                            </label>
+                        </div>
+                    )}
+                </div>
+
+                <div>
+                    <SelectLocation
+                        signUpData={signUpData}
+                        handleChange={handleChange}
+                    />
                 </div>
 
                 {signUpData.profileType === "band" && (
