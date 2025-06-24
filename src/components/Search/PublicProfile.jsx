@@ -1,7 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
 import BackBtn from "../BackBtn";
 import NavBar from "../NavBar";
-import API_URL from '../../config/api';
+import { API_URL } from '../../config/api';
 
 function PublicProfile() {
     const { state } = useLocation();

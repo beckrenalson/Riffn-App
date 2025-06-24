@@ -1,5 +1,5 @@
 import SignUpStore from "../CreateProfile/SignUpStore"
-import API_URL from "../../config/api";
+import { API_URL } from "../../config/api";
 
 function UserHeader({ userName }) {
 

@@ -38,13 +38,20 @@ const SignUpStore = create(persist(
     resetSignUpData: () =>
       set({
         signUpData: {
+          userName: "",
           firstName: "",
           lastName: "",
           email: "",
           password: "",
           profileType: "",
           selectedInstruments: [],
-          selectedGenres: []
+          selectedGenres: [],
+          location: "",
+          openings: {
+            instruments: [],
+            genres: []
+          },
+          bandMembers: []
         },
       }),
   }),

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import SignUpStore from "../CreateProfile/SignUpStore";
 
 function SignOut() {
 
@@ -6,6 +7,7 @@ function SignOut() {
 
     const signOut = () => {
         localStorage.removeItem("riffn-user-storage");
+        SignUpStore.getState().resetSignUpData()
         navigate("/")
     }
 
