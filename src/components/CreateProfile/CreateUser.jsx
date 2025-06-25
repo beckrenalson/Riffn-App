@@ -28,19 +28,16 @@ function CreateUser() {
         event.preventDefault();
         if (!inputValue.trim()) return;
 
-        const newMember = {
-            id: Date.now(),
-            text: inputValue,
-        }
-
-        setMembers([...members, newMember]);
+        const updatedMembers = [...members, inputValue.trim()]
+        setMembers(updatedMembers)
+        setBandMembers(updatedMembers);
         setInputValue("");
     }
 
-    function handleDelete(memberId) {
-        const updatedmembers = members.filter((member) => memberId !== member.id)
-
-        setMembers(updatedmembers);
+    function handleDelete(memberToRemove) {
+        const updatedMembers = members.filter((member) => member !== memberToRemove)
+        setMembers(updatedMembers)
+        setBandMembers(updatedMembers);
     }
 
     const handleImageChange = (e) => {
@@ -146,11 +143,11 @@ function CreateUser() {
                         </form>
                         <ul className="mt-2 space-y-1">
                             {members.map((member) => (
-                                <li key={member.id} className="flex justify-between items-center border p-2 rounded">
-                                    {member.text}
+                                <li key={member} className="flex justify-between items-center border p-2 rounded">
+                                    {member}
                                     <button
                                         className="border px-2 py-0.5 rounded-full"
-                                        onClick={() => handleDelete(member.id)}
+                                        onClick={() => handleDelete(member)}
                                     >
                                         x
                                     </button>

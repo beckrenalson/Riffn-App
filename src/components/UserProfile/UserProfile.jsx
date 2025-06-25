@@ -9,6 +9,7 @@ import SignUpStore from '../CreateProfile/SignUpStore';
 import { USERS_ENDPOINT } from '../../config/api';
 
 function UserProfile() {
+
   const userData = SignUpStore((state) => state.signUpData);
   const [isEditing, setIsEditing] = useState(false);
 
