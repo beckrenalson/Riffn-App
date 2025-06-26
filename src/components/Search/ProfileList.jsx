@@ -23,7 +23,7 @@ function ProfileList({ header, profiles }) {
                 {profiles.map((user, index) => (
                     <button
                         key={index}
-                        className="flex items-center border p-2 rounded-lg w-full mb-5 text-left"
+                        className="flex items-center border p-2 rounded-lg w-full mb-5 text-left bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition"
                         onClick={() => handleClick(user)}
                     >
                         <img

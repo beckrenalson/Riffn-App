@@ -4,6 +4,7 @@ import ProfileList from "./ProfileList";
 import { USERS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
 import SignUpStore from "../CreateProfile/SignUpStore";
+import BackBtn from "../BackBtn";
 
 function BandSearch() {
 
@@ -69,11 +70,33 @@ function BandSearch() {
 
   return (
     <>
-      <div>
-        <ProfileList header="Band openings" profiles={matches} />
+      <div className="min-h-screen bg-[#0d0d0d] text-white flex flex-col">
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-30 bg-[#121212] px-5 py-4 shadow-sm border-b border-gray-700">
+          <h1 className="text-2xl font-bold text-center tracking-tight">
+            Band Openings
+          </h1>
+          <p className="text-sm text-gray-400 text-center mt-1">
+            Matching local bands looking for musicians
+          </p>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+          {matches.length === 0 ? (
+            <div className="text-center text-gray-400 mt-10">
+              No band openings match your preferences yet.
+            </div>
+          ) : (
+            <ProfileList header="" profiles={matches} />
+          )}
+        </div>
+
+        {/* Sticky Footer Nav */}
+        <NavBar />
       </div>
-      <NavBar />
     </>
+
   );
 }
 

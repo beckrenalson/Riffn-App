@@ -69,10 +69,18 @@ function BandSearch() {
 
   return (
     <>
-      <div>
-        <ProfileList header="Solo artists looking for band" profiles={matches} />
+      <div className="min-h-screen">
+        <div className="sticky top-0 z-20 bg-[#1a1a1a] px-4 py-3">
+          <h1 className="text-3xl font-semibold text-white text-center tracking-tight">
+            Solo Musicians
+          </h1>
+        </div>
+
+        <div className="px-4 py-6">
+          <ProfileList header="" profiles={matches} />
+        </div>
+        <NavBar />
       </div>
-      <NavBar />
     </>
   );
 }
