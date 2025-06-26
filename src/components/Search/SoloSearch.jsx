@@ -69,16 +69,27 @@ function BandSearch() {
 
   return (
     <>
-      <div className="min-h-screen">
-        <div className="sticky top-0 z-20 bg-[#1a1a1a] px-4 py-3">
-          <h1 className="text-3xl font-semibold text-white text-center tracking-tight">
+      <div className="min-h-screen text-white flex flex-col">
+
+        <div className="sticky top-0 z-30 bg-[#121212] px-5 py-4 shadow-sm border-b border-gray-700">
+          <h1 className="text-2xl font-bold text-center tracking-tight">
             Solo Musicians
           </h1>
+          <p className="text-sm text-gray-400 text-center mt-1">
+            Matching local musicians looking for bands
+          </p>
         </div>
 
-        <div className="px-4 py-6">
-          <ProfileList header="" profiles={matches} />
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+          {matches.length === 0 ? (
+            <div className="text-center text-gray-400 mt-10">
+              No band openings match your preferences yet.
+            </div>
+          ) : (
+            <ProfileList header="" profiles={matches} />
+          )}
         </div>
+
         <NavBar />
       </div>
     </>

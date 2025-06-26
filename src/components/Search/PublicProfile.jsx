@@ -30,7 +30,7 @@ function PublicProfile() {
                     <p className="text-gray-500">{user?.contact || 'No contact listed'}</p>
                 </div>
 
-                <div className="border p-4 rounded-lg space-y-2">
+                <div className="border p-4 rounded-lg space-y-2 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
                     {user?.profileType === "band" && (
                         <div>
                             <p className="text-sm font-semibold text-gray-500">Band members:</p>
@@ -49,12 +49,12 @@ function PublicProfile() {
                     </div>
                 </div>
 
-                <div className="border rounded-lg p-4">
+                <div className="border rounded-lg p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Bio:</p>
                     <p>{user?.bio || "No bio provided."}</p>
                 </div>
 
-                <div className="border rounded-lg p-4">
+                <div className="border rounded-lg p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Music:</p>
                     <p>{user?.music || "No music provided."}</p>
                 </div>
