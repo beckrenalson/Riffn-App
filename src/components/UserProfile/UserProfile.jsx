@@ -47,7 +47,10 @@ function UserProfile() {
   return (
     <>
       <BackBtn />
-      <UserHeader userName={`${userData.firstName} ${userData.lastName}`} />
+      <UserHeader
+        userName={`${userData.firstName} ${userData.lastName}`}
+        bandName={userData.userName}
+      />
       <div className="flex flex-col items-center px-4 pt-4 pb-24">
         <div className="w-full max-w-md">
 
