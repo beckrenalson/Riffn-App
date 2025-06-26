@@ -63,7 +63,6 @@ function CreateUser() {
         <>
             <BackBtn />
             <div className="min-h-screen p-4">
-
                 <div>
                     <label htmlFor="profile-pic" className="cursor-pointer">
                         <div className="w-32 h-32 rounded-full overflow-hidden border">
@@ -71,7 +70,7 @@ function CreateUser() {
                                 <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center text-gray-500">
-                                    Upload
+                                    UPLOAD
                                 </div>
                             )}
                         </div>
@@ -117,7 +116,7 @@ function CreateUser() {
                     )}
                 </div>
 
-                <div>
+                <div className="mb-4">
                     <SelectLocation
                         signUpData={signUpData}
                         handleChange={handleChange}
@@ -141,7 +140,7 @@ function CreateUser() {
                                 Add band member
                             </button>
                         </form>
-                        <ul className="mt-2 space-y-1">
+                        <ul className="mt-4 space-y-1">
                             {members.map((member) => (
                                 <li key={member} className="flex justify-between items-center border p-2 rounded">
                                     {member}
@@ -156,6 +155,16 @@ function CreateUser() {
                         </ul>
                     </div>
                 )}
+
+                <div>
+                    <textarea
+                        className="border p-2 pt-2 w-full rounded h-40 mb-4 text-left"
+                        placeholder="Enter bio"
+                        value={signUpData.bio}
+                        onChange={handleChange}
+                        name="bio"
+                    />
+                </div>
 
                 <button
                     onClick={handleContinue}

@@ -21,6 +21,7 @@ function FinalSignUp() {
         formData.append("password", signUpData.password);
         formData.append("profileType", signUpData.profileType);
         formData.append("location", signUpData.location)
+        formData.append("bio", signUpData.bio)
 
         signUpData.selectedGenres.forEach((genre) => formData.append("selectedGenres[]", genre));
         signUpData.selectedInstruments.forEach((inst) => formData.append("selectedInstruments[]", inst));

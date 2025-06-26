@@ -20,6 +20,7 @@ const SignUpStore = create(
         },
         bandMembers: [],
         profileImage: null,
+        bio: ""
       },
 
       setProfileImage: (file) =>
@@ -61,6 +62,7 @@ const SignUpStore = create(
             },
             bandMembers: [],
             profileImage: null,
+            bio: ""
           },
         }),
     }),

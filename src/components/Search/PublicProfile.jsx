@@ -49,13 +49,16 @@ function PublicProfile() {
                     </div>
                 </div>
 
-                <div className="space-y-4">
-                    <div className="border rounded-lg p-4">
-                        <p className="text-sm text-gray-500 mb-2 font-semibold">Bio:</p>
-                        <p>{user?.bio || "No bio provided."}</p>
-                    </div>
+                <div className="border rounded-lg p-4">
+                    <p className="text-sm text-gray-500 mb-2 font-semibold">Bio:</p>
+                    <p>{user?.bio || "No bio provided."}</p>
                 </div>
-            </div>
+
+                <div className="border rounded-lg p-4">
+                    <p className="text-sm text-gray-500 mb-2 font-semibold">Music:</p>
+                    <p>{user?.music || "No music provided."}</p>
+                </div>
+            </div >
             <NavBar />
         </>
     );
