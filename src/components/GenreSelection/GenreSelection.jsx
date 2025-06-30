@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import BackBtn from "../BackBtn"
 import SubGenreList from "./SubGenreList"
 import SignUpStore from "../CreateProfile/SignUpStore";
@@ -7,12 +7,14 @@ import { SUBGENRES_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
 
 function GenreSelection() {
+    const [searchParams] = useSearchParams();
+    const from = searchParams.get("from");
     const [genresList, setGenresList] = useState([])
     let { type } = useParams();
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
     const navigate = useNavigate();
-    const [selectedGenres, setSelectedGenres] = useState([]);
+    const [selectedGenres, setSelectedGenres] = useState(signUpData.selectedGenres || []);
     const [loading, setLoading] = useState(false);
 
     const handleContine = async () => {
@@ -20,7 +22,11 @@ function GenreSelection() {
             ...signUpData,
             selectedGenres
         })
-        navigate("/signup/confirm")
+        if (from === "edit") {
+            navigate("/profile");   // or your profile route
+        } else {
+            navigate("/signup/confirm");
+        }
     }
 
 

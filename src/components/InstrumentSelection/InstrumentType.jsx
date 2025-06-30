@@ -1,22 +1,20 @@
 import { useNavigate } from "react-router-dom";
 
 function InstrumentType({ type }) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
-        navigate(`/signup/instruments/${type}`)
-    }
+        navigate(`/signup/instruments/${type}?from=edit`);
+    };
 
     return (
-        <>
-            <button
-                onClick={handleSubmit}
-                className="cursor-pointer border p-4 w-1/2 flex justify-center rounded-lg">
-                <p>{type}</p>
-            </button>
-
-        </>
-    )
+        <button
+            onClick={handleSubmit}
+            className="w-full text-white bg-[#1e1e1e] border border-gray-700 rounded-xl p-4 shadow-md hover:bg-[#2a2a2a] hover:shadow-lg transition-all duration-200 flex justify-center items-center"
+        >
+            <span className="text-lg font-medium tracking-wide">{type}</span>
+        </button>
+    );
 }
 
-export default InstrumentType
+export default InstrumentType;

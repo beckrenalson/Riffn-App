@@ -1,6 +1,6 @@
 import InstrumentList from "./InstrumentList"
 import BackBtn from "../BackBtn"
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SignUpStore from "../CreateProfile/SignUpStore";
 import { INSTRUMENTS_ENDPOINT } from "../../config/api";
@@ -8,9 +8,11 @@ import Loading from "../Loading";
 
 function InstrumentSelection() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const from = searchParams.get("from");
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
-    const [selectedInstruments, setSelectedInstruments] = useState([]);
+    const [selectedInstruments, setSelectedInstruments] = useState(signUpData.selectedInstruments || []);
     const [loading, setLoading] = useState(false);
 
     const handleContinue = () => {
@@ -18,7 +20,11 @@ function InstrumentSelection() {
             ...signUpData,
             selectedInstruments
         })
-        navigate("/signup/genres")
+        if (from === "edit") {
+            navigate("/profile");   // or your profile route
+        } else {
+            navigate("/signup/genres");
+        }
     };
 
     let { type } = useParams()

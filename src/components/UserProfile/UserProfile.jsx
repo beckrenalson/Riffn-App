@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
 import BackBtn from '../BackBtn';
@@ -9,6 +10,7 @@ import SignUpStore from '../CreateProfile/SignUpStore';
 import { USERS_ENDPOINT } from '../../config/api';
 
 function UserProfile() {
+  const navigate = useNavigate();
 
   const userData = SignUpStore((state) => state.signUpData);
   const [isEditing, setIsEditing] = useState(false);
@@ -21,8 +23,6 @@ function UserProfile() {
     password: userData?.password || '',
     location: userData?.location || '',
   });
-
-  if (!userData) return <div className="text-center mt-10">Loading...</div>;
 
   const handleSave = async () => {
     try {
@@ -133,6 +133,44 @@ function UserProfile() {
               )
             }
             icon="/images/eye.png"
+          />
+
+          <UserDetails
+            details={
+              isEditing ? (
+                <div className="flex justify-between items-center">
+                  <span>{userData.selectedInstruments?.join(", ") || "None selected"}</span>
+                  <button
+                    onClick={() => navigate("/signup/instruments?from=edit")}
+                    className="ml-3 text-blue-500 hover:underline text-sm"
+                  >
+                    Edit
+                  </button>
+                </div>
+              ) : (
+                userData.selectedInstruments?.join(", ") || "None selected"
+              )
+            }
+            icon="/images/guitar.png"
+          />
+
+          <UserDetails
+            details={
+              isEditing ? (
+                <div className="flex justify-between items-center">
+                  <span>{userData.selectedGenres?.join(", ") || "None selected"}</span>
+                  <button
+                    onClick={() => navigate("/signup/genres")}
+                    className="ml-3 text-blue-500 hover:underline text-sm"
+                  >
+                    Edit
+                  </button>
+                </div>
+              ) : (
+                userData.selectedGenres?.join(", ") || "None selected"
+              )
+            }
+            icon="/images/genre-icon.png"
           />
 
           <div className="flex gap-3 mt-4">
