@@ -12,12 +12,12 @@ function UserHeader({ userName, bandName }) {
                     <div>
                         <h1 className="text-4xl p-2">{userName}</h1>
                     </div>
-                    {userData.profileType === "solo" && (
+                    {/* {userData.profileType === "solo" && (
                         <div>
                             <h1 className="text-4xl p-2">{bandName}</h1>
                             <p>{userName}</p>
                         </div>
-                    )}
+                    )} */}
                 </div>
 
                 <div>

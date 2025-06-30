@@ -4,7 +4,6 @@ import ProfileList from "./ProfileList";
 import { USERS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
 import SignUpStore from "../CreateProfile/SignUpStore";
-import BackBtn from "../BackBtn";
 
 function BandSearch() {
 
@@ -34,23 +33,31 @@ function BandSearch() {
   }, []);
 
   const findMatchingBand = (currentUser, band) => {
-    const bandInstruments = band.openings.instruments || [];
-    const bandGenres = band.openings.genres || [];
+    const bandInstruments = band?.selectedInstruments || [];
+    const bandGenres = band?.selectedGenres || [];
     const bandLocation = band.location;
 
-    const { selectedInstruments: userInstruments, selectedGenres: userGenres, location: userLocation } = currentUser;
+    const {
+      selectedInstruments: userInstruments,
+      selectedGenres: userGenres,
+      location: userLocation
+    } = currentUser;
 
     const isInstrumentMatch = bandInstruments.some(instrument =>
       userInstruments.includes(instrument)
     );
 
-    const isGenreMatch = bandGenres.some(genre =>
-      userGenres.includes(genre)
-    );
+    if (!isInstrumentMatch) return false;
 
-    const isLocationMatch = userLocation === bandLocation;
+    const isGenreMatch =
+      userGenres.includes("All") || bandGenres.some(genre =>
+        userGenres.includes(genre)
+      );
 
-    return isLocationMatch;
+    const isLocationMatch =
+      userLocation === "All" || userLocation === bandLocation;
+
+    return isGenreMatch && isLocationMatch;
   };
 
   if (!currentUser || !currentUser.email) {

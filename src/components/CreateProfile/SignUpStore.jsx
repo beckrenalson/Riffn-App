@@ -14,10 +14,6 @@ const SignUpStore = create(
         selectedInstruments: [],
         selectedGenres: [],
         location: "",
-        openings: {
-          instruments: [],
-          genres: [],
-        },
         bandMembers: [],
         profileImage: null,
         bio: ""
@@ -56,10 +52,6 @@ const SignUpStore = create(
             selectedInstruments: [],
             selectedGenres: [],
             location: "",
-            openings: {
-              instruments: [],
-              genres: [],
-            },
             bandMembers: [],
             profileImage: null,
             bio: ""

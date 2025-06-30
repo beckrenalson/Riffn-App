@@ -33,24 +33,31 @@ function BandSearch() {
   }, []);
 
   const findMatchingBand = (currentUser, band) => {
-    const bandInstruments = band.openings.instruments || [];
-    const bandGenres = band.openings.genres || [];
+    const bandInstruments = band.openings?.instruments || [];
+    const bandGenres = band.openings?.genres || [];
     const bandLocation = band.location;
 
-    const { selectedInstruments: userInstruments, selectedGenres: userGenres, location: userLocation } = currentUser;
+    const {
+      selectedInstruments: userInstruments,
+      selectedGenres: userGenres,
+      location: userLocation,
+    } = currentUser;
 
     const isInstrumentMatch = bandInstruments.some(instrument =>
       userInstruments.includes(instrument)
     );
 
-    const isGenreMatch = bandGenres.some(genre =>
-      userGenres.includes(genre)
-    );
+    const isGenreMatch =
+      userGenres.includes("All") || bandGenres.some(genre =>
+        userGenres.includes(genre)
+      );
 
-    const isLocationMatch = userLocation === bandLocation;
+    const isLocationMatch =
+      userLocation === "All" || userLocation === bandLocation;
 
-    return isLocationMatch;
+    return isInstrumentMatch && isGenreMatch && isLocationMatch;
   };
+
 
   if (!currentUser || !currentUser.email) {
     return <div className="text-white p-4">Please sign in to view matches.</div>;
@@ -83,7 +90,7 @@ function BandSearch() {
         <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
           {matches.length === 0 ? (
             <div className="text-center text-gray-400 mt-10">
-              No band openings match your preferences yet.
+              No musicians match your preferences yet.
             </div>
           ) : (
             <ProfileList header="" profiles={matches} />
