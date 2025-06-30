@@ -64,7 +64,7 @@ const SignUpStore = create(
     }),
     {
       name: "riffn-user-storage",
-      partialize: (state) => ({ signUpData: state.signUpData }),
+      partialize: (state) => ({ signUpData: state.signUpData, isEditing: state.isEditing }),
     }
   )
 );
