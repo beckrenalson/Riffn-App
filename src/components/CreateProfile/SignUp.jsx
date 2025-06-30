@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import SignUpStore from "./SignUpStore";
 
 
@@ -22,6 +23,10 @@ function SignUp() {
     e.preventDefault();
     navigate("/signup/userselection")
   };
+
+  useEffect(() => {
+    SignUpStore.getState().setIsEditing(false);
+  }, []);
 
   return (
     <>

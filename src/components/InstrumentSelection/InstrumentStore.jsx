@@ -5,9 +5,10 @@ const InstrumentStore = create(persist(
     (set) => ({
         selectedInstruments: [],
         setSelectedInstruments: (instruments) => set({ selectedInstruments: instruments }),
+        clearSelectedInstruments: () => set({ selectedInstruments: [] }),
     }),
     {
-        name: "selected-instruments-storage", // unique key in localStorage
+        name: "selected-instruments-storage",
     }
 ));
 

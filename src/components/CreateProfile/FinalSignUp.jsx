@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import SignUpStore from "./SignUpStore";
 import { USERS_ENDPOINT } from "../../config/api";
+import BackBtn from "../BackBtn";
 
 function FinalSignUp() {
     const navigate = useNavigate()
@@ -56,6 +57,7 @@ function FinalSignUp() {
 
     return (
         <>
+            <BackBtn />
             <p>User/Band name:</p> {signUpData.userName}
             <p>Name: {signUpData.firstName + " " + signUpData.lastName}</p>
             <p>Email: {signUpData.email}</p>

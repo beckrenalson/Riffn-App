@@ -1,11 +1,16 @@
 import { useNavigate } from "react-router-dom"
+import SignUpStore from "../CreateProfile/SignUpStore"
 
 function Genre({ genre }) {
     const navigate = useNavigate()
+    const isEditing = SignUpStore((state) => state.isEditing);
 
     const handleSubmit = () => {
-        navigate(`/signup/genres/${genre}?from=edit`)
-    }
+        const url = isEditing
+            ? `/signup/genres/${genre}?from=edit`
+            : `/signup/genres/${genre}`;
+        navigate(url);
+    };
 
     return (
         <>

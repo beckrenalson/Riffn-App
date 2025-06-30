@@ -1,10 +1,15 @@
 import { useNavigate } from "react-router-dom";
+import SignUpStore from "../CreateProfile/SignUpStore";
 
 function InstrumentType({ type }) {
     const navigate = useNavigate();
+    const isEditing = SignUpStore((state) => state.isEditing);
 
     const handleSubmit = () => {
-        navigate(`/signup/instruments/${type}?from=edit`);
+        const url = isEditing
+            ? `/signup/instruments/${type}?from=edit`
+            : `/signup/instruments/${type}`;
+        navigate(url);
     };
 
     return (

@@ -1,7 +1,9 @@
 import BackBtn from "../BackBtn"
 import Genre from "./Genre"
+import GenreStore from "./GenreStore";
 
 function GenreList() {
+    const clearSelectedGenres = GenreStore((state) => state.clearSelectedGenres);
 
     return (
         <>
@@ -27,6 +29,13 @@ function GenreList() {
                     <Genre genre="World" />
                     <Genre genre="Other" />
                 </div>
+
+                <button
+                    onClick={clearSelectedGenres}
+                    className="mt-10 text-sm text-red-400 underline hover:text-red-300"
+                >
+                    Clear All Selections
+                </button>
             </div>
         </>
     )

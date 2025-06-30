@@ -1,7 +1,11 @@
 import BackBtn from "../BackBtn";
 import InstrumentType from "./InstrumentType";
+import InstrumentStore from "./InstrumentStore";
+
 
 function InstrumentTypeList() {
+    const clearSelectedInstruments = InstrumentStore((state) => state.clearSelectedInstruments);
+
     return (
         <>
             <BackBtn />
@@ -23,6 +27,13 @@ function InstrumentTypeList() {
                     <InstrumentType type="Electronic" />
                     <InstrumentType type="Vocals" />
                 </div>
+
+                <button
+                    onClick={clearSelectedInstruments}
+                    className="mt-10 text-sm text-red-400 underline hover:text-red-300"
+                >
+                    Clear All Selections
+                </button>
             </div>
         </>
     );

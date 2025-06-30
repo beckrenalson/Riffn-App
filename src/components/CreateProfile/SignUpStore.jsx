@@ -35,6 +35,10 @@ const SignUpStore = create(
           },
         })),
 
+      isEditing: false,
+
+      setIsEditing: (bool) => set({ isEditing: bool }),
+
       setSignUpData: (data) =>
         set((state) => ({
           signUpData: { ...state.signUpData, ...data },

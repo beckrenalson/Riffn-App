@@ -5,9 +5,10 @@ const GenreStore = create(persist(
     (set) => ({
         selectedGenres: [],
         setSelectedGenres: (genres) => set({ selectedGenres: genres }),
+        clearSelectedGenres: () => set({ selectedGenres: [] }),
     }),
     {
-        name: "selected-genres-storage", // unique key in localStorage
+        name: "selected-genres-storage",
     }
 ));
 

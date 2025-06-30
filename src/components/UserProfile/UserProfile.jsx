@@ -36,6 +36,7 @@ function UserProfile() {
         const updatedData = await response.json();
         SignUpStore.getState().setSignUpData(updatedData);
         setIsEditing(false);
+        SignUpStore.getState().setIsEditing(false);
       } else {
         console.error("Failed to update");
       }
@@ -176,14 +177,24 @@ function UserProfile() {
           <div className="flex gap-3 mt-4">
             <button
               className="flex-1 bg-gray-500 text-white rounded px-4 py-2"
-              onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+              onClick={() => {
+                if (isEditing) {
+                  handleSave();
+                } else {
+                  setIsEditing(true);
+                  SignUpStore.getState().setIsEditing(true);
+                }
+              }}
             >
               {isEditing ? "Save Changes" : "Edit Profile"}
             </button>
             {isEditing && (
               <button
                 className="flex-1 border border-gray-300 rounded px-4 py-2"
-                onClick={() => setIsEditing(false)}
+                onClick={() => {
+                  setIsEditing(false);
+                  SignUpStore.getState().setIsEditing(false);
+                }}
               >
                 Cancel
               </button>
