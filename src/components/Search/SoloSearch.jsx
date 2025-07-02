@@ -5,7 +5,7 @@ import { USERS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
 import SignUpStore from "../CreateProfile/SignUpStore";
 
-function BandSearch() {
+function SoloSearch() {
 
   const currentUser = SignUpStore((state) => state.signUpData);
   const [users, setUsers] = useState([]);
@@ -32,9 +32,9 @@ function BandSearch() {
     fetchUsers();
   }, []);
 
-  const findMatchingBand = (currentUser, band) => {
-    const bandInstruments = band.openings?.instruments || [];
-    const bandGenres = band.openings?.genres || [];
+  const findMatchingUser = (currentUser, band) => {
+    const bandInstruments = band?.selectedInstruments || [];
+    const bandGenres = band?.selectedGenres || [];
     const bandLocation = band.location;
 
     const {
@@ -64,7 +64,7 @@ function BandSearch() {
   }
 
   const solos = users.filter(user => user.profileType === "solo");
-  const matches = solos.filter(solo => findMatchingBand(currentUser, solo));
+  const matches = solos.filter(solo => findMatchingUser(currentUser, solo));
 
   console.log(matches)
 
@@ -103,4 +103,4 @@ function BandSearch() {
   );
 }
 
-export default BandSearch;
+export default SoloSearch;
