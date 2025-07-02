@@ -17,13 +17,14 @@ function GenreSelection() {
     const [selectedGenres, setSelectedGenres] = useState(signUpData.selectedGenres || []);
     const [loading, setLoading] = useState(false);
 
-    const handleContine = async () => {
+    const handleContinue = async () => {
         setSignUpData({
             ...signUpData,
             selectedGenres
         })
         if (from === "edit") {
-            navigate("/profile");   // or your profile route
+            SignUpStore.getState().setIsEditing(true);
+            navigate("/profile", { state: { stayEditing: true, selectedGenres } });
         } else {
             navigate("/signup/confirm");
         }
@@ -65,7 +66,7 @@ function GenreSelection() {
                 </div>
                 <button
                     className="flex items-center fixed bottom-10 w-fit border p-2 bg-black"
-                    onClick={handleContine}
+                    onClick={handleContinue}
                     disabled={selectedGenres.length === 0}>
                     Continue
                 </button>

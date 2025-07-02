@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
@@ -13,6 +13,8 @@ function UserProfile() {
   const navigate = useNavigate();
 
   const userData = SignUpStore((state) => state.signUpData);
+  const globalIsEditing = SignUpStore((state) => state.isEditing);
+  const setGlobalIsEditing = SignUpStore((state) => state.setIsEditing);
   const [isEditing, setIsEditing] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -21,9 +23,25 @@ function UserProfile() {
     lastName: userData?.lastName || '',
     email: userData?.email || '',
     location: userData?.location || '',
-    selectedInstruments: userData?.selectedInstruments || '',
-    selectedGenres: userData?.selectedGenres || ''
+    selectedInstruments: userData?.selectedInstruments || [],
+    selectedGenres: userData?.selectedGenres || []
   });
+
+  useEffect(() => {
+    setIsEditing(globalIsEditing);
+  }, [globalIsEditing]);
+
+  useEffect(() => {
+    setFormData({
+      _id: userData?._id,
+      firstName: userData?.firstName || '',
+      lastName: userData?.lastName || '',
+      email: userData?.email || '',
+      location: userData?.location || '',
+      selectedInstruments: userData?.selectedInstruments || [],
+      selectedGenres: userData?.selectedGenres || []
+    });
+  }, [userData]);
 
   const [password, setPassword] = useState("");
 
@@ -192,7 +210,7 @@ function UserProfile() {
                   handleSave();
                 } else {
                   setIsEditing(true);
-                  SignUpStore.getState().setIsEditing(true);
+                  setGlobalIsEditing(true);
                 }
               }}
             >
@@ -203,7 +221,7 @@ function UserProfile() {
                 className="flex-1 border border-gray-300 rounded px-4 py-2"
                 onClick={() => {
                   setIsEditing(false);
-                  SignUpStore.getState().setIsEditing(false);
+                  setGlobalIsEditing(false);
                 }}
               >
                 Cancel

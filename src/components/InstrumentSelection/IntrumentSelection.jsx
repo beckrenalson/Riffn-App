@@ -21,7 +21,8 @@ function InstrumentSelection() {
             selectedInstruments
         })
         if (from === "edit") {
-            navigate("/profile");   // or your profile route
+            SignUpStore.getState().setIsEditing(true);
+            navigate("/profile", { state: { stayEditing: true, selectedInstruments } });
         } else {
             navigate("/signup/genres");
         }
