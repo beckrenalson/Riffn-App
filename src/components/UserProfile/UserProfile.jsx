@@ -180,7 +180,7 @@ function UserProfile() {
                 userData.selectedInstruments?.join(", ") || "None selected"
               )
             }
-            icon="/images/guitar.png"
+            icon="/images/instruments/guitar.png"
           />
 
           <UserDetails
@@ -199,7 +199,7 @@ function UserProfile() {
                 userData.selectedGenres?.join(", ") || "None selected"
               )
             }
-            icon="/images/genre-icon.png"
+            icon="/images/music-alt.png"
           />
 
           <div className="flex gap-3 mt-4">

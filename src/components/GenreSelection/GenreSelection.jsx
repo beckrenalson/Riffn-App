@@ -17,7 +17,7 @@ function GenreSelection() {
     const [selectedGenres, setSelectedGenres] = useState(signUpData.selectedGenres || []);
     const [loading, setLoading] = useState(false);
 
-    const handleContinue = async () => {
+    const handleContinue = () => {
         setSignUpData({
             ...signUpData,
             selectedGenres
