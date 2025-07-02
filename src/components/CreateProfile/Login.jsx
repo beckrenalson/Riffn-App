@@ -36,7 +36,7 @@ function Login() {
       SignUpStore.getState().setSignUpData(data.user);
       localStorage.setItem("riffn-user-storage", JSON.stringify(data.user));
 
-      if (signUpData.profileType === "solo") {
+      if (data.user.profileType === "solo") {
         navigate("/search/band");
       } else {
         navigate("/search/solo")

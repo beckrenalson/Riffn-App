@@ -20,18 +20,24 @@ function UserProfile() {
     firstName: userData?.firstName || '',
     lastName: userData?.lastName || '',
     email: userData?.email || '',
-    password: userData?.password || '',
     location: userData?.location || '',
     selectedInstruments: userData?.selectedInstruments || '',
     selectedGenres: userData?.selectedGenres || ''
   });
 
+  const [password, setPassword] = useState("");
+
   const handleSave = async () => {
     try {
+      const payload = { ...formData };
+      if (password) {
+        payload.password = password;
+      }
+
       const response = await fetch(`${USERS_ENDPOINT}/${userData._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -39,6 +45,7 @@ function UserProfile() {
         SignUpStore.getState().setSignUpData(updatedData);
         setIsEditing(false);
         SignUpStore.getState().setIsEditing(false);
+        setPassword(""); // Clear temp password field
       } else {
         console.error("Failed to update");
       }
@@ -128,8 +135,9 @@ function UserProfile() {
                 <input
                   className="w-full border rounded px-3 py-2"
                   type="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter new password"
                 />
               ) : (
                 '••••••••'
