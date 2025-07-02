@@ -110,7 +110,7 @@ function CreateUser() {
                                         });
                                     }}
                                 />
-                                <span className="text-white">Use full name instead of a username</span>
+                                <span>Use full name instead of a username</span>
                             </label>
                         </div>
                     )}

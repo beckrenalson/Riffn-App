@@ -22,6 +22,8 @@ function UserProfile() {
     email: userData?.email || '',
     password: userData?.password || '',
     location: userData?.location || '',
+    selectedInstruments: userData?.selectedInstruments || '',
+    selectedGenres: userData?.selectedGenres || ''
   });
 
   const handleSave = async () => {
@@ -140,7 +142,7 @@ function UserProfile() {
             details={
               isEditing ? (
                 <div className="flex justify-between items-center">
-                  <span>{userData.selectedInstruments?.join(", ") || "None selected"}</span>
+                  <span>{formData.selectedInstruments?.join(", ") || "None selected"}</span>
                   <button
                     onClick={() => navigate("/signup/instruments?from=edit")}
                     className="ml-3 text-blue-500 hover:underline text-sm"
@@ -159,7 +161,7 @@ function UserProfile() {
             details={
               isEditing ? (
                 <div className="flex justify-between items-center">
-                  <span>{userData.selectedGenres?.join(", ") || "None selected"}</span>
+                  <span>{formData.selectedGenres?.join(", ") || "None selected"}</span>
                   <button
                     onClick={() => navigate("/signup/genres")}
                     className="ml-3 text-blue-500 hover:underline text-sm"
