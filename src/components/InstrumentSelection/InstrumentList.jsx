@@ -21,8 +21,8 @@ function InstrumentList({ instruments, onSelectionChange }) {
                     onClick={() => toggleSelection(instrument.name)}
                     className="flex flex-col items-center p-2"
                 >
-                    <div className={`rounded-full border-2 p-5 transition-colors ${selectedInstruments.includes(instrument.name)
-                        ? "bg-purple-400"
+                    <div className={`rounded-full border-2 p-5 border-gray-500 ${selectedInstruments.includes(instrument.name)
+                        ? "bg-gray-800"
                         : "bg-transparent"
                         }`}>
                         <img className="w-16" src={instrument.icon} alt="" style={{ filter: 'invert(1)' }} />

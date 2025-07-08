@@ -20,8 +20,8 @@ function SubGenreList({ genres, onSelectionChange }) {
                     key={index}
                     onClick={() => toggleSelection(genre.name)}
                 >
-                    <div className={`cursor-pointer border p-4 rounded-lg w-full transition-colors ${selectedGenres.includes(genre.name)
-                        ? "bg-purple-400"
+                    <div className={`w-full text-white border border-gray-500 rounded-xl p-4 flex justify-center items-center ${selectedGenres.includes(genre.name)
+                        ? "bg-gray-800"
                         : "bg-transparent"
                         }`}>
                         <p>{genre.name}</p>

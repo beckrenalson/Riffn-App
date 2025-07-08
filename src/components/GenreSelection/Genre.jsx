@@ -16,7 +16,7 @@ function Genre({ genre }) {
         <>
             <button
                 onClick={handleSubmit}
-                className="w-full text-white bg-[#1e1e1e] border border-gray-700 rounded-xl p-4 shadow-md hover:bg-[#2a2a2a] hover:shadow-lg transition-all duration-200 flex justify-center items-center"
+                className="w-full text-white border border-gray-500 rounded-xl p-4 flex justify-center items-center"
             >
                 <span className="text-lg font-medium tracking-wide">{genre}</span>
             </button>

@@ -8,7 +8,7 @@ function GenreList() {
     return (
         <>
             <BackBtn />
-            <div className="flex flex-col items-center px-4 pt-8">
+            <div className="flex flex-col items-center px-4 pt-8 mb-10">
                 <div className="max-w-md text-center mb-10">
                     <h1 className="text-2xl font-bold text-white mb-2">
                         What kind of genres do you play?

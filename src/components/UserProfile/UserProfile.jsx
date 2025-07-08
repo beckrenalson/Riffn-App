@@ -63,7 +63,7 @@ function UserProfile() {
         SignUpStore.getState().setSignUpData(updatedData);
         setIsEditing(false);
         SignUpStore.getState().setIsEditing(false);
-        setPassword(""); // Clear temp password field
+        setPassword("");
       } else {
         console.error("Failed to update");
       }
