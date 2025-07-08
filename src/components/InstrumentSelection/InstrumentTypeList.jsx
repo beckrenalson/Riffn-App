@@ -30,7 +30,7 @@ function InstrumentTypeList() {
 
                 <button
                     onClick={clearSelectedInstruments}
-                    className="mt-10 text-sm text-red-400 underline hover:text-red-300"
+                    className="mt-8 px-4 py-3 w-full text-base font-medium text-red-600 bg-red-100 rounded-xl shadow-sm hover:bg-red-200 active:bg-red-300 transition-all"
                 >
                     Clear All Selections
                 </button>
