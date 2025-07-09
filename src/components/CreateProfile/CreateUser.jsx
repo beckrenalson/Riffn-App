@@ -65,7 +65,7 @@ function CreateUser() {
             <div className="min-h-screen p-4">
                 <div>
                     <label htmlFor="profile-pic" className="cursor-pointer">
-                        <div className="w-32 h-32 rounded-full overflow-hidden border">
+                        <div className="w-32 h-32 rounded-full overflow-hidden border border-gray-500">
                             {preview ? (
                                 <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                             ) : (
@@ -86,7 +86,7 @@ function CreateUser() {
 
                 <div>
                     <input
-                        className="border p-2 w-full mt-4 rounded"
+                        className="border border-gray-500 p-2 w-full mt-4 rounded"
                         placeholder={`Enter ${signUpData.profileType} name`}
                         type="text"
                         value={signUpData.userName}
@@ -127,7 +127,7 @@ function CreateUser() {
                     <div className="mt-4">
                         <form onSubmit={handleSubmit}>
                             <input
-                                className="border p-2 w-full rounded"
+                                className="border border-gray-500 p-2 w-full rounded"
                                 type="text"
                                 value={inputValue}
                                 onChange={handleInputChange}
@@ -135,14 +135,14 @@ function CreateUser() {
                             />
                             <button
                                 type="submit"
-                                className="border mt-2 px-4 py-1 rounded"
+                                className="border border-gray-500 mt-2 px-4 py-1 rounded"
                             >
                                 Add band member
                             </button>
                         </form>
                         <ul className="mt-4 space-y-1">
                             {members.map((member) => (
-                                <li key={member} className="flex justify-between items-center border p-2 rounded">
+                                <li key={member} className="flex justify-between items-center border border-gray-500 p-2 rounded">
                                     {member}
                                     <button
                                         className="border px-2 py-0.5 rounded-full"
@@ -158,7 +158,7 @@ function CreateUser() {
 
                 <div>
                     <textarea
-                        className="border p-2 pt-2 w-full rounded h-40 mb-4 text-left"
+                        className="border border-gray-500 p-2 pt-2 w-full rounded h-40 mb-4 text-left"
                         placeholder="Enter bio"
                         value={signUpData.bio}
                         onChange={handleChange}

@@ -4,7 +4,7 @@ function SelectLocation({ signUpData, handleChange }) {
             name="location"
             value={signUpData.location}
             onChange={handleChange}
-            className="w-full p-3 mt-4 rounded bg-black text-white border border-gray-600"
+            className="w-full p-3 mt-4 rounded bg-[#0a0a0a] text-white border border-gray-500"
         >
             <option value="">Select a location</option>
             <option value="All">All</option>

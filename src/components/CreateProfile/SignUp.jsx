@@ -43,7 +43,7 @@ function SignUp() {
                 onChange={handleChange}
                 required
                 placeholder="First Name"
-                className="w-full pl-4 p-2 border rounded-lg focus:outline-none"
+                className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
             </div>
             <div>
@@ -54,7 +54,7 @@ function SignUp() {
                 onChange={handleChange}
                 required
                 placeholder="Last Name"
-                className="w-full pl-4 p-2 border rounded-lg focus:outline-none"
+                className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
             </div>
             <div>
@@ -65,7 +65,7 @@ function SignUp() {
                 onChange={handleChange}
                 required
                 placeholder="Email"
-                className="w-full pl-4 p-2 border rounded-lg focus:outline-none"
+                className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
             </div>
             <div>
@@ -76,7 +76,7 @@ function SignUp() {
                 onChange={handleChange}
                 required
                 placeholder="Password"
-                className="w-full pl-4 p-2 border rounded-lg focus:outline-none"
+                className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
             </div>
             <button
