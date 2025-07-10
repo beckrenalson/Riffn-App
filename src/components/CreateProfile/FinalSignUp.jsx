@@ -58,19 +58,60 @@ function FinalSignUp() {
     return (
         <>
             <BackBtn />
-            <p>User/Band name:</p> {signUpData.userName}
-            <p>Name: {signUpData.firstName + " " + signUpData.lastName}</p>
-            <p>Email: {signUpData.email}</p>
-            <p>Instruments Played: {signUpData.selectedInstruments.join(', ')}</p>
-            <p>Genres Played: {signUpData.selectedGenres.join(', ')}</p>
-            <p>Location: {signUpData.location}</p>
-            <p>Members: {signUpData.bandMembers.map((member) => member.name).join(', ')}</p>
-            <div className="flex items-center justify-center h-screen">
+
+            <div className="mt-10 mx-4 shadow-xl rounded-2xl border border-gray-500 p-6 space-y-2">
+                <h2 className="text-2xl font-bold text-center">Review Your Details</h2>
+
+                <div>
+                    <p className="text-sm text-gray-500">User/Band Name:</p>
+                    <p className="text-lg font-medium">{signUpData.userName}</p>
+                </div>
+
+                <div>
+                    <p className="text-sm text-gray-500">Full Name:</p>
+                    <p className="text-lg font-medium">{signUpData.firstName + " " + signUpData.lastName}</p>
+                </div>
+
+                <div>
+                    <p className="text-sm text-gray-500">Email:</p>
+                    <p className="text-lg font-medium">{signUpData.email}</p>
+                </div>
+
+                <div>
+                    <p className="text-sm text-gray-500">Instruments Played:</p>
+                    <p className="text-lg font-medium">{signUpData.selectedInstruments.join(', ')}</p>
+                </div>
+
+                <div>
+                    <p className="text-sm text-gray-500">Genres Played:</p>
+                    <p className="text-lg font-medium">{signUpData.selectedGenres.join(', ')}</p>
+                </div>
+
+                <div>
+                    <p className="text-sm text-gray-500">Location:</p>
+                    <p className="text-lg font-medium">{signUpData.location}</p>
+                </div>
+
+                {signUpData.bandMembers.length > 0 && (
+                    <div>
+                        <p className="text-sm text-gray-500">Band Members:</p>
+                        <p className="text-lg font-medium">
+                            {signUpData.bandMembers.map((member) => member.name).join(', ')}
+                        </p>
+                    </div>
+                )}
+            </div>
+
+            <div className="flex justify-center mt-8 mb-20">
                 <button
                     onClick={handleSubmit}
-                    className="border p-2">SIGN UP</button>
+                    className="bg-gray-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow-md transition-all duration-200"
+                >
+                    Sign Up
+                </button>
             </div>
         </>
+
     )
 }
 
