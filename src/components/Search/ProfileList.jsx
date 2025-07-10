@@ -28,9 +28,12 @@ function ProfileList({ header, profiles }) {
                     >
                         <img
                             className="rounded-full w-20 h-20 object-cover"
-                            src={typeof user.profileImage === "string"
-                                ? `${API_URL}/${user.profileImage.replace(/\\/g, '/')}`
-                                : "/images/profilepicture.png"}
+                            src={
+                                typeof user.profileImage === "string"
+                                    ? `${API_URL}${user.profileImage.startsWith('/') ? user.profileImage : '/' + user.profileImage}`
+                                    : "/images/profilepicture.png"
+                            }
+
                             alt="Profile"
                         />
                         <div className="pl-4 flex flex-col justify-center">

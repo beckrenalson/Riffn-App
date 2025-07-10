@@ -18,9 +18,13 @@ function InstrumentTypeList() {
                             What kind of instruments do you play?
                         </h1>
                     )}
-                    <h1 className="text-2xl font-bold text-white mb-2">
-                        What kind of instruments does your band need?
-                    </h1>
+
+                    {signUpData.profileType === "band" && (
+                        <h1 className="text-2xl font-bold text-white mb-2">
+                            What kind of instruments does your band need?
+                        </h1>
+                    )}
+
                     <p className="text-sm text-gray-400">
                         Choose an instrument type to explore options and make your selection.
                     </p>
