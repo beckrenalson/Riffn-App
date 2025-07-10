@@ -1,13 +1,33 @@
 import { useState, useEffect } from "react";
 import SignUpStore from "./SignUpStore";
+import { API_URL } from "../../config/api";
 
 function ProfileImageUpload() {
     const [preview, setPreview] = useState(null);
     const setProfileImage = SignUpStore((state) => state.setProfileImage);
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         const file = e.target.files?.[0]; // safe check for optional chaining
         if (!file) return;
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            const response = await fetch(`${API_URL}/api/uploads`, {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setProfileImage(`/uploads/${data.filename}`);
+            } else {
+                console.error("Upload failed");
+            }
+        } catch (err) {
+            console.error("Error uploading image", err);
+        }
 
         // Clean up previous preview URL if any
         if (preview) {
@@ -16,7 +36,6 @@ function ProfileImageUpload() {
 
         const objectUrl = URL.createObjectURL(file);
         setPreview(objectUrl);
-        setProfileImage(file);
     };
 
     useEffect(() => {

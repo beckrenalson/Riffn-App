@@ -2,26 +2,24 @@ import SignUpStore from "../CreateProfile/SignUpStore";
 import ProfileImageUpload from "../CreateProfile/ProfileImageUpload";
 import { API_URL } from "../../config/api";
 
-function UserHeader({ isEditing }) {
+function UserHeader({ isEditing, profileImage, setImage }) {
     const userData = SignUpStore((state) => state.signUpData);
 
-    const profileImageSrc =
-        typeof userData.profileImage === "string"
-            ? `${API_URL}/${userData.profileImage.replace(/\\/g, "/")}`
-            : "/images/profilepicture.png";
+    const imageSrc = profileImage
+        ? `${API_URL}${profileImage.startsWith('/') ? profileImage : '/' + profileImage}`
+        : "/images/profilepicture.png";
 
     return (
         <div className="flex flex-col items-center space-y-2 pb-4">
             {isEditing ? (
-                <ProfileImageUpload />
+                <ProfileImageUpload setImage={setImage} />
             ) : (
                 <img
-                    src={profileImageSrc}
+                    src={imageSrc}
                     alt="Profile"
                     className="w-32 h-32 rounded-full object-cover"
                 />
             )}
-
             <div className="text-center">
                 <h1 className="text-xl font-semibold">
                     {userData.firstName} {userData.lastName}

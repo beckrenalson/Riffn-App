@@ -9,8 +9,6 @@ import SelectLocation from '../CreateProfile/SelectLocation';
 import SignUpStore from '../CreateProfile/SignUpStore';
 import { USERS_ENDPOINT } from '../../config/api';
 import BandMembersInput from '../CreateProfile/BandMembersInput';
-import ProfileImageUpload from '../CreateProfile/ProfileImageUpload';
-import { API_URL } from '../../config/api';
 
 function UserProfile() {
   const navigate = useNavigate();
@@ -29,7 +27,8 @@ function UserProfile() {
     location: userData?.location || '',
     bandMembers: userData?.bandMembers || [],
     selectedInstruments: userData?.selectedInstruments || [],
-    selectedGenres: userData?.selectedGenres || []
+    selectedGenres: userData?.selectedGenres || [],
+    profileImage: userData?.profileImage || ''
   });
 
   useEffect(() => {
@@ -45,7 +44,8 @@ function UserProfile() {
       location: userData?.location || '',
       bandMembers: userData?.bandMembers || [],
       selectedInstruments: userData?.selectedInstruments || [],
-      selectedGenres: userData?.selectedGenres || []
+      selectedGenres: userData?.selectedGenres || [],
+      profileImage: userData?.profileImage || ''
     });
   }, [userData]);
 
@@ -81,7 +81,11 @@ function UserProfile() {
   return (
     <>
       <BackBtn />
-      <UserHeader isEditing={isEditing} />
+      <UserHeader
+        isEditing={isEditing}
+        profileImage={formData.profileImage}
+        setImage={(image) => setFormData({ ...formData, profileImage: image })}
+      />
 
       <div className="flex flex-col items-center px-4 pt-4 pb-24">
         <div className="w-full max-w-md">
