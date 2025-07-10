@@ -1,37 +1,35 @@
-import SignUpStore from "../CreateProfile/SignUpStore"
+import SignUpStore from "../CreateProfile/SignUpStore";
+import ProfileImageUpload from "../CreateProfile/ProfileImageUpload";
 import { API_URL } from "../../config/api";
 
-function UserHeader({ userName, bandName }) {
-
+function UserHeader({ isEditing }) {
     const userData = SignUpStore((state) => state.signUpData);
 
-    return (
-        <>
-            <div className='flex-col flex items-center'>
-                <div>
-                    <div>
-                        <h1 className="text-4xl p-2">{userName}</h1>
-                    </div>
-                    {/* {userData.profileType === "solo" && (
-                        <div>
-                            <h1 className="text-4xl p-2">{bandName}</h1>
-                            <p>{userName}</p>
-                        </div>
-                    )} */}
-                </div>
+    const profileImageSrc =
+        typeof userData.profileImage === "string"
+            ? `${API_URL}/${userData.profileImage.replace(/\\/g, "/")}`
+            : "/images/profilepicture.png";
 
-                <div>
-                    <img
-                        src={typeof userData.profileImage === "string"
-                            ? `${API_URL}/${userData.profileImage.replace(/\\/g, '/')}`
-                            : "/images/profilepicture.png"}
-                        alt="Profile"
-                        className="w-30 h-30 rounded-full object-cover"
-                    />
-                </div>
+    return (
+        <div className="flex flex-col items-center space-y-2 pb-4">
+            {isEditing ? (
+                <ProfileImageUpload />
+            ) : (
+                <img
+                    src={profileImageSrc}
+                    alt="Profile"
+                    className="w-32 h-32 rounded-full object-cover"
+                />
+            )}
+
+            <div className="text-center">
+                <h1 className="text-xl font-semibold">
+                    {userData.firstName} {userData.lastName}
+                </h1>
+                <p className="text-gray-600">@{userData.userName}</p>
             </div>
-        </>
-    )
+        </div>
+    );
 }
 
-export default UserHeader
+export default UserHeader;

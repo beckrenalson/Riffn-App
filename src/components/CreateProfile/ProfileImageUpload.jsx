@@ -1,21 +1,32 @@
 import { useState, useEffect } from "react";
+import SignUpStore from "./SignUpStore";
 
-function ProfileImageUpload({ onImageChange, initialImage }) {
+function ProfileImageUpload() {
     const [preview, setPreview] = useState(null);
+    const setProfileImage = SignUpStore((state) => state.setProfileImage);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files?.[0]; // safe check for optional chaining
+        if (!file) return;
+
+        // Clean up previous preview URL if any
+        if (preview) {
+            URL.revokeObjectURL(preview);
+        }
+
+        const objectUrl = URL.createObjectURL(file);
+        setPreview(objectUrl);
+        setProfileImage(file);
+    };
 
     useEffect(() => {
-        if (initialImage) {
-            setPreview(URL.createObjectURL(initialImage));
-        }
-    }, [initialImage]);
-
-    const handleChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setPreview(URL.createObjectURL(file));
-            onImageChange(file);
-        }
-    };
+        return () => {
+            // Clean up preview URL on component unmount
+            if (preview) {
+                URL.revokeObjectURL(preview);
+            }
+        };
+    }, [preview]);
 
     return (
         <div>
@@ -34,7 +45,7 @@ function ProfileImageUpload({ onImageChange, initialImage }) {
                 id="profile-pic"
                 type="file"
                 accept="image/*"
-                onChange={handleChange}
+                onChange={handleImageChange}
                 className="hidden"
             />
         </div>
