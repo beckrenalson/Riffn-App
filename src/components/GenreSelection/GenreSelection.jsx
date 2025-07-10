@@ -65,7 +65,7 @@ function GenreSelection() {
 
                 </div>
                 <button
-                    className="flex items-center fixed bottom-10 w-fit border p-2 bg-black"
+                    className="flex items-center fixed bottom-10 w-fit border rounded-2xl p-4 bg-black"
                     onClick={handleContinue}
                     disabled={selectedGenres.length === 0}>
                     Continue
