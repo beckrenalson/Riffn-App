@@ -49,52 +49,51 @@ Filter users depending on what the users profile type is. If the user selects so
 
 ### Acceptance criteria for MVP
 1. Sign Up and Create Profile
-1.1 Given a new user navigates to the sign-up page, when they provide a valid email and password, then an account is created.
-1.2 Given an account is created, when the user provides basic profile information (e.g., username, profile type [musician/band]), then a profile is successfully created and associated with their account.
-1.3 Given a new user attempts to sign up with an email that is already registered, then an error message is displayed, indicating the email is already in use.
+- Given a new user navigates to the sign-up page, when they provide a valid email and password, then an account is created.
+- Given an account is created, when the user provides basic profile information (e.g., username, profile type [musician/band]), then a profile is successfully created and associated with their account.
+- Given a new user attempts to sign up with an email that is already registered, then an error message is displayed, indicating the email is already in use.
 1.4 Given a new user attempts to sign up without providing all required information, then an error message is displayed, highlighting the missing fields.
 1.5 Given a new user successfully signs up, then they are automatically logged in and redirected to their profile setup or a dashboard.
 
 2. Edit Personal Profile (General Info + Contact)
-2.1 Given a user is logged in, when they navigate to their profile editing section, then their current personal details are displayed.
-2.2 Given a user is editing their profile, when they update personal details (e.g., name, bio, contact information, profile picture) and save, then the changes are successfully updated and reflected on their profile.
-2.3 Given a user adds contact information (e.g., email, phone number, social media links) to their profile, then this information is visibly displayed on their public profile for other users to see.
-2.4 Given a user attempts to save their profile with invalid data (e.g., malformed email address), then an error message is displayed, indicating the invalid input.
-2.5 Given a user attempts to save their profile without providing required information, then an error message is displayed, highlighting the missing fields.
+- Given a user is logged in, when they navigate to their profile editing section, then their current personal details are displayed.
+- Given a user is editing their profile, when they update personal details (e.g., name, bio, contact information, profile picture) and save, then the changes are successfully updated and reflected on their profile.
+- Given a user adds contact information (e.g., email, phone number, social media links) to their profile, then this information is visibly displayed on their public profile for other users to see.
+- Given a user attempts to save their profile with invalid data (e.g., malformed email address), then an error message is displayed, indicating the invalid input.
+- Given a user attempts to save their profile without providing required information, then an error message is displayed, highlighting the missing fields.
 
 3. Musician Profile: Instruments, Genres, Location
-3.1 Given a musician user is logged in and editing their profile, when they navigate to the "Musician Details" section, then they can select multiple instruments they play from a predefined list.
-3.2 Given a musician user is logged in and editing their profile, when they navigate to the "Musician Details" section, then they can select multiple genres they play from a predefined list.
-3.3 Given a musician user is logged in and editing their profile, when they navigate to the "Musician Details" section, then they can specify their primary location (city/region).
-3.4 Given a musician user updates their instruments, genres, or location, when they save their profile, then these changes are successfully updated and used for match-making and search functionality.
-3.5 Given a musician user has saved their profile, then their selected instruments, genres, and location are displayed on their public profile.
+- Given a musician user is logged in and editing their profile, when they navigate to the "Musician Details" section, then they can select multiple instruments they play from a predefined list.
+- Given a musician user is logged in and editing their profile, when they navigate to the "Musician Details" section, then they can select multiple genres they play from a predefined list.
+- Given a musician user is logged in and editing their profile, when they navigate to the "Musician Details" section, then they can specify their primary location (city/region).
+- Given a musician user updates their instruments, genres, or location, when they save their profile, then these changes are successfully updated and used for match-making and - Given a musician user has saved their profile, then their selected instruments, genres, and location are displayed on their public profile.
 
 4. Band Profile: Define Open Positions
-4.1 Given a band user is logged in and editing their profile, when they navigate to the "Band Openings" section, then they can add new open positions.
-4.2 Given a band user is adding an open position, when they specify the instrument(s) required for that position from a predefined list, then the instrument(s) are associated with the opening.
-4.3 Given a band user is adding an open position, when they specify the genre(s) relevant to that position from a predefined list, then the genre(s) are associated with the opening.
-4.4 Given a band user saves their profile with new or updated open positions, then these positions are publicly visible on their band profile.
-4.5 Given a band user has open positions, then these positions, including required instruments and genres, are searchable by solo musicians.
+- Given a band user is logged in and editing their profile, when they navigate to the "Band Openings" section, then they can add new open positions.
+- Given a band user is adding an open position, when they specify the instrument(s) required for that position from a predefined list, then the instrument(s) are associated with the opening.
+- Given a band user is adding an open position, when they specify the genre(s) relevant to that position from a predefined list, then the genre(s) are associated with the opening.
+- Given a band user saves their profile with new or updated open positions, then these positions are publicly visible on their band profile.
+- Given a band user has open positions, then these positions, including required instruments and genres, are searchable by solo musicians.
 
 5. Musician Finding Bands
-5.1 Given a musician user is logged in, when they use the search functionality, then they can filter results by band profiles.
-5.2 Given a musician user is logged in, when they search, then results are prioritized or filtered to show bands in their specified city/location.
-5.3 Given a musician user has specified their instruments, when they view search results, then bands with open positions for those instruments are prominently displayed.
-5.4 Given a musician user has specified their genres, when they view search results, then bands that match their preferred genres are prominently displayed.
-5.5 Given a musician user views a band in the search results, then they can clearly see if the band has openings for instruments the musician plays and if their genres align.
+- Given a musician user is logged in, when they use the search functionality, then they can filter results by band profiles.
+- Given a musician user is logged in, when they search, then results are prioritized or filtered to show bands in their specified city/location.
+- Given a musician user has specified their instruments, when they view search results, then bands with open positions for those instruments are prominently displayed.
+- Given a musician user has specified their genres, when they view search results, then bands that match their preferred genres are prominently displayed.
+- Given a musician user views a band in the search results, then they can clearly see if the band has openings for instruments the musician plays and if their genres align.
 
 6. Band Finding Musicians
-6.1 Given a band user is logged in, when they use the search functionality, then they can filter results by solo musician profiles.
-6.2 Given a band user is logged in, when they search, then results are prioritized or filtered to show musicians in their specified city/location.
-6.3 Given a band has specified instruments needed for open positions, when they view search results, then solo musicians who play those instruments are prominently displayed.
-6.4 Given a band user views a musician in the search results, then they can clearly see what instruments the musician plays and their location.
+- Given a band user is logged in, when they use the search functionality, then they can filter results by solo musician profiles.
+- Given a band user is logged in, when they search, then results are prioritized or filtered to show musicians in their specified city/location.
+- Given a band has specified instruments needed for open positions, when they view search results, then solo musicians who play those instruments are prominently displayed.
+- Given a band user views a musician in the search results, then they can clearly see what instruments the musician plays and their location.
 
 7. View Match List and Profiles
-7.1 Given a user is logged in, when they navigate to their "Matches" or "Search Results" page, then a clear, concise list of potential matches is displayed.
-7.2 Given a list of matches is displayed, when the user clicks on an individual match from the list, then they are redirected to that match's full profile page.
-7.3 Given a list of matches is displayed, then each item in the list includes basic identifying information (e.g., name/band name, profile picture, primary instrument/role).
+- Given a user is logged in, when they navigate to their "Matches" or "Search Results" page, then a clear, concise list of potential matches is displayed.
+- Given a list of matches is displayed, when the user clicks on an individual match from the list, then they are redirected to that match's full profile page.
+- Given a list of matches is displayed, then each item in the list includes basic identifying information (e.g., name/band name, profile picture, primary instrument/role).
 
 8. Distinguish Profile Types
-8.1 Given a user is viewing search results, then each search result clearly indicates whether it is a "Solo Musician" profile or a "Band" profile (e.g., with an icon, label, or distinct styling).
-8.2 Given a user is viewing an individual profile, then it is immediately clear whether they are viewing a "Solo Musician Profile" or a "Band Profile."
-8.3 Given a user is creating their profile, then they must select whether they are registering as a solo musician or a band.
+- Given a user is viewing search results, then each search result clearly indicates whether it is a "Solo Musician" profile or a "Band" profile (e.g., with an icon, label, or distinct styling).
+- Given a user is viewing an individual profile, then it is immediately clear whether they are viewing a "Solo Musician Profile" or a "Band Profile."
+- Given a user is creating their profile, then they must select whether they are registering as a solo musician or a band.
