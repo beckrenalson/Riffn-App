@@ -1,18 +1,25 @@
 import BackBtn from "../BackBtn";
 import InstrumentType from "./InstrumentType";
 import InstrumentStore from "./InstrumentStore";
-
+import SignUpStore from "../CreateProfile/SignUpStore";
 
 function InstrumentTypeList() {
     const clearSelectedInstruments = InstrumentStore((state) => state.clearSelectedInstruments);
+
+    const signUpData = SignUpStore((state) => state.signUpData)
 
     return (
         <>
             <BackBtn />
             <div className="flex flex-col items-center px-4 pt-8 mb-10">
                 <div className="max-w-md text-center mb-10">
+                    {signUpData.profileType === "solo" && (
+                        <h1 className="text-2xl font-bold text-white mb-2">
+                            What kind of instruments do you play?
+                        </h1>
+                    )}
                     <h1 className="text-2xl font-bold text-white mb-2">
-                        What kind of instruments do you play?
+                        What kind of instruments does your band need?
                     </h1>
                     <p className="text-sm text-gray-400">
                         Choose an instrument type to explore options and make your selection.

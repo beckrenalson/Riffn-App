@@ -105,9 +105,9 @@ function FinalSignUp() {
             <div className="flex justify-center mt-8 mb-20">
                 <button
                     onClick={handleSubmit}
-                    className="bg-gray-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow-md transition-all duration-200"
+                    className="w-full border p-2 rounded-lg cursor-pointer mx-4"
                 >
-                    Sign Up
+                    SIGN UP
                 </button>
             </div>
         </>
