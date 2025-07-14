@@ -1,19 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SignUpStore from "./SignUpStore";
 import { API_URL } from "../../config/api";
+import imageCompression from "browser-image-compression";
 
 function ProfileImageUpload() {
     const [preview, setPreview] = useState(null);
     const setProfileImage = SignUpStore((state) => state.setProfileImage);
 
     const handleImageChange = async (e) => {
-        const file = e.target.files?.[0]; // safe check for optional chaining
+        const file = e.target.files?.[0];
         if (!file) return;
 
-        const formData = new FormData();
-        formData.append("image", file);
+        const options = {
+            maxSizeMB: 0.2,
+            maxWidthOrHeight: 800,
+            useWebWorker: true,
+        };
 
         try {
+            const compressedFile = await imageCompression(file, options);
+
+            const formData = new FormData();
+            formData.append("image", compressedFile);
+
             const response = await fetch(`${API_URL}/api/uploads`, {
                 method: "POST",
                 body: formData,
@@ -21,31 +30,16 @@ function ProfileImageUpload() {
 
             if (response.ok) {
                 const data = await response.json();
-                setProfileImage(`/uploads/${data.filename}`);
+                const imagePath = `/uploads/${data.filename}`;
+                setProfileImage(imagePath);
+                setPreview(imagePath); // Use actual uploaded file URL
             } else {
                 console.error("Upload failed");
             }
         } catch (err) {
             console.error("Error uploading image", err);
         }
-
-        // Clean up previous preview URL if any
-        if (preview) {
-            URL.revokeObjectURL(preview);
-        }
-
-        const objectUrl = URL.createObjectURL(file);
-        setPreview(objectUrl);
     };
-
-    useEffect(() => {
-        return () => {
-            // Clean up preview URL on component unmount
-            if (preview) {
-                URL.revokeObjectURL(preview);
-            }
-        };
-    }, [preview]);
 
     return (
         <div>

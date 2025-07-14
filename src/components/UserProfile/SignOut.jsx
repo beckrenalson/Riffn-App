@@ -15,7 +15,7 @@ function SignOut() {
         <>
             <button
                 onClick={signOut}
-                className="border rounded-4xl p-2 cursor-pointer"
+                className="border rounded-3xl p-2 cursor-pointer"
             >Sign out
             </button>
         </>
