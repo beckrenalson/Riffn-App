@@ -117,17 +117,18 @@ function UserProfile() {
             )}
           </UserDetails>
 
-          <UserDetails icon="/images/members.png">
-            {isEditing ? (
-              <BandMembersInput
-                members={formData.bandMembers}
-                setMembers={(updated) => setFormData({ ...formData, bandMembers: updated })}
-              />
-            ) : (
-              userData.bandMembers?.join(", ") || "None selected"
-            )}
-          </UserDetails>
-
+          {userData.profileType === "band" && (
+            <UserDetails icon="/images/members.png">
+              {isEditing ? (
+                <BandMembersInput
+                  members={formData.bandMembers}
+                  setMembers={(updated) => setFormData({ ...formData, bandMembers: updated })}
+                />
+              ) : (
+                userData.bandMembers?.join(", ") || "None selected"
+              )}
+            </UserDetails>
+          )}
 
           <UserDetails icon="/images/soundcloud.png" />
           <UserDetails icon="/images/spotify.png" />
