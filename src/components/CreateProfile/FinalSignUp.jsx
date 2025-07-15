@@ -13,29 +13,28 @@ function FinalSignUp() {
         localStorage.removeItem("selected-instruments-storage");
         localStorage.removeItem("selected-genres-storage");
 
-        const formData = new FormData();
-
-        formData.append("userName", signUpData.userName);
-        formData.append("firstName", signUpData.firstName);
-        formData.append("lastName", signUpData.lastName);
-        formData.append("email", signUpData.email);
-        formData.append("password", signUpData.password);
-        formData.append("profileType", signUpData.profileType);
-        formData.append("location", signUpData.location)
-        formData.append("bio", signUpData.bio)
-
-        signUpData.selectedGenres.forEach((genre) => formData.append("selectedGenres[]", genre));
-        signUpData.selectedInstruments.forEach((inst) => formData.append("selectedInstruments[]", inst));
-        signUpData.bandMembers.forEach((member) => formData.append("bandMembers", member))
-
-        if (signUpData.profileImage) {
-            formData.append("profileImage", signUpData.profileImage);
-        }
+        const payload = {
+            userName: signUpData.userName,
+            firstName: signUpData.firstName,
+            lastName: signUpData.lastName,
+            email: signUpData.email,
+            password: signUpData.password,
+            profileType: signUpData.profileType,
+            location: signUpData.location,
+            bio: signUpData.bio,
+            selectedGenres: signUpData.selectedGenres,
+            selectedInstruments: signUpData.selectedInstruments,
+            bandMembers: signUpData.bandMembers,
+            profileImage: signUpData.profileImage || null,
+        };
 
         try {
             const response = await fetch(USERS_ENDPOINT, {
                 method: "POST",
-                body: formData,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload),
             });
 
             if (response.ok) {
@@ -44,9 +43,8 @@ function FinalSignUp() {
                 if (signUpData.profileType === "solo") {
                     navigate("/search/band");
                 } else {
-                    navigate("/search/solo")
+                    navigate("/search/solo");
                 }
-
             } else {
                 console.error("Signup failed:", response.statusText);
             }
