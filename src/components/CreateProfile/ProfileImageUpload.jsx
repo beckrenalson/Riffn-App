@@ -2,12 +2,15 @@ import { useState } from "react";
 import SignUpStore from "./SignUpStore";
 import { API_URL } from "../../config/api";
 import imageCompression from "browser-image-compression";
+import { PuffLoader } from "react-spinners";
 
 function ProfileImageUpload() {
     const [preview, setPreview] = useState(null);
     const setProfileImage = SignUpStore((state) => state.setProfileImage);
+    const [loading, setLoading] = useState(false)
 
     const handleImageChange = async (e) => {
+        setLoading(true)
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -37,13 +40,15 @@ function ProfileImageUpload() {
             }
         } catch (err) {
             console.error("Error uploading image", err);
+        } finally {
+            setLoading(false)
         }
     };
 
     return (
         <div>
             <label htmlFor="profile-pic" className="cursor-pointer">
-                <div className="w-32 h-32 rounded-full overflow-hidden border border-gray-500">
+                <div className="relative w-32 h-32 rounded-full overflow-hidden border border-gray-500">
                     {preview ? (
                         <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
@@ -51,8 +56,15 @@ function ProfileImageUpload() {
                             UPLOAD
                         </div>
                     )}
+
+                    {loading && (
+                        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+                            <PuffLoader color="#FFFFFF" size={40} />
+                        </div>
+                    )}
                 </div>
             </label>
+
             <input
                 id="profile-pic"
                 type="file"
