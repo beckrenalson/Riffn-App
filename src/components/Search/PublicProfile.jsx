@@ -16,9 +16,11 @@ function PublicProfile() {
                     <img
                         className="rounded-full w-32 h-32 object-cover border"
                         src={
-                            typeof user.profileImage === "string"
-                                ? `${API_URL}${user.profileImage.startsWith('/') ? user.profileImage : '/' + user.profileImage}`
-                                : "/images/profilepicture.png"
+                            user.profileImage?.startsWith("http")
+                                ? user.profileImage
+                                : user.profileImage
+                                    ? `${API_URL}${user.profileImage.startsWith("/") ? user.profileImage : "/" + user.profileImage}`
+                                    : "public/images/profilepicture.png"
                         }
 
                         alt="Profile"
