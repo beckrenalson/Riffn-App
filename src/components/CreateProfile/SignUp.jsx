@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import SignUpStore from "./SignUpStore";
-
+import { USERS_ENDPOINT } from "../../config/api";
 
 function SignUp() {
 
@@ -9,6 +9,8 @@ function SignUp() {
 
   const signUpData = SignUpStore((state) => state.signUpData)
   const setSignUpData = SignUpStore((state) => state.setSignUpData)
+
+  const [emailError, setEmailError] = useState("")
 
   const login = () => {
     navigate("/login")
@@ -19,9 +21,36 @@ function SignUp() {
     setSignUpData({ [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const exists = await checkEmailExists();
+    if (exists) return;
+
     navigate("/signup/userselection")
+  };
+
+  const checkEmailExists = async () => {
+    if (!signUpData.email) return;
+
+    try {
+      const res = await fetch(`${USERS_ENDPOINT}/check-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: signUpData.email }),
+      });
+
+      if (res.status === 409) {
+        const data = await res.json();
+        setEmailError(data.error);
+      } else {
+        setEmailError("");
+      }
+    } catch (err) {
+      console.error("Error checking email:", err);
+      setEmailError("Something went wrong");
+      return true;
+    }
   };
 
   useEffect(() => {
@@ -63,10 +92,14 @@ function SignUp() {
                 name="email"
                 value={signUpData.email}
                 onChange={handleChange}
+                onBlur={checkEmailExists}
                 required
                 placeholder="Email"
                 className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
+              {emailError && (
+                <p className="text-red-500 text-sm mt-1">{emailError}</p>
+              )}
             </div>
             <div>
               <input
@@ -81,7 +114,8 @@ function SignUp() {
             </div>
             <button
               type="submit"
-              className="w-full border p-2 rounded-lg cursor-pointer"
+              disabled={!!emailError}
+              className="w-full border p-2 rounded-lg cursor-pointer disabled:opacity-50"
             >
               CONTINUE
             </button>
