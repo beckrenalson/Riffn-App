@@ -30,9 +30,8 @@ function ProfileImageUpload() {
 
             if (response.ok) {
                 const data = await response.json();
-                const imagePath = `/uploads/${data.filename}`;
-                setProfileImage(imagePath);
-                setPreview(imagePath); // Use actual uploaded file URL
+                setProfileImage(data.url);
+                setPreview(data.url); // Use actual uploaded file URL
             } else {
                 console.error("Upload failed");
             }

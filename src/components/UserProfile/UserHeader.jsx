@@ -5,9 +5,11 @@ import { API_URL } from "../../config/api";
 function UserHeader({ isEditing, profileImage, setImage }) {
     const userData = SignUpStore((state) => state.signUpData);
 
-    const imageSrc = profileImage
-        ? `${API_URL}${profileImage.startsWith('/') ? profileImage : '/' + profileImage}`
-        : "/images/profilepicture.png";
+    const imageSrc = profileImage?.startsWith("http")
+        ? profileImage
+        : profileImage
+            ? `${API_URL}${profileImage.startsWith("/") ? profileImage : "/" + profileImage}`
+            : "/images/profilepicture.png";
 
     return (
         <div className="flex flex-col items-center space-y-2 pb-4">
