@@ -1,13 +1,21 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { USERS_ENDPOINT } from "../../config/api";
-
+import AlertDialog from "./AlertDialog";
+import SignUpStore from "../CreateProfile/SignUpStore";
 function DeleteUser({ userId }) {
+    const navigate = useNavigate();
 
-    const navigate = useNavigate()
+    const [isAlertDialogVisible, setIsAlertDialogVisible] = useState(false);
+    const [dialogMessage, setDialogMessage] = useState('');
 
-    async function deleteAccount() {
-        if (!window.confirm("Are you sure you want to delete your account?")) return;
+    const showDeleteConfirmDialog = () => {
+        setDialogMessage('Are you sure you want to delete your account permanently? This action cannot be undone.');
+        setIsAlertDialogVisible(true);
+    };
 
+    const handleConfirmDelete = async () => {
+        setIsAlertDialogVisible(false);
         try {
             const res = await fetch(`${USERS_ENDPOINT}/${userId}`, { method: 'DELETE', credentials: 'include' });
 
@@ -15,26 +23,39 @@ function DeleteUser({ userId }) {
                 alert('Account deleted successfully');
 
                 localStorage.removeItem("riffn-user-storage");
-                SignUpStore.getState().resetSignUpData()
+                SignUpStore.getState().resetSignUpData();
                 navigate('/login');
             } else {
-                alert('Failed to delete account');
+                alert('Failed to delete account. Please try again.');
             }
         } catch (e) {
-            alert('An error occurred');
+            alert('An error occurred while deleting your account.');
         }
-    }
+    };
+
+    const handleCancelDelete = () => {
+        setIsAlertDialogVisible(false);
+    };
+
     return (
         <>
             <button
-                className="border rounded-3xl p-2 cursor-pointer"
-                onClick={deleteAccount}
-            >Delete
-            </button >
+                onClick={showDeleteConfirmDialog}
+                className="mt-4 bg-red-600 font-semibold py-3 px-6 rounded-lg"
+            >
+                Delete Account
+            </button>
+
+            {isAlertDialogVisible && (
+                <AlertDialog
+                    message={dialogMessage}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                    isVisible={isAlertDialogVisible}
+                />
+            )}
         </>
-    )
+    );
 }
 
-export default DeleteUser
-
-
+export default DeleteUser;

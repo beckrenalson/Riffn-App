@@ -235,7 +235,7 @@ function UserProfile() {
             )}
           </div>
 
-          <div className='flex justify-center pt-6'>
+          <div className='flex flex-col justify-center pt-6'>
             <SignOut />
             <DeleteUser userId={userData._id} />
           </div>
