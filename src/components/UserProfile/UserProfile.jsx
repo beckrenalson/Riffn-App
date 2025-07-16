@@ -210,7 +210,7 @@ function UserProfile() {
 
           <div className="flex gap-3 mt-4">
             <button
-              className="flex-1 bg-gray-500 text-white rounded px-4 py-2"
+              className="flex-1 bg-gray-500 font-semibold py-3 px-6 rounded-lg"
               onClick={() => {
                 if (isEditing) {
                   handleSave();
@@ -237,7 +237,9 @@ function UserProfile() {
 
           <div className='flex flex-col justify-center pt-6'>
             <SignOut />
-            <DeleteUser userId={userData._id} />
+            {isEditing && (
+              <DeleteUser userId={userData._id} />
+            )}
           </div>
 
         </div>
