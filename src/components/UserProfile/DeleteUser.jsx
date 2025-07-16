@@ -14,6 +14,8 @@ function DeleteUser({ userId }) {
             if (res.ok) {
                 alert('Account deleted successfully');
 
+                localStorage.removeItem("riffn-user-storage");
+                SignUpStore.getState().resetSignUpData()
                 navigate('/login');
             } else {
                 alert('Failed to delete account');
