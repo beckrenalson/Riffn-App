@@ -9,6 +9,7 @@ import SelectLocation from '../CreateProfile/SelectLocation';
 import SignUpStore from '../CreateProfile/SignUpStore';
 import { USERS_ENDPOINT } from '../../config/api';
 import BandMembersInput from '../CreateProfile/BandMembersInput';
+import DeleteUser from './DeleteUser';
 
 function UserProfile() {
   const navigate = useNavigate();
@@ -236,6 +237,7 @@ function UserProfile() {
 
           <div className='flex justify-center pt-6'>
             <SignOut />
+            <DeleteUser userId={userData._id} />
           </div>
 
         </div>
