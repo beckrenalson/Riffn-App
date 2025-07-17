@@ -2,11 +2,28 @@ import BackBtn from "../BackBtn";
 import InstrumentType from "./InstrumentType";
 import InstrumentStore from "./InstrumentStore";
 import SignUpStore from "../CreateProfile/SignUpStore";
+import { useEffect } from "react";
+import axios from "axios";
+import { INSTRUMENTS_ENDPOINT } from "../../config/api";
 
 function InstrumentTypeList() {
     const clearSelectedInstruments = InstrumentStore((state) => state.clearSelectedInstruments);
+    const setInstrumentList = InstrumentStore((state) => state.setInstrumentList);
 
     const signUpData = SignUpStore((state) => state.signUpData)
+
+    useEffect(() => {
+        async function fetchInstruments() {
+            try {
+                const res = await axios.get(INSTRUMENTS_ENDPOINT);
+                setInstrumentList(res.data); // assumes array of { name, type }
+            } catch (err) {
+                console.error("Failed to fetch instruments:", err);
+            }
+        }
+
+        fetchInstruments();
+    }, []);
 
     return (
         <>

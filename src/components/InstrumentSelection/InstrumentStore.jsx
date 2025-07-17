@@ -6,6 +6,9 @@ const InstrumentStore = create(persist(
         selectedInstruments: [],
         setSelectedInstruments: (instruments) => set({ selectedInstruments: instruments }),
         clearSelectedInstruments: () => set({ selectedInstruments: [] }),
+
+        instrumentList: [], // all available instruments from DB
+        setInstrumentList: (list) => set({ instrumentList: list }),
     }),
     {
         name: "selected-instruments-storage",

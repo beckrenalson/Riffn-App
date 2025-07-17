@@ -6,6 +6,9 @@ const GenreStore = create(persist(
         selectedGenres: [],
         setSelectedGenres: (genres) => set({ selectedGenres: genres }),
         clearSelectedGenres: () => set({ selectedGenres: [] }),
+
+        genreList: [],
+        setGenreList: (list) => set({ genreList: list }),
     }),
     {
         name: "selected-genres-storage",
