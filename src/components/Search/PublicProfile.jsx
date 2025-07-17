@@ -1,4 +1,5 @@
 import { useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import BackBtn from "../BackBtn";
 import NavBar from "../NavBar";
 import { API_URL } from '../../config/api';
@@ -7,11 +8,29 @@ function PublicProfile() {
     const { state } = useLocation();
     const { userName } = useParams();
     const user = state?.user;
+    const [tracks, setTracks] = useState([]);
+
+
+    useEffect(() => {
+        async function fetchTracks() {
+            try {
+                const response = await fetch(`${API_URL}/api/tracks/${user._id}`);
+                const data = await response.json();
+                setTracks(data);
+            } catch (err) {
+                console.error("Failed to fetch tracks", err);
+            }
+        }
+
+        fetchTracks();
+    }, [user]);
+
 
     return (
+
         <>
             <BackBtn />
-            <div className="p-6 pt-4 space-y-6">
+            <div className="p-6 pt-4 space-y-6 pb-24">
                 <div className="flex justify-center">
                     <img
                         className="rounded-full w-32 h-32 object-cover border"
@@ -59,7 +78,33 @@ function PublicProfile() {
 
                 <div className="border rounded-lg p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Music:</p>
-                    <p>{user?.music || "No music provided."}</p>
+                    <div className="space-y-6">
+                        {tracks.map((track, index) => (
+                            <div key={index}>
+                                {track.type === "spotify" ? (
+                                    <iframe
+                                        src={track.src}
+                                        width="100%"
+                                        height="80"
+                                        style={{ borderRadius: "12px" }}
+                                        frameBorder="0"
+                                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <iframe
+                                        src={track.src}
+                                        width="100%"
+                                        height="166"
+                                        style={{ borderRadius: "12px" }}
+                                        frameBorder="no"
+                                        scrolling="no"
+                                        allow="autoplay"
+                                    />
+                                )}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div >
             <NavBar />

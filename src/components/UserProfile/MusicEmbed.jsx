@@ -1,68 +1,130 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { API_URL } from "../../config/api";
+import SignUpStore from "../CreateProfile/SignUpStore";
 
-function MusicEmbed() {
-    const [url, setUrl] = useState("");
-    const [embedHtml, setEmbedHtml] = useState(null);
+function MultiMusicEmbed() {
+    const [urlInput, setUrlInput] = useState("");
+    const [embeds, setEmbeds] = useState([]);
+    const currentUser = SignUpStore((state) => state.signUpData);
 
-    const handleEmbed = () => {
+    const saveTrack = async (embed) => {
         try {
-            const parsedUrl = new URL(url);
+            const response = await fetch(`${API_URL}/api/tracks`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(embed),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to save track");
+            }
+
+            console.log("Track saved!");
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    const handleAddTrack = () => {
+        try {
+            const parsedUrl = new URL(urlInput.trim());
+
+            let embed = null;
 
             if (parsedUrl.hostname.includes("spotify.com")) {
-                // Convert to embed URL
                 const embedUrl = parsedUrl.href.replace("open.spotify.com", "open.spotify.com/embed");
-                setEmbedHtml(
-                    <iframe
-                        style={{ borderRadius: "12px" }}
-                        src={embedUrl}
-                        width="100%"
-                        height="80"
-                        frameBorder="0"
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy"
-                    />
-                );
+
+                embed = {
+                    type: "spotify",
+                    src: embedUrl,
+                    userId: currentUser._id
+                };
             } else if (parsedUrl.hostname.includes("soundcloud.com")) {
-                // Full SoundCloud URL is used in embed
                 const embedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComponent(
                     parsedUrl.href
                 )}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false`;
-                setEmbedHtml(
-                    <iframe
-                        width="100%"
-                        height="166"
-                        scrolling="no"
-                        frameBorder="no"
-                        allow="autoplay"
-                        src={embedUrl}
-                    />
-                );
-            } else {
-                setEmbedHtml(<p>Only Spotify and SoundCloud URLs are supported.</p>);
+
+                embed = {
+                    type: "soundcloud",
+                    src: embedUrl,
+                    userId: currentUser._id
+                };
             }
-        } catch (error) {
-            setEmbedHtml(<p>Invalid URL</p>);
+
+            if (embed) {
+                setEmbeds((prev) => [...prev, embed]);
+                saveTrack(embed)
+                setUrlInput("");
+            } else {
+                alert("Only Spotify and SoundCloud links are supported.");
+            }
+        } catch (err) {
+            alert("Please enter a valid URL.");
         }
     };
 
+    useEffect(() => {
+        async function fetchSavedTracks() {
+            if (!currentUser?._id) return;
+            try {
+                const res = await fetch(`${API_URL}/api/tracks/${currentUser._id}`);
+                const data = await res.json();
+                setEmbeds(data);
+            } catch (error) {
+                console.error("Failed to load saved tracks", error);
+            }
+        }
+
+        fetchSavedTracks();
+    }, [currentUser._id]);
+
     return (
-        <div className="p-4 max-w-md mx-auto">
-            <input
-                type="text"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="Paste a Spotify or SoundCloud link"
-                className="w-full p-2 border rounded mb-2"
-            />
-            <button
-                onClick={handleEmbed}
-                className="px-4 py-2 bg-green-600 text-white rounded"
-            >
-                Load
-            </button>
-            <div className="mt-4">{embedHtml}</div>
+        <div className="max-w-xl mx-auto p-4 space-y-4">
+            <div className="flex gap-2">
+                <input
+                    type="text"
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    placeholder="Paste Spotify or SoundCloud link"
+                    className="flex-1 p-2 border rounded"
+                />
+                <button
+                    onClick={handleAddTrack}
+                    className="px-4 py-2 bg-blue-600 text-white rounded"
+                >
+                    Add
+                </button>
+            </div>
+
+            <div className="space-y-6">
+                {embeds.map((embed, idx) => (
+                    <div key={idx}>
+                        {embed.type === "spotify" ? (
+                            <iframe
+                                style={{ borderRadius: "12px" }}
+                                src={embed.src}
+                                width="100%"
+                                height="80"
+                                frameBorder="0"
+                                allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                loading="lazy"
+                            />
+                        ) : (
+                            <iframe
+                                style={{ borderRadius: "12px" }}
+                                width="100%"
+                                height="166"
+                                scrolling="no"
+                                frameBorder="no"
+                                src={embed.src}
+                            />
+                        )}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
 
-export default MusicEmbed;
+export default MultiMusicEmbed;
