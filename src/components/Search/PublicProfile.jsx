@@ -39,7 +39,7 @@ function PublicProfile() {
                                 ? user.profileImage
                                 : user.profileImage
                                     ? `${API_URL}${user.profileImage.startsWith("/") ? user.profileImage : "/" + user.profileImage}`
-                                    : "public/images/profilepicture.png"
+                                    : "/images/profilepicture.png"
                         }
 
                         alt="Profile"
