@@ -10,7 +10,7 @@ function SignUp() {
   const signUpData = SignUpStore((state) => state.signUpData)
   const setSignUpData = SignUpStore((state) => state.setSignUpData)
 
-  const [emailError, setEmailError] = useState("")
+  const [fieldErrors, setFieldErrors] = useState({})
 
   const login = () => {
     navigate("/login")
@@ -24,31 +24,53 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const exists = await checkEmailExists();
+    const exists = await checkDetailsExist();
     if (exists) return;
 
     navigate("/signup/userselection")
   };
 
-  const checkEmailExists = async () => {
-    if (!signUpData.email) return;
+  const checkDetailsExist = async () => {
+    const { firstName, lastName, email, password } = signUpData;
+
+    const errors = {};
+    if (!firstName?.trim()) errors.firstName = "First name is required";
+    if (!lastName?.trim()) errors.lastName = "Last name is required";
+    if (!email?.trim()) errors.email = "Email is required";
+    if (!password || password.length < 8)
+      errors.password = "Password must be at least 8 characters long";
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return true; // block submission early
+    }
 
     try {
-      const res = await fetch(`${USERS_ENDPOINT}/check-email`, {
+      const res = await fetch(`${USERS_ENDPOINT}/check-details`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: signUpData.email }),
+        body: JSON.stringify({ firstName, lastName, email, password }),
       });
 
-      if (res.status === 409) {
-        const data = await res.json();
-        setEmailError(data.error);
-      } else {
-        setEmailError("");
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Convert array of errors to object like: { email: "msg", password: "msg" }
+        const errorMap = {};
+        (data.errors || []).forEach(err => {
+          errorMap[err.param] = err.msg;
+        });
+
+        setFieldErrors(errorMap);
+        return true;
       }
+
+      setFieldErrors({});
+      return false;
+
     } catch (err) {
-      console.error("Error checking email:", err);
-      setEmailError("Something went wrong");
+      console.error("Error validating fields:", err);
+      setFieldErrors({ global: "Something went wrong. Please try again." });
       return true;
     }
   };
@@ -63,7 +85,7 @@ function SignUp() {
       <div className="h-screen flex items-center justify-center">
         <div className="">
           <h2 className="text-4xl font-bold mb-6 text-center">Riffn</h2>
-          <form onSubmit={handleSubmit} method="post" className="space-y-4">
+          <form onSubmit={handleSubmit} method="post" noValidate className="space-y-4">
             <div>
               <input
                 type="text"
@@ -74,6 +96,9 @@ function SignUp() {
                 placeholder="First Name"
                 className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
+              {fieldErrors.firstName && (
+                <p className="text-red-500 text-sm mt-1">{fieldErrors.firstName}</p>
+              )}
             </div>
             <div>
               <input
@@ -81,10 +106,14 @@ function SignUp() {
                 name="lastName"
                 value={signUpData.lastName}
                 onChange={handleChange}
+                onBlur={checkDetailsExist}
                 required
                 placeholder="Last Name"
                 className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
+              {fieldErrors.lastName && (
+                <p className="text-red-500 text-sm mt-1">{fieldErrors.lastName}</p>
+              )}
             </div>
             <div>
               <input
@@ -92,13 +121,13 @@ function SignUp() {
                 name="email"
                 value={signUpData.email}
                 onChange={handleChange}
-                onBlur={checkEmailExists}
+                onBlur={checkDetailsExist}
                 required
                 placeholder="Email"
                 className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
-              {emailError && (
-                <p className="text-red-500 text-sm mt-1">{emailError}</p>
+              {fieldErrors.email && (
+                <p className="text-red-500 text-sm mt-1">{fieldErrors.email}</p>
               )}
             </div>
             <div>
@@ -107,14 +136,18 @@ function SignUp() {
                 name="password"
                 value={signUpData.password}
                 onChange={handleChange}
+                onBlur={checkDetailsExist}
                 required
                 placeholder="Password"
                 className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
               />
+              {fieldErrors.password && (
+                <p className="text-red-500 text-sm mt-1">{fieldErrors.password}</p>
+              )}
             </div>
             <button
               type="submit"
-              disabled={!!emailError}
+              disabled={Object.keys(fieldErrors).length > 0}
               className="w-full border p-2 rounded-lg cursor-pointer disabled:opacity-50"
             >
               CONTINUE

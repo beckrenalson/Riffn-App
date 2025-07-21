@@ -16,6 +16,7 @@ import SignUpLayout from './components/CreateProfile/SignUpLayout.jsx';
 import SignUp from './components/CreateProfile/SignUp.jsx';
 import FinalSignUp from './components/CreateProfile/FinalSignUp.jsx';
 import CreateUser from './components/CreateProfile/CreateUser.jsx';
+import AboutPage from './components/AboutPage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -38,6 +39,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/search/solo" element={<SoloSearch />} />
         <Route path="/search/solo/:userName" element={<PublicProfile />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
