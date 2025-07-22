@@ -8,13 +8,11 @@ function InstrumentType({ type }) {
     const instrumentList = InstrumentStore((state) => state.instrumentList || []);
     const isEditing = SignUpStore((state) => state.isEditing);
 
-    // Build a lookup map: name → type
     const instrumentTypeMap = instrumentList.reduce((acc, inst) => {
         acc[inst.name] = inst.type;
         return acc;
     }, {});
 
-    // Count how many selected instruments match this type
     const count = selectedInstruments.filter(
         (name) => instrumentTypeMap[name] === type
     ).length;
@@ -33,7 +31,7 @@ function InstrumentType({ type }) {
         >
             <span className="text-lg font-medium tracking-wide">{type}</span>
             {count > 0 && (
-                <span className="bg-white text-black text-sm font-semibold px-2 py-1 rounded-full">
+                <span className="bg-white text-black text-sm font-semibold px-2 p-0.5 rounded-full">
                     {count}
                 </span>
             )}

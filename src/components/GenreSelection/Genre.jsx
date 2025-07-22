@@ -8,13 +8,11 @@ function Genre({ genre }) {
     const genreList = GenreStore((state) => state.genreList || []);
     const isEditing = SignUpStore((state) => state.isEditing);
 
-    // Build a lookup map: name → type
     const genreMap = genreList.reduce((acc, g) => {
         acc[g.name] = g.genre;
         return acc;
     }, {});
 
-    // Count how many selected instruments match this type
     const count = selectedGenres.filter(
         (name) => genreMap[name] === genre
     ).length;
@@ -34,7 +32,7 @@ function Genre({ genre }) {
             >
                 <span className="text-lg font-medium tracking-wide">{genre}</span>
                 {count > 0 && (
-                    <span className="bg-white text-black text-sm font-semibold px-2 py-1 rounded-full">
+                    <span className="bg-white text-black text-sm font-semibold px-2 py-0.5 rounded-full">
                         {count}
                     </span>
                 )}

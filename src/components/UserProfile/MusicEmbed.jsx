@@ -5,6 +5,7 @@ import SignUpStore from "../CreateProfile/SignUpStore";
 function MultiMusicEmbed() {
     const [urlInput, setUrlInput] = useState("");
     const [embeds, setEmbeds] = useState([]);
+    const [error, setError] = useState("");
     const currentUser = SignUpStore((state) => state.signUpData);
 
     const saveTrack = async (embed) => {
@@ -23,22 +24,20 @@ function MultiMusicEmbed() {
         } catch (error) {
             console.error(error);
         }
-    }
-
+    };
 
     const handleAddTrack = () => {
         try {
-            const parsedUrl = new URL(urlInput.trim());
-
+            const trimmedUrl = urlInput.trim();
+            const parsedUrl = new URL(trimmedUrl);
             let embed = null;
 
             if (parsedUrl.hostname.includes("spotify.com")) {
-                const embedUrl = parsedUrl.href.replace("open.spotify.com", "open.spotify.com/embed");
-
+                const embedUrl = trimmedUrl.replace("open.spotify.com", "open.spotify.com/embed");
                 embed = {
                     type: "spotify",
                     src: embedUrl,
-                    userId: currentUser._id
+                    userId: currentUser?._id,
                 };
             } else if (parsedUrl.hostname.includes("soundcloud.com")) {
                 const embedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComponent(
@@ -48,19 +47,20 @@ function MultiMusicEmbed() {
                 embed = {
                     type: "soundcloud",
                     src: embedUrl,
-                    userId: currentUser._id
+                    userId: currentUser?._id,
                 };
             }
 
             if (embed) {
                 setEmbeds((prev) => [...prev, embed]);
-                saveTrack(embed)
+                saveTrack(embed);
                 setUrlInput("");
+                setError("");
             } else {
-                alert("Only Spotify and SoundCloud links are supported.");
+                setError("Only Spotify and SoundCloud links are supported.");
             }
         } catch (err) {
-            alert("Please enter a valid URL.");
+            setError("Please enter a valid URL.");
         }
     };
 
@@ -91,11 +91,12 @@ function MultiMusicEmbed() {
                 />
                 <button
                     onClick={handleAddTrack}
-                    className="px-4 py-2 bg-blue-600 text-white rounded"
+                    className="px-4 py-2 bg-gray-500 text-white rounded"
                 >
                     Add
                 </button>
             </div>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
             <div className="space-y-6">
                 {embeds.map((embed, idx) => (

@@ -230,7 +230,7 @@ function UserProfile() {
             </button>
             {isEditing && (
               <button
-                className="flex-1 border border-gray-300 rounded px-4 py-2"
+                className="flex-1 border border-gray-300 rounded-lg px-4 py-2"
                 onClick={() => {
                   setIsEditing(false);
                   setGlobalIsEditing(false);

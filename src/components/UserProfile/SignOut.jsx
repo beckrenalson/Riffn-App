@@ -30,8 +30,8 @@ function SignOut() {
         <>
             <button
                 onClick={showSignOutConfirmDialog}
-                className="border rounded-3xl p-2 cursor-pointer"
-            >Sign out
+                className="border rounded-lg p-2 cursor-pointer"
+            >Sign Out
             </button>
 
             {isAlertDialogVisible && (
