@@ -46,7 +46,8 @@ function FinalSignUp() {
                     navigate("/search/solo");
                 }
             } else {
-                console.error("Signup failed:", response.statusText);
+                const errorData = await response.json();
+                console.error("Signup failed:", errorData);
             }
         } catch (error) {
             console.error("Signup error:", error);

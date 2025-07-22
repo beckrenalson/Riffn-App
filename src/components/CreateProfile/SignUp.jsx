@@ -83,7 +83,7 @@ function SignUp() {
     <>
 
       <div className="h-screen flex items-center justify-center">
-        <div className="">
+        <div className="p-10 max-w-md w-full">
           <h2 className="text-4xl font-bold mb-6 text-center">Riffn</h2>
           <form onSubmit={handleSubmit} method="post" noValidate className="space-y-4">
             <div>

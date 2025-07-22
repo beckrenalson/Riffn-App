@@ -8,7 +8,7 @@ function AlertDialog({ message, onConfirm, onCancel, isVisible }) {
 
         <div className="fixed inset-0 flex items-center justify-center p-4">
 
-            <div className="bg-[#1a1a1a] border-gray-800 rounded-xl p-8 max-w-sm w-full">
+            <div className="bg-[#121212]/80 backdrop-blur border-gray-800 rounded-xl p-8 max-w-sm w-full">
                 <p className="text-center mb-8">
                     {message}
                 </p>
