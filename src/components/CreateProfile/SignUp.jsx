@@ -106,7 +106,6 @@ function SignUp() {
                 name="lastName"
                 value={signUpData.lastName}
                 onChange={handleChange}
-                onBlur={checkDetailsExist}
                 required
                 placeholder="Last Name"
                 className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
@@ -136,7 +135,6 @@ function SignUp() {
                 name="password"
                 value={signUpData.password}
                 onChange={handleChange}
-                onBlur={checkDetailsExist}
                 required
                 placeholder="Password"
                 className="w-full pl-4 p-2 border border-gray-500 rounded-lg focus:outline-none"
@@ -147,7 +145,6 @@ function SignUp() {
             </div>
             <button
               type="submit"
-              disabled={Object.keys(fieldErrors).length > 0}
               className="w-full border p-2 rounded-lg cursor-pointer disabled:opacity-50"
             >
               CONTINUE
