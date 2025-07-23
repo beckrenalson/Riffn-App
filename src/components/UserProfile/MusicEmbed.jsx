@@ -20,9 +20,24 @@ function MultiMusicEmbed() {
                 throw new Error("Failed to save track");
             }
 
-            console.log("Track saved!");
+            const saved = await response.json(); // get _id of saved track
+            setEmbeds((prev) => [...prev.slice(0, -1), saved]); // replace last added with DB version
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const deleteTrack = async (trackId) => {
+        try {
+            const res = await fetch(`${API_URL}/api/tracks/${trackId}`, {
+                method: "DELETE",
+            });
+
+            if (!res.ok) throw new Error("Failed to delete track");
+
+            setEmbeds((prev) => prev.filter((track) => track._id !== trackId));
+        } catch (err) {
+            console.error("Delete failed:", err);
         }
     };
 
@@ -52,8 +67,8 @@ function MultiMusicEmbed() {
             }
 
             if (embed) {
-                setEmbeds((prev) => [...prev, embed]);
-                saveTrack(embed);
+                setEmbeds((prev) => [...prev, embed]); // temporarily add
+                saveTrack(embed); // then replace with saved
                 setUrlInput("");
                 setError("");
             } else {
@@ -80,7 +95,7 @@ function MultiMusicEmbed() {
     }, [currentUser._id]);
 
     return (
-        <div className="max-w-xl mx-auto p-4 space-y-4">
+        <div className="max-w-xl mx-auto space-y-4">
             <div className="flex gap-2">
                 <input
                     type="text"
@@ -100,7 +115,7 @@ function MultiMusicEmbed() {
 
             <div className="space-y-6">
                 {embeds.map((embed, idx) => (
-                    <div key={idx}>
+                    <div key={embed._id || idx} className="relative group">
                         {embed.type === "spotify" ? (
                             <iframe
                                 style={{ borderRadius: "12px" }}
@@ -120,6 +135,14 @@ function MultiMusicEmbed() {
                                 frameBorder="no"
                                 src={embed.src}
                             />
+                        )}
+                        {embed._id && (
+                            <button
+                                onClick={() => deleteTrack(embed._id)}
+                                className="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 py-1 rounded"
+                            >
+                                Delete
+                            </button>
                         )}
                     </div>
                 ))}

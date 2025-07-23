@@ -4,12 +4,10 @@ import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
 import BackBtn from '../BackBtn';
 import NavBar from '../NavBar';
-import SignOut from './SignOut';
 import SelectLocation from '../CreateProfile/SelectLocation';
 import SignUpStore from '../CreateProfile/SignUpStore';
 import { USERS_ENDPOINT } from '../../config/api';
 import BandMembersInput from '../CreateProfile/BandMembersInput';
-import DeleteUser from './DeleteUser';
 import MusicEmbed from './MusicEmbed';
 
 function UserProfile() {
@@ -240,14 +238,6 @@ function UserProfile() {
               </button>
             )}
           </div>
-
-          <div className='flex flex-col justify-center pt-6'>
-            <SignOut />
-            {isEditing && (
-              <DeleteUser userId={userData._id} />
-            )}
-          </div>
-
         </div>
       </div >
       <NavBar />
