@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
 import BackBtn from '../BackBtn';
+import SettingsBtn from '../SettingsBtn'
 import NavBar from '../NavBar';
 import SelectLocation from '../CreateProfile/SelectLocation';
 import SignUpStore from '../CreateProfile/SignUpStore';
@@ -80,7 +81,11 @@ function UserProfile() {
 
   return (
     <>
-      <BackBtn />
+      <div className="flex justify-between">
+        <BackBtn />
+        <SettingsBtn />
+      </div>
+
       <UserHeader
         isEditing={isEditing}
         profileImage={formData.profileImage}

@@ -75,7 +75,7 @@ function MultiMusicEmbed() {
                 setError("Only Spotify and SoundCloud links are supported.");
             }
         } catch (err) {
-            setError("Please enter a valid URL.");
+            setError("Please enter a valid Spotify or SoundCloud URL.");
         }
     };
 
