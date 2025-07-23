@@ -214,7 +214,7 @@ function UserProfile() {
           </div>
 
           <div className="border border-gray-500 rounded-lg p-4">
-            <MusicEmbed />
+            <MusicEmbed isEditing={isEditing} setIsEditing={setIsEditing} />
           </div>
 
           <div className="flex gap-3 mt-4">

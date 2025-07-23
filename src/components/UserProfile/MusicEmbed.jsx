@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { API_URL } from "../../config/api";
 import SignUpStore from "../CreateProfile/SignUpStore";
 
-function MultiMusicEmbed() {
+function MultiMusicEmbed({ isEditing, setIsEditing }) {
     const [urlInput, setUrlInput] = useState("");
     const [embeds, setEmbeds] = useState([]);
     const [error, setError] = useState("");
@@ -136,17 +136,19 @@ function MultiMusicEmbed() {
                                 src={embed.src}
                             />
                         )}
-                        {embed._id && (
+                        {isEditing && embed._id && (
                             <button
                                 onClick={() => deleteTrack(embed._id)}
-                                className="absolute top-1 right-1 bg-red-500 p-1 rounded"
+                                className="absolute top-1 right-1 bg-red-500 p-1 rounded-lg"
                             >
                                 <img
                                     className="h-6"
                                     src="/images/trash.png"
+                                    alt="Delete"
                                 />
                             </button>
                         )}
+
                     </div>
                 ))}
             </div>
