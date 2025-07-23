@@ -139,9 +139,12 @@ function MultiMusicEmbed() {
                         {embed._id && (
                             <button
                                 onClick={() => deleteTrack(embed._id)}
-                                className="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 py-1 rounded"
+                                className="absolute top-1 right-1 bg-red-500 p-1 rounded"
                             >
-                                Delete
+                                <img
+                                    className="h-6"
+                                    src="/images/trash.png"
+                                />
                             </button>
                         )}
                     </div>
