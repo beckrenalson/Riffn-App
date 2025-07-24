@@ -45,10 +45,15 @@ function BandMembersInput({ members, setMembers }) {
                     >
                         {member}
                         <button
-                            className="border px-2 py-0.5 rounded-full"
+                            className="bg-red-500 p-1 rounded-lg"
                             onClick={() => handleDelete(member)}
                         >
-                            x
+                            <img
+                                className="h-6"
+                                src="/images/trash.png"
+                                alt="Delete"
+                                style={{ filter: 'invert(1)' }}
+                            />
                         </button>
                     </li>
                 ))}

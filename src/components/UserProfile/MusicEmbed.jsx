@@ -145,6 +145,7 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                                     className="h-6"
                                     src="/images/trash.png"
                                     alt="Delete"
+                                    style={{ filter: 'invert(1)' }}
                                 />
                             </button>
                         )}
