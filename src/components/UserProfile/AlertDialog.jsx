@@ -16,13 +16,13 @@ function AlertDialog({ message, onConfirm, onCancel, isVisible }) {
                 <div className="flex flex-col justify-center gap-4">
                     <button
                         onClick={onConfirm}
-                        className="bg-green-600 font-semibold py-3 px-6 rounded-lg"
+                        className=" bg-gray-500 font-semibold py-3 px-6 rounded-lg"
                     >
                         Confirm
                     </button>
                     <button
                         onClick={onCancel}
-                        className="bg-gray-400 font-semibold py-3 px-6 rounded-lg"
+                        className="border border-gray-300 rounded-lg px-4 py-2"
                     >
                         Cancel
                     </button>
