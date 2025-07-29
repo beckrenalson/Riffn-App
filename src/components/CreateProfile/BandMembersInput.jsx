@@ -37,7 +37,7 @@ function BandMembersInput({ members, setMembers }) {
                     + Add band member
                 </button>
             </form>
-            <ul className="mt-2 mb-6 space-y-1">
+            <ul className="mt-4 mb-6 space-y-1">
                 {members.map((member) => (
                     <li
                         key={member}

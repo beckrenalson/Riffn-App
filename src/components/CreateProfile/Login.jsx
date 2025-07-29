@@ -49,7 +49,7 @@ function Login() {
   return (
     <>
       <BackBtn />
-      <div className="flex justify-center min-h-screen">
+      <div className="flex justify-center max-h-screen">
         <div className="p-10">
           <h2 className="text-4xl font-bold mb-6 text-center">Login</h2>
           {error && <p className="text-red-500 mb-4 text-center">{error}</p>}

@@ -40,7 +40,7 @@ function CreateUser() {
 
                 <div>
                     <input
-                        className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none mt-6"
+                        className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none mt-6 mb-4"
                         placeholder={`Enter ${signUpData.profileType} name`}
                         type="text"
                         value={signUpData.userName}
@@ -94,7 +94,7 @@ function CreateUser() {
 
                 <button
                     onClick={handleContinue}
-                    className="w-full border p-2 rounded-2xl cursor-pointer mt-4"
+                    className="w-full border p-2 rounded-2xl cursor-pointer mt-4 mb-10"
                 >
                     CONTINUE
                 </button>
