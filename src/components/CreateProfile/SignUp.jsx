@@ -94,7 +94,7 @@ function SignUp() {
                 onChange={handleChange}
                 required
                 placeholder="First Name"
-                className="w-full pl-4 p-2 border border-gray-500 rounded-2xl focus:outline-none"
+                className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
               />
               {fieldErrors.firstName && (
                 <p className="text-red-500 text-sm mt-1">{fieldErrors.firstName}</p>
@@ -108,7 +108,7 @@ function SignUp() {
                 onChange={handleChange}
                 required
                 placeholder="Last Name"
-                className="w-full pl-4 p-2 border border-gray-500 rounded-2xl focus:outline-none"
+                className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
               />
               {fieldErrors.lastName && (
                 <p className="text-red-500 text-sm mt-1">{fieldErrors.lastName}</p>
@@ -123,7 +123,7 @@ function SignUp() {
                 onBlur={checkDetailsExist}
                 required
                 placeholder="Email"
-                className="w-full pl-4 p-2 border border-gray-500 rounded-2xl focus:outline-none"
+                className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
               />
               {fieldErrors.email && (
                 <p className="text-red-500 text-sm mt-1">{fieldErrors.email}</p>
@@ -137,7 +137,7 @@ function SignUp() {
                 onChange={handleChange}
                 required
                 placeholder="Password"
-                className="w-full pl-4 p-2 border border-gray-500 rounded-2xl focus:outline-none"
+                className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
               />
               {fieldErrors.password && (
                 <p className="text-red-500 text-sm mt-1">{fieldErrors.password}</p>
@@ -145,7 +145,7 @@ function SignUp() {
             </div>
             <button
               type="submit"
-              className="w-full border p-2 rounded-2xl cursor-pointer disabled:opacity-50"
+              className="w-full border p-2 rounded-xl cursor-pointer disabled:opacity-50"
             >
               CONTINUE
             </button>

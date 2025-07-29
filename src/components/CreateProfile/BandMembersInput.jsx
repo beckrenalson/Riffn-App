@@ -24,7 +24,7 @@ function BandMembersInput({ members, setMembers }) {
         <div className="mt-4">
             <form onSubmit={handleSubmit}>
                 <input
-                    className="border border-gray-500 p-2 w-full rounded"
+                    className="border border-gray-500 p-2 w-full rounded-2xl"
                     type="text"
                     value={inputValue}
                     onChange={handleInputChange}
@@ -32,16 +32,16 @@ function BandMembersInput({ members, setMembers }) {
                 />
                 <button
                     type="submit"
-                    className="border border-gray-500 mt-2 px-4 py-1 rounded"
+                    className="border border-gray-500 mt-2 px-4 py-1 rounded-xl"
                 >
-                    Add band member
+                    + Add band member
                 </button>
             </form>
-            <ul className="mt-4 space-y-1">
+            <ul className="mt-2 mb-6 space-y-1">
                 {members.map((member) => (
                     <li
                         key={member}
-                        className="flex justify-between items-center border border-gray-500 p-2 rounded"
+                        className="flex justify-between items-center border border-gray-500 p-2 rounded-2xl"
                     >
                         {member}
                         <button

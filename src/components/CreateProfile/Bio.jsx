@@ -7,7 +7,7 @@ function Bio({ signUpData, setSignUpData }) {
 
     return (
         <textarea
-            className="border border-gray-500 p-2 pt-2 w-full rounded-2xl h-40 text-left"
+            className="border border-gray-500 p-2 pt-2 w-full rounded-2xl h-30 text-left"
             placeholder="Enter bio"
             value={signUpData.bio || ""}
             onChange={handleChange}

@@ -16,7 +16,7 @@ function SubGenreList({ genres, onSelectionChange }) {
         <div className="">
             {genres.map((genre, index) => (
                 <button
-                    className="flex flex-col mt-10 w-full"
+                    className="flex flex-col mt-6 w-full"
                     key={index}
                     onClick={() => toggleSelection(genre.name)}
                 >

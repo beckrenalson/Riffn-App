@@ -32,7 +32,7 @@ function CreateUser() {
     return (
         <>
             <BackBtn />
-            <div className="min-h-screen p-4">
+            <div className="max-h-screen p-4">
                 <ProfileImageUpload
                     onImageChange={setProfileImage}
                     initialImage={signUpData.profileImage}
@@ -40,7 +40,7 @@ function CreateUser() {
 
                 <div>
                     <input
-                        className="border border-gray-500 p-2 w-full mt-4 rounded"
+                        className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none mt-6"
                         placeholder={`Enter ${signUpData.profileType} name`}
                         type="text"
                         value={signUpData.userName}
@@ -51,22 +51,28 @@ function CreateUser() {
                     />
                     {signUpData.profileType === "solo" && (
                         <div className="mt-4">
-                            <label className="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    checked={useFullName}
-                                    onChange={(e) => {
-                                        setUseFullName(e.target.checked);
-                                        setSignUpData({
-                                            userName: e.target.checked
-                                                ? `${signUpData.firstName || ''} ${signUpData.lastName || ''}`
-                                                : ''
-                                        });
-                                    }}
-                                />
-                                <span>Use full name instead of a username</span>
+                            <label className="flex items-center space-x-3 cursor-pointer">
+                                <span className="text-sm">Use full name instead of a username</span>
+                                <div className="relative">
+                                    <input
+                                        type="checkbox"
+                                        checked={useFullName}
+                                        onChange={(e) => {
+                                            setUseFullName(e.target.checked);
+                                            setSignUpData({
+                                                userName: e.target.checked
+                                                    ? `${signUpData.firstName || ''} ${signUpData.lastName || ''}`
+                                                    : ''
+                                            });
+                                        }}
+                                        className="sr-only peer"
+                                    />
+                                    <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-blue-600 transition-colors"></div>
+                                    <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform peer-checked:translate-x-5"></div>
+                                </div>
                             </label>
                         </div>
+
                     )}
                 </div>
 
@@ -87,7 +93,7 @@ function CreateUser() {
 
                 <button
                     onClick={handleContinue}
-                    className="w-full border p-2 rounded-2xl cursor-pointer"
+                    className="w-full border p-2 rounded-2xl cursor-pointer mt-4"
                 >
                     CONTINUE
                 </button>

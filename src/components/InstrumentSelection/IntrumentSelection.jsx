@@ -58,21 +58,30 @@ function InstrumentSelection() {
     return (
         <>
             <BackBtn />
-            <div className="flex flex-col items-center">
-                <div className="flex justify-center mt-10">
-                    {instrumentList.length > 0 && <InstrumentList
-                        instruments={instrumentList} onSelectionChange={setSelectedInstruments}
-                    />}
+            <div className="flex flex-col items-center px-4">
+                <div className="flex justify-center mt-10 w-full max-w-2xl">
+                    {instrumentList.length > 0 && (
+                        <InstrumentList
+                            instruments={instrumentList}
+                            onSelectionChange={setSelectedInstruments}
+                        />
+                    )}
                 </div>
+
                 <button
-                    className="flex items-center fixed bottom-10 w-fit border rounded-2xl p-4 bg-black"
                     onClick={handleContinue}
-                    disabled={selectedInstruments.length === 0}>
+                    disabled={selectedInstruments.length === 0}
+                    className={`w-full max-w-md mt-10 border p-2 rounded-2xl cursor-pointer transition 
+          ${selectedInstruments.length === 0
+                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            : "bg-black text-white hover:bg-gray-800 cursor-pointer"}`}
+                >
                     Continue
                 </button>
             </div>
         </>
-    )
+    );
+
 }
 
 export default InstrumentSelection

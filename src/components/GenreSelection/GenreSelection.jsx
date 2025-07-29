@@ -56,23 +56,30 @@ function GenreSelection() {
     return (
         <>
             <BackBtn />
-            <div className="flex flex-col items-center">
-                <div className="flex justify-center mb-24">
-                    {genresList.length > 0 && <SubGenreList
-                        genres={genresList}
-                        onSelectionChange={setSelectedGenres}
-                    />}
-
+            <div className="flex flex-col items-center px-4">
+                <div className="w-full max-w-2xl mb-10">
+                    {genresList.length > 0 && (
+                        <SubGenreList
+                            genres={genresList}
+                            onSelectionChange={setSelectedGenres}
+                        />
+                    )}
                 </div>
+
                 <button
-                    className="flex items-center fixed bottom-10 w-fit border rounded-2xl p-4 bg-black"
                     onClick={handleContinue}
-                    disabled={selectedGenres.length === 0}>
+                    disabled={selectedGenres.length === 0}
+                    className={`w-full max-w-md border p-2 rounded-2xl cursor-pointer transition mb-10
+            ${selectedGenres.length === 0
+                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            : "bg-black text-white hover:bg-gray-800"
+                        }`}
+                >
                     Continue
                 </button>
             </div>
         </>
-    )
+    );
 }
 
 export default GenreSelection

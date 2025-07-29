@@ -61,7 +61,7 @@ function Login() {
               onChange={handleChange}
               required
               placeholder="Email"
-              className="w-full pl-4 p-2 border border-gray-500 rounded-2xl focus:outline-none"
+              className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
             />
             <input
               type="password"
@@ -70,11 +70,11 @@ function Login() {
               onChange={handleChange}
               required
               placeholder="Password"
-              className="w-full pl-4 p-2 border border-gray-500 rounded-2xl focus:outline-none"
+              className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
             />
             <button
               type="submit"
-              className="w-full border p-2 rounded-2xl cursor-pointer bg-black text-white"
+              className="w-full border p-2 rounded-xl cursor-pointer bg-black text-white"
             >
               LOGIN
             </button>
