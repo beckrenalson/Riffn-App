@@ -117,7 +117,7 @@ function UserProfile() {
                   <label className="block">
                     <span className="text-sm text-gray-500">First Name</span>
                     <input
-                      className="w-full border rounded px-3 py-2 mt-1"
+                      className="w-full border rounded-xl px-3 py-2 mt-1"
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
@@ -126,7 +126,7 @@ function UserProfile() {
                   <label className="block">
                     <span className="text-sm text-gray-500">Last Name</span>
                     <input
-                      className="w-full border rounded px-3 py-2 mt-1"
+                      className="w-full border rounded-xl px-3 py-2 mt-1"
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
@@ -168,7 +168,7 @@ function UserProfile() {
             <UserDetails icon="/images/envelope.png">
               {isEditing ? (
                 <input
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border rounded-xl px-3 py-2"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -182,7 +182,7 @@ function UserProfile() {
             <UserDetails icon="/images/eye.png">
               {isEditing ? (
                 <input
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border rounded-xl px-3 py-2"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

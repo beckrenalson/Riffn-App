@@ -24,7 +24,7 @@ function BandMembersInput({ members, setMembers }) {
         <div className="mt-4">
             <form onSubmit={handleSubmit}>
                 <input
-                    className="border border-gray-500 p-2 w-full rounded-2xl"
+                    className="border border-gray-500 p-2 w-full rounded-xl"
                     type="text"
                     value={inputValue}
                     onChange={handleInputChange}

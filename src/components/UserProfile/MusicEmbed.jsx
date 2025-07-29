@@ -102,11 +102,11 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                     value={urlInput}
                     onChange={(e) => setUrlInput(e.target.value)}
                     placeholder="Paste Spotify or SoundCloud link"
-                    className="flex-1 p-2 border rounded"
+                    className="flex-1 p-2 border rounded-xl"
                 />
                 <button
                     onClick={handleAddTrack}
-                    className="px-4 py-2 bg-gray-500 text-white rounded"
+                    className="px-4 py-2 bg-gray-500 text-white rounded-2xl"
                 >
                     Add
                 </button>
