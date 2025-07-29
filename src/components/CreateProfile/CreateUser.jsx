@@ -5,6 +5,7 @@ import BackBtn from "../BackBtn";
 import SelectLocation from "./SelectLocation";
 import ProfileImageUpload from "./ProfileImageUpload";
 import BandMembersInput from "./BandMembersInput";
+import Bio from "./Bio";
 
 function CreateUser() {
     const navigate = useNavigate();
@@ -81,13 +82,7 @@ function CreateUser() {
                 )}
 
                 <div>
-                    <textarea
-                        className="border border-gray-500 p-2 pt-2 w-full rounded h-40 mb-4 text-left"
-                        placeholder="Enter bio"
-                        value={signUpData.bio}
-                        onChange={handleChange}
-                        name="bio"
-                    />
+                    <Bio signUpData={signUpData} setSignUpData={setSignUpData} />
                 </div>
 
                 <button
