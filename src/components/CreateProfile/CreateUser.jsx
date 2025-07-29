@@ -50,7 +50,7 @@ function CreateUser() {
                         disabled={useFullName}
                     />
                     {signUpData.profileType === "solo" && (
-                        <div className="mt-4">
+                        <div className="mb-6">
                             <label className="flex items-center space-x-3 cursor-pointer">
                                 <span className="text-sm">Use full name instead of a username</span>
                                 <div className="relative">
