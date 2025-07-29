@@ -93,23 +93,24 @@ function UserProfile() {
         setImage={(image) => setFormData({ ...formData, profileImage: image })}
       />
 
-      {isEditing ? (
-        <div className="w-full max-w-md px-4 mt-4">
-          <label className="text-sm text-gray-600 mb-1 block">Bio</label>
-          <Bio signUpData={formData} setSignUpData={setFormData} />
-        </div>
-      ) : (
-        <div className="w-full max-w-md px-4 mt-4">
-          <div className="bg-gray-100 text-gray-800 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
-            {userData.bio || (
-              <span className="text-gray-400 italic">No bio provided.</span>
-            )}
-          </div>
-        </div>
-      )}
 
       <div className="flex flex-col items-center px-4 pt-4 pb-24">
         <div className="w-full max-w-md">
+          {isEditing ? (
+            <div className="w-full max-w-md px-4 mt-4">
+              <label className="text-sm text-gray-600 mb-1 block">Bio</label>
+              <Bio signUpData={formData} setSignUpData={setFormData} />
+            </div>
+          ) : (
+            <div className="w-full max-w-md px-4 mt-4">
+              <div className="bg-gray-100 text-gray-800 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+                {userData.bio || (
+                  <span className="text-gray-400 italic">No bio provided.</span>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="border border-gray-500 rounded-2xl p-4 mb-6">
             <UserDetails icon="/images/circle-user.png">
               {isEditing ? (
