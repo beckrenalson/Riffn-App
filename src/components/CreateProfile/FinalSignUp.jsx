@@ -104,7 +104,7 @@ function FinalSignUp() {
             <div className="flex justify-center mt-8 mb-20">
                 <button
                     onClick={handleSubmit}
-                    className="w-full border p-2 rounded-lg cursor-pointer mx-4"
+                    className="w-full border p-2 rounded-2xl cursor-pointer mx-4"
                 >
                     SIGN UP
                 </button>

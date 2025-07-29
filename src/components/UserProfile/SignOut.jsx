@@ -30,7 +30,7 @@ function SignOut() {
         <>
             <button
                 onClick={showSignOutConfirmDialog}
-                className="border rounded-lg p-2 cursor-pointer"
+                className="border rounded-2xl p-2 cursor-pointer"
             >Sign Out
             </button>
 

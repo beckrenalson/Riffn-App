@@ -100,7 +100,7 @@ function UserProfile() {
         </div>
       ) : (
         <div className="w-full max-w-md px-4 mt-4">
-          <div className="bg-gray-100 text-gray-800 p-4 rounded-md whitespace-pre-line leading-relaxed">
+          <div className="bg-gray-100 text-gray-800 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
             {userData.bio || (
               <span className="text-gray-400 italic">No bio provided.</span>
             )}
@@ -110,7 +110,7 @@ function UserProfile() {
 
       <div className="flex flex-col items-center px-4 pt-4 pb-24">
         <div className="w-full max-w-md">
-          <div className="border border-gray-500 rounded-lg p-4 mb-6">
+          <div className="border border-gray-500 rounded-2xl p-4 mb-6">
             <UserDetails icon="/images/circle-user.png">
               {isEditing ? (
                 <div className="space-y-2">
@@ -195,7 +195,7 @@ function UserProfile() {
 
           </div>
 
-          <div className="border border-gray-500 rounded-lg p-4 mb-6">
+          <div className="border border-gray-500 rounded-2xl p-4 mb-6">
             <UserDetails icon="/images/instruments/guitar.png">
               {isEditing ? (
                 <div className="flex justify-between items-center">
@@ -229,13 +229,13 @@ function UserProfile() {
             </UserDetails>
           </div>
 
-          <div className="border border-gray-500 rounded-lg p-4">
+          <div className="border border-gray-500 rounded-2xl p-4">
             <MusicEmbed isEditing={isEditing} setIsEditing={setIsEditing} />
           </div>
 
           <div className="flex gap-3 mt-4">
             <button
-              className="flex-1 bg-gray-500 font-semibold py-3 px-6 rounded-lg"
+              className="flex-1 bg-gray-500 font-semibold py-3 px-6 rounded-2xl"
               onClick={() => {
                 if (isEditing) {
                   handleSave();
@@ -249,7 +249,7 @@ function UserProfile() {
             </button>
             {isEditing && (
               <button
-                className="flex-1 border border-gray-300 rounded-lg px-4 py-2"
+                className="flex-1 border border-gray-300 rounded-2xl px-4 py-2"
                 onClick={() => {
                   setFormData({ ...userData });
                   setPassword("");

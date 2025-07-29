@@ -139,7 +139,7 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                         {isEditing && embed._id && (
                             <button
                                 onClick={() => deleteTrack(embed._id)}
-                                className="absolute top-1 right-1 bg-red-500 p-1 rounded-lg"
+                                className="absolute top-1 right-1 bg-red-500 p-1 rounded-2xl"
                             >
                                 <img
                                     className="h-6"

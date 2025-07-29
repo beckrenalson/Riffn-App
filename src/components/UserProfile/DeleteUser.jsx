@@ -41,7 +41,7 @@ function DeleteUser({ userId }) {
         <>
             <button
                 onClick={showDeleteConfirmDialog}
-                className="mt-4 bg-red-600 font-semibold py-3 px-6 rounded-lg"
+                className="mt-4 bg-red-600 font-semibold py-3 px-6 rounded-2xl"
             >
                 Delete Account
             </button>

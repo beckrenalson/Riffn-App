@@ -87,7 +87,7 @@ function CreateUser() {
 
                 <button
                     onClick={handleContinue}
-                    className="w-full border p-2 rounded-lg cursor-pointer"
+                    className="w-full border p-2 rounded-2xl cursor-pointer"
                 >
                     CONTINUE
                 </button>
