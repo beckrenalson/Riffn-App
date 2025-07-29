@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SignUpStore from "./SignUpStore";
 import BackBtn from "../BackBtn";
@@ -20,7 +20,7 @@ function CreateUser() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setSignUpData({ [name]: value });
+        setSignUpData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleContinue = (e) => {
@@ -59,11 +59,12 @@ function CreateUser() {
                                         checked={useFullName}
                                         onChange={(e) => {
                                             setUseFullName(e.target.checked);
-                                            setSignUpData({
+                                            setSignUpData((prev) => ({
+                                                ...prev,
                                                 userName: e.target.checked
                                                     ? `${signUpData.firstName || ''} ${signUpData.lastName || ''}`
                                                     : ''
-                                            });
+                                            }));
                                         }}
                                         className="sr-only peer"
                                     />

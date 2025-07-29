@@ -1,5 +1,4 @@
 function Bio({ signUpData, setSignUpData }) {
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setSignUpData((prev) => ({ ...prev, [name]: value }));
@@ -13,7 +12,7 @@ function Bio({ signUpData, setSignUpData }) {
             onChange={handleChange}
             name="bio"
         />
-    )
+    );
 }
 
 export default Bio

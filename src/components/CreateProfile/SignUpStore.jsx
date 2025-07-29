@@ -39,10 +39,14 @@ const SignUpStore = create(
 
       setIsEditing: (bool) => set({ isEditing: bool }),
 
-      setSignUpData: (data) =>
-        set((state) => ({
-          signUpData: { ...state.signUpData, ...data },
-        })),
+      setSignUpData: (updater) =>
+        set((state) => {
+          const updatedData =
+            typeof updater === "function" ? updater(state.signUpData) : updater;
+          return {
+            signUpData: { ...state.signUpData, ...updatedData },
+          };
+        }),
 
       resetSignUpData: () =>
         set({
