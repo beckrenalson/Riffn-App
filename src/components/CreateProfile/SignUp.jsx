@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SignUpStore from "./SignUpStore";
-import { USERS_ENDPOINT } from "../../config/api";
+import { API_URL, USERS_ENDPOINT } from "../../config/api";
+import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 
 function SignUp() {
 
@@ -11,6 +12,53 @@ function SignUp() {
   const setSignUpData = SignUpStore((state) => state.setSignUpData)
 
   const [fieldErrors, setFieldErrors] = useState({})
+
+  const registerWithPasskey = async () => {
+    const email = signUpData.email;
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/webauthn/register/options`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Failed to get options: ${text}`);
+      }
+
+      const opts = await res.json();
+      console.log('Registration options received:', opts);
+
+      if (!opts.challenge) {
+        throw new Error('Missing challenge in registration options');
+      }
+
+      const attResp = await startRegistration(opts);
+
+      const verificationRes = await fetch('/api/auth/webauthn/register/verify', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ attestationResponse: attResp, email }),
+      });
+
+      const verification = await verificationRes.json();
+
+      if (verification.verified) {
+        console.log('Passkey registration successful');
+        navigate("/signup/userselection");
+      } else {
+        console.error('Passkey registration failed');
+      }
+
+    } catch (err) {
+      console.error('Passkey registration error:', err);
+    }
+  };
+
 
   const login = () => {
     navigate("/login")
@@ -157,6 +205,14 @@ function SignUp() {
               Login
             </button>
           </p>
+          <button
+            type="button"
+            onClick={registerWithPasskey}
+            className="w-full mt-4 border p-2 rounded-xl bg-black text-white"
+          >
+            Register with Passkey
+          </button>
+
         </div>
       </div>
 
