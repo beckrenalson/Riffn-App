@@ -41,7 +41,11 @@ function CreateUser() {
                 <div>
                     <input
                         className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none mt-6 mb-4"
-                        placeholder={`Enter ${signUpData.profileType} name`}
+                        placeholder={
+                            signUpData.profileType === "solo"
+                                ? "Enter stage name"
+                                : "Enter band name"
+                        }
                         type="text"
                         value={signUpData.userName}
                         onChange={handleChange}
@@ -52,7 +56,7 @@ function CreateUser() {
                     {signUpData.profileType === "solo" && (
                         <div className="mb-6">
                             <label className="flex items-center space-x-3 cursor-pointer">
-                                <span className="text-sm">Use full name instead of a username</span>
+                                <span className="text-sm">Use real name instead</span>
                                 <div className="relative">
                                     <input
                                         type="checkbox"
