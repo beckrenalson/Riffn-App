@@ -24,7 +24,7 @@ function DeleteUser({ userId }) {
 
                 localStorage.removeItem("riffn-user-storage");
                 SignUpStore.getState().resetSignUpData();
-                navigate('/login');
+                navigate('/signup');
             } else {
                 alert('Failed to delete account. Please try again.');
             }
