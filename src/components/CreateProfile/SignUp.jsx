@@ -205,13 +205,13 @@ function SignUp() {
               Login
             </button>
           </p>
-          <button
+          {/* <button
             type="button"
             onClick={registerWithPasskey}
             className="w-full mt-4 border p-2 rounded-xl bg-black text-white"
           >
             Register with Passkey
-          </button>
+          </button> */}
 
         </div>
       </div>

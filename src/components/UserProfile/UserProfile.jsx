@@ -104,7 +104,7 @@ function UserProfile() {
                 <Bio signUpData={formData} setSignUpData={setFormData} />
               </>
             ) : (
-              <div className="bg-gray-300 text-gray-800 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+              <div className="bg-gray-200 text-gray-800 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
                 {userData.bio || (
                   <span className="text-gray-400 italic">No bio provided.</span>
                 )}
