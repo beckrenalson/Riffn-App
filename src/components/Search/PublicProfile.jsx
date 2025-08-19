@@ -1,70 +1,89 @@
-import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import BackBtn from "../BackBtn";
 import NavBar from "../NavBar";
 import { API_URL } from '../../config/api';
+import SignUpStore from "../CreateProfile/SignUpStore";
 
 function PublicProfile() {
-    const { state } = useLocation();
     const { userName } = useParams();
-    const user = state?.user;
+    const { state } = useLocation();
+    const navigate = useNavigate();
+    const currentUser = SignUpStore((state) => state.signUpData);
+
+    const [user, setUser] = useState(state?.user || null);
     const [tracks, setTracks] = useState([]);
-    const [connectionStatus, setConnectionStatus] = useState('none'); // 'none', 'pending', 'connected'
+    const [connectionStatus, setConnectionStatus] = useState('none');
     const [isLoading, setIsLoading] = useState(false);
 
-
+    // Fetch user if not in state
     useEffect(() => {
-        async function fetchTracks() {
+        if (user) return;
+
+        async function fetchUser() {
             try {
-                const response = await fetch(`${API_URL}/api/tracks/${user._id}`);
-                const data = await response.json();
-                setTracks(data);
+                const res = await fetch(`${API_URL}/api/users/${userName}`);
+                const data = await res.json();
+                setUser(data);
             } catch (err) {
-                console.error("Failed to fetch tracks", err);
+                console.error(err);
             }
         }
 
-        async function checkConnectionStatus() {
+        fetchUser();
+    }, [user, userName]);
+
+    // Fetch tracks
+    useEffect(() => {
+        if (!user) return;
+
+        async function fetchTracks() {
             try {
-                // This would check if there's an existing connection request or connection
-                // const response = await fetch(`${API_URL}/api/connections/${user._id}`);
-                // const data = await response.json();
-                // setConnectionStatus(data.status);
+                const res = await fetch(`${API_URL}/api/tracks/${user._id}`);
+                const data = await res.json();
+                setTracks(data);
             } catch (err) {
-                console.error("Failed to check connection status", err);
+                console.error(err);
             }
         }
 
         fetchTracks();
-        checkConnectionStatus();
     }, [user]);
 
+    // Send connection request
     const handleConnectionRequest = async () => {
+        if (!currentUser) return alert("You must be logged in to request to join.");
+
         setIsLoading(true);
         try {
-            // This would send a connection request to the user
-            // const response = await fetch(`${API_URL}/api/connections/request`, {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ targetUserId: user._id })
-            // });
+            const body = { fromUserId: currentUser._id };
+            if (user.profileType === 'band') body.toBandId = user._id;
+            if (user.profileType === 'solo') body.toSoloId = user._id;
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const res = await fetch(`${API_URL}/api/connections/request`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+
+            const data = await res.json();
+            if (!res.ok) return alert(data.message);
+
             setConnectionStatus('pending');
         } catch (err) {
-            console.error("Failed to send connection request", err);
+            console.error(err);
         } finally {
             setIsLoading(false);
         }
     };
 
+    if (!user) return <div className="p-6">Loading user...</div>;
 
     return (
-
         <>
             <BackBtn />
             <div className="p-6 pt-4 space-y-6 pb-24">
+                {/* Profile Image */}
                 <div className="flex justify-center">
                     <img
                         className="rounded-full w-32 h-32 object-cover border"
@@ -75,58 +94,63 @@ function PublicProfile() {
                                     ? `${API_URL}${user.profileImage.startsWith("/") ? user.profileImage : "/" + user.profileImage}`
                                     : "/images/profilepicture.png"
                         }
-
                         alt="Profile"
                     />
                 </div>
 
+                {/* Name, Location, Connection */}
                 <div className="text-center space-y-3">
-                    <h1 className="text-2xl font-bold">{user?.userName || userName}</h1>
-                    <h2 className="text-gray-600">{user?.location || 'Location not specified'}</h2>
+                    <h1 className="text-2xl font-bold">{user.userName}</h1>
+                    <h2 className="text-gray-600">{user.location || 'Location not specified'}</h2>
 
-                    {/* Connection Status */}
-                    <div className="pt-2">
-                        {connectionStatus === 'none' && (
-                            <button
-                                onClick={handleConnectionRequest}
-                                disabled={isLoading}
-                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center gap-2 mx-auto"
-                            >
-                                {isLoading ? (
-                                    <>
-                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                        Sending...
-                                    </>
-                                ) : (
-                                    <>
-                                        {user?.profileType === 'band' ? 'Request to Join' : 'Invite to Band'}
-                                    </>
-                                )}
-                            </button>
-                        )}
+                    {/* Request to join button */}
+                    {connectionStatus === 'none' && currentUser && currentUser._id !== user._id && (
+                        <button
+                            onClick={handleConnectionRequest}
+                            disabled={isLoading}
+                            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center gap-2 mx-auto"
+                        >
+                            {isLoading ? (
+                                <>
+                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                    Sending...
+                                </>
+                            ) : (
+                                <>
+                                    {user?.profileType === 'band' ? 'Request to Join' : 'Invite to Band'}
+                                </>
+                            )}                        </button>
+                    )}
 
-                        {connectionStatus === 'pending' && (
-                            <div className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
-                                {user?.profileType === 'band' ? 'Join request sent' : 'Invitation sent'}
+                    {connectionStatus === 'pending' && (
+                        <div className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
+                            {user?.profileType === 'band' ? 'Join request sent' : 'Invitation sent'}
+                        </div>
+                    )}
+
+
+                    {connectionStatus === 'connected' && (
+                        <div className="space-y-2">
+                            <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
+                                Connected
                             </div>
-                        )}
-
-                        {connectionStatus === 'connected' && (
-                            <div className="space-y-2">
-                                <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
-                                    Connected
-                                </div>
-                                {/* Show contact info when connected */}
-                                <div className="text-sm text-gray-600 space-y-1">
-                                    {user?.phone && <p>Phone: {user.phone}</p>}
-                                    {user?.instagram && <p>Instagram: @{user.instagram}</p>}
-                                    {user?.email && <p>Email: {user.email}</p>}
-                                </div>
+                            {/* Show contact info when connected */}
+                            <div className="text-sm text-gray-600 space-y-1">
+                                {user?.phone && <p>Phone: {user.phone}</p>}
+                                {user?.instagram && <p>Instagram: @{user.instagram}</p>}
+                                {user?.email && <p>Email: {user.email}</p>}
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
 
+                {/* Bio */}
+                <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
+                    <p className="text-sm text-gray-500 mb-2 font-semibold">Bio:</p>
+                    <p>{user.bio || "No bio provided."}</p>
+                </div>
+
+                {/* Instruments & Genres */}
                 <div className="border p-4 rounded-2xl space-y-2 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
                     {user?.profileType === "band" && (
                         <div>
@@ -136,21 +160,36 @@ function PublicProfile() {
                     )}
                     <div>
                         <p className="text-sm font-semibold text-gray-500">
-                            {user?.profileType === "band" ? "Instruments needed:" : "Instruments played:"}
+                            {user.profileType === "band" ? "Instruments needed:" : "Instruments played:"}
                         </p>
-                        <p>{user?.selectedInstruments?.join(', ') || 'Not specified'}</p>
+                        <p>{user.selectedInstruments?.join(', ') || 'Not specified'}</p>
                     </div>
                     <div>
                         <p className="text-sm font-semibold text-gray-500">Preferred genres:</p>
-                        <p>{user?.selectedGenres?.join(', ') || 'Not specified'}</p>
+                        <p>{user.selectedGenres?.join(', ') || 'Not specified'}</p>
                     </div>
                 </div>
 
+                {/* Contact / Socials */}
                 <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
-                    <p className="text-sm text-gray-500 mb-2 font-semibold">Bio:</p>
-                    <p>{user?.bio || "No bio provided."}</p>
+                    <p className="text-sm text-gray-500 mb-2 font-semibold">Contact / Socials:</p>
+                    <div className="text-sm text-gray-600 space-y-1">
+                        {user.phone && <p>Phone: {user.phone}</p>}
+                        {user.socials &&
+                            Object.entries(user.socials).map(([platform, link]) =>
+                                link ? (
+                                    <p key={platform}>
+                                        {platform.charAt(0).toUpperCase() + platform.slice(1)}:{" "}
+                                        <a href={link} target="_blank" className="text-blue-400 hover:underline">{link}</a>
+                                    </p>
+                                ) : null
+                            )
+                        }
+                        {user.email && <p>Email: {user.email}</p>}
+                    </div>
                 </div>
 
+                {/* Music Tracks */}
                 <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Music:</p>
                     <div className="space-y-6">
@@ -181,7 +220,8 @@ function PublicProfile() {
                         ))}
                     </div>
                 </div>
-            </div >
+            </div>
+
             <NavBar />
         </>
     );

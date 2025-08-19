@@ -23,6 +23,13 @@ function NavBar() {
                 </button>
 
                 <button
+                    onClick={() => navigate("/requests")}
+                    className="flex flex-col items-center text-gray-400 hover:text-white transition">
+                    <img src="/images/connections.png" alt="Connections" className="w-6 h-6 mb-1" style={{ filter: 'invert(1)' }} />
+                    <span className="text-xs">Connections</span>
+                </button>
+
+                <button
                     onClick={() => navigate("/profile")}
                     className="flex flex-col items-center text-gray-400 hover:text-white transition">
                     <img src="/images/circle-user.png" alt="Profile" className="w-6 h-6 mb-1" style={{ filter: 'invert(1)' }} />

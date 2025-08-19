@@ -17,6 +17,7 @@ import CreateUser from './components/CreateProfile/CreateUser.jsx';
 import AboutPage from './components/AboutPage.jsx';
 import Settings from './components/UserProfile/Settings.jsx';
 import SearchProfiles from './components/Search/SearchProfiles.jsx.jsx';
+import Connections from './components/Search/Connections.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -41,6 +42,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/requests" element={<Connections />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
