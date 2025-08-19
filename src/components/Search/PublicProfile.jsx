@@ -99,8 +99,7 @@ function PublicProfile() {
                                     </>
                                 ) : (
                                     <>
-                                        <span>🤝</span>
-                                        {user?.profileType === 'band' ? 'I want to join this band' : 'I want you for my band'}
+                                        {user?.profileType === 'band' ? 'Request to Join' : 'Invite to Band'}
                                     </>
                                 )}
                             </button>
@@ -108,28 +107,20 @@ function PublicProfile() {
 
                         {connectionStatus === 'pending' && (
                             <div className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
-                                <span>⏳</span>
-                                {user?.profileType === 'band' ? 'Join request sent' : 'Band invitation sent'}
+                                {user?.profileType === 'band' ? 'Join request sent' : 'Invitation sent'}
                             </div>
                         )}
 
                         {connectionStatus === 'connected' && (
                             <div className="space-y-2">
                                 <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
-                                    <span>✅</span>
                                     Connected
                                 </div>
                                 {/* Show contact info when connected */}
                                 <div className="text-sm text-gray-600 space-y-1">
-                                    {user?.phone && (
-                                        <p>📞 {user.phone}</p>
-                                    )}
-                                    {user?.instagram && (
-                                        <p>📱 @{user.instagram}</p>
-                                    )}
-                                    {user?.email && (
-                                        <p>✉️ {user.email}</p>
-                                    )}
+                                    {user?.phone && <p>Phone: {user.phone}</p>}
+                                    {user?.instagram && <p>Instagram: @{user.instagram}</p>}
+                                    {user?.email && <p>Email: {user.email}</p>}
                                 </div>
                             </div>
                         )}
