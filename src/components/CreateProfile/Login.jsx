@@ -36,7 +36,7 @@ function Login() {
       SignUpStore.getState().setSignUpData(data.user);
       localStorage.setItem("riffn-user-storage", JSON.stringify(data.user));
 
-      const target = formData.profileType === "solo" ? "band" : "solo";
+      const target = data.user.profileType === "solo" ? "band" : "solo";
       navigate(`/search/${target}`);
     } catch (err) {
       setError(err.message || "Login failed");

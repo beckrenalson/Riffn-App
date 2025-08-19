@@ -9,6 +9,8 @@ function PublicProfile() {
     const { userName } = useParams();
     const user = state?.user;
     const [tracks, setTracks] = useState([]);
+    const [connectionStatus, setConnectionStatus] = useState('none'); // 'none', 'pending', 'connected'
+    const [isLoading, setIsLoading] = useState(false);
 
 
     useEffect(() => {
@@ -22,8 +24,40 @@ function PublicProfile() {
             }
         }
 
+        async function checkConnectionStatus() {
+            try {
+                // This would check if there's an existing connection request or connection
+                // const response = await fetch(`${API_URL}/api/connections/${user._id}`);
+                // const data = await response.json();
+                // setConnectionStatus(data.status);
+            } catch (err) {
+                console.error("Failed to check connection status", err);
+            }
+        }
+
         fetchTracks();
+        checkConnectionStatus();
     }, [user]);
+
+    const handleConnectionRequest = async () => {
+        setIsLoading(true);
+        try {
+            // This would send a connection request to the user
+            // const response = await fetch(`${API_URL}/api/connections/request`, {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ targetUserId: user._id })
+            // });
+
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            setConnectionStatus('pending');
+        } catch (err) {
+            console.error("Failed to send connection request", err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
 
     return (
@@ -46,10 +80,60 @@ function PublicProfile() {
                     />
                 </div>
 
-                <div className="text-center space-y-1">
+                <div className="text-center space-y-3">
                     <h1 className="text-2xl font-bold">{user?.userName || userName}</h1>
-                    <h2 className="text-gray-600">{user?.location || 'Unknown Location'}</h2>
-                    <p className="text-gray-500">{user?.contact || 'No contact listed'}</p>
+                    <h2 className="text-gray-600">{user?.location || 'Location not specified'}</h2>
+
+                    {/* Connection Status */}
+                    <div className="pt-2">
+                        {connectionStatus === 'none' && (
+                            <button
+                                onClick={handleConnectionRequest}
+                                disabled={isLoading}
+                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center gap-2 mx-auto"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        Sending...
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>🤝</span>
+                                        {user?.profileType === 'band' ? 'I want to join this band' : 'I want you for my band'}
+                                    </>
+                                )}
+                            </button>
+                        )}
+
+                        {connectionStatus === 'pending' && (
+                            <div className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
+                                <span>⏳</span>
+                                {user?.profileType === 'band' ? 'Join request sent' : 'Band invitation sent'}
+                            </div>
+                        )}
+
+                        {connectionStatus === 'connected' && (
+                            <div className="space-y-2">
+                                <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
+                                    <span>✅</span>
+                                    Connected
+                                </div>
+                                {/* Show contact info when connected */}
+                                <div className="text-sm text-gray-600 space-y-1">
+                                    {user?.phone && (
+                                        <p>📞 {user.phone}</p>
+                                    )}
+                                    {user?.instagram && (
+                                        <p>📱 @{user.instagram}</p>
+                                    )}
+                                    {user?.email && (
+                                        <p>✉️ {user.email}</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="border p-4 rounded-2xl space-y-2 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
