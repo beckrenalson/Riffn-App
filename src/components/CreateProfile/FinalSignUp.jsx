@@ -95,7 +95,7 @@ function FinalSignUp() {
                     <div>
                         <p className="text-sm text-gray-500">Band Members:</p>
                         <p className="text-lg font-medium">
-                            {signUpData.bandMembers.map((member) => member.name).join(', ')}
+                            {signUpData.bandMembers.join(', ')}
                         </p>
                     </div>
                 )}
