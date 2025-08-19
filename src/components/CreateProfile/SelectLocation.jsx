@@ -7,7 +7,7 @@ function SelectLocation({ signUpData, handleChange }) {
             className="w-full p-3 rounded-2xl bg-[#0a0a0a] text-white border border-gray-500"
         >
             <option value="">Select a location</option>
-            <option value="All">Online</option>
+            <option value="Online">Online</option>
             <option value="All">All</option>
             <option value="Auckland">Auckland</option>
             <option value="Wellington">Wellington</option>

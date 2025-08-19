@@ -7,12 +7,9 @@ function NavBar() {
     const navigate = useNavigate()
 
     const search = () => {
-        if (userData.profileType === "solo") {
-            navigate("/search/band")
-        } else {
-            navigate("/search/solo")
-        }
-    }
+        const target = userData.profileType === "solo" ? "band" : "solo";
+        navigate(`/search/${target}`);
+    };
 
     return (
         <>

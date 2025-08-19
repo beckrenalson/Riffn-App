@@ -7,8 +7,6 @@ import UserSelection from './components/CreateProfile/UserSelection.jsx'
 import InstrumentSelection from './components/InstrumentSelection/IntrumentSelection.jsx'
 import InstrumentTypeList from './components/InstrumentSelection/InstrumentTypeList.jsx'
 import Login from './components/CreateProfile/Login.jsx';
-import BandSearch from './components/Search/BandSearch.jsx';
-import SoloSearch from './components/Search/SoloSearch.jsx'
 import PublicProfile from './components/Search/PublicProfile.jsx'
 import GenreSelection from './components/GenreSelection/GenreSelection.jsx';
 import GenreList from './components/GenreSelection/GenreList.jsx';
@@ -18,6 +16,7 @@ import FinalSignUp from './components/CreateProfile/FinalSignUp.jsx';
 import CreateUser from './components/CreateProfile/CreateUser.jsx';
 import AboutPage from './components/AboutPage.jsx';
 import Settings from './components/UserProfile/Settings.jsx';
+import SearchProfiles from './components/Search/SearchProfiles.jsx.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -35,9 +34,9 @@ createRoot(document.getElementById('root')).render(
         </Route>
 
         <Route path="/login" element={<Login />} />
-        <Route path="/search/band" element={<BandSearch />} />
+        <Route path="/search/solo" element={<SearchProfiles profileType="solo" />} />
+        <Route path="/search/band" element={<SearchProfiles profileType="band" />} />
         <Route path="/search/band/:userName" element={<PublicProfile />} />
-        <Route path="/search/solo" element={<SoloSearch />} />
         <Route path="/search/solo/:userName" element={<PublicProfile />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/about" element={<AboutPage />} />

@@ -6,13 +6,19 @@ function ProfileList({ header, profiles }) {
     const navigate = useNavigate()
 
     const handleClick = (user) => {
-        const slug = user.userName.toLowerCase().replace(/\s+/g, '-'); // optional slugify
-        if (user.profileType === "solo") {
-            navigate(`/search/solo/${slug}`, { state: { user } });
-        } else {
-            navigate(`/search/band/${slug}`, { state: { user } });
-        }
+        const slugify = (name) =>
+            name
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w\s-]/g, '') // remove special characters
+                .replace(/\s+/g, '-');    // replace spaces with hyphens
 
+        const slug = slugify(user.userName);
+
+        navigate(
+            `/search/${user.profileType}/${slug}`,
+            { state: { user } }
+        );
     }
 
     return (
@@ -23,7 +29,7 @@ function ProfileList({ header, profiles }) {
                 {profiles.map((user, index) => (
                     <button
                         key={index}
-                        className="flex items-center border p-2 rounded-2xl w-full mb-5 text-left border-gray-500 hover:border-gray-600 transition"
+                        className="flex items-center border p-3 rounded-2xl w-full mb-5 text-left border-gray-500 hover:border-gray-600 transition"
                         onClick={() => handleClick(user)}
                     >
                         <img
