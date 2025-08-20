@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
+import { USERS_ENDPOINT } from "../../config/api";
 
 function BandMembersInput({ members, setMembers, currentUserId }) {
     const [inputValue, setInputValue] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const API_BASE =
-        process.env.NODE_ENV === "development"
-            ? "http://localhost:5000/api/users"
-            : "/api/users";
+    // const API_BASE =
+    //     process.env.NODE_ENV === "development"
+    //         ? "http://localhost:5000/api/users"
+    //         : "/api/users";
+
+    const API_BASE = USERS_ENDPOINT;
 
     // Fetch search results as user types
     useEffect(() => {
