@@ -41,7 +41,8 @@ function UserProfile() {
     bandMembers: userData?.bandMembers || [],
     selectedInstruments: userData?.selectedInstruments || [],
     selectedGenres: userData?.selectedGenres || [],
-    profileImage: userData?.profileImage || ''
+    profileImage: userData?.profileImage || '',
+    bio: userData?.bio || ''
   });
 
   useEffect(() => {
@@ -58,7 +59,8 @@ function UserProfile() {
       bandMembers: userData?.bandMembers || [],
       selectedInstruments: userData?.selectedInstruments || [],
       selectedGenres: userData?.selectedGenres || [],
-      profileImage: userData?.profileImage || ''
+      profileImage: userData?.profileImage || '',
+      bio: userData?.bio || ''
     });
   }, [userData]);
 
@@ -66,8 +68,19 @@ function UserProfile() {
 
   const handleSave = async () => {
     try {
-      const payload = { ...formData };
-      if (password) {
+      // Ensure we only send IDs for relationships
+      const payload = {
+        ...formData,
+        bandMembers: (formData.bandMembers || []).map(m =>
+          typeof m === "string" ? m : m._id
+        ),
+        bands: (formData.bands || []).map(b =>
+          typeof b === "string" ? b : b._id
+        ),
+      };
+
+      // Only include password if it was changed
+      if (password.trim()) {
         payload.password = password;
       }
 
@@ -78,18 +91,54 @@ function UserProfile() {
       });
 
       if (response.ok) {
-        const updatedData = await response.json();
-        SignUpStore.getState().setSignUpData(updatedData);
-        localStorage.setItem("riffn-user-storage", JSON.stringify(updatedData));
+        const updated = await response.json();
+
+        // Update both formData and global store
+        setFormData(updated);
+        SignUpStore.getState().setSignUpData(updated);
+
+        // Update localStorage
+        localStorage.setItem("riffn-user-storage", JSON.stringify(updated));
+
         setIsEditing(false);
-        SignUpStore.getState().setIsEditing(false);
-        setPassword("");
+        setGlobalIsEditing(false);
+        setPassword(""); // Clear password field
+
+        console.log("Profile updated successfully");
       } else {
-        console.error("Failed to update");
+        const errData = await response.json();
+        console.error("Save failed:", errData);
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (err) {
+      console.error("Error saving:", err);
     }
+  };
+
+  const handleCancel = () => {
+    // Reset form data to original userData
+    setFormData({
+      _id: userData?._id,
+      firstName: userData?.firstName || '',
+      lastName: userData?.lastName || '',
+      email: userData?.email || '',
+      location: userData?.location || '',
+      bandMembers: userData?.bandMembers || [],
+      selectedInstruments: userData?.selectedInstruments || [],
+      selectedGenres: userData?.selectedGenres || [],
+      profileImage: userData?.profileImage || '',
+      bio: userData?.bio || ''
+    });
+    setPassword("");
+    setIsEditing(false);
+    setGlobalIsEditing(false);
+  };
+
+  // Helper function to display member names
+  const getMemberDisplayName = (member) => {
+    if (typeof member === "string") {
+      return member; // fallback for ObjectId strings
+    }
+    return member.userName || `${member.firstName || ""} ${member.lastName || ""}`.trim() || "Unknown Member";
   };
 
   return (
@@ -105,7 +154,6 @@ function UserProfile() {
         setImage={(image) => setFormData({ ...formData, profileImage: image })}
       />
 
-
       <div className="flex flex-col items-center px-4 pt-4 pb-24">
         <div className="w-full max-w-md">
 
@@ -117,7 +165,7 @@ function UserProfile() {
               </>
             ) : (
               <div className="bg-gray-200 text-gray-800 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
-                {userData.bio || (
+                {userData?.bio || (
                   <span className="text-gray-400 italic">No bio provided.</span>
                 )}
               </div>
@@ -148,23 +196,37 @@ function UserProfile() {
                   </label>
                 </div>
               ) : (
-                `${userData.firstName} ${userData.lastName}`
+                `${userData?.firstName || ''} ${userData?.lastName || ''}`.trim() || 'No name provided'
               )}
             </UserDetails>
 
-            {userData.profileType === "band" && (
+            {userData?.profileType === "band" && (
               <UserDetails icon="/images/members.png">
                 {isEditing ? (
                   <BandMembersInput
-                    members={formData.bandMembers}
-                    setMembers={(updated) => setFormData({ ...formData, bandMembers: updated })}
+                    members={formData.bandMembers || []}
+                    setMembers={(updated) =>
+                      setFormData({ ...formData, bandMembers: updated })
+                    }
+                    currentUserId={userData?._id}
                   />
                 ) : (
-                  userData.bandMembers?.join(", ") || "None selected"
+                  <>
+                    {userData?.bandMembers?.length > 0 ? (
+                      <div className="space-y-1">
+                        {userData.bandMembers.map((member, index) => (
+                          <div key={index} className="text-sm">
+                            {getMemberDisplayName(member)}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      "No band members added"
+                    )}
+                  </>
                 )}
               </UserDetails>
             )}
-
 
             <UserDetails icon="/images/land-layer-location.png">
               {isEditing ? (
@@ -175,7 +237,7 @@ function UserProfile() {
                   }
                 />
               ) : (
-                userData.location
+                userData?.location || "Location not set"
               )}
             </UserDetails>
 
@@ -188,9 +250,8 @@ function UserProfile() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               ) : (
-                userData.email
-              )
-              }
+                userData?.email || "Email not provided"
+              )}
             </UserDetails>
 
             <UserDetails icon="/images/eye.png">
@@ -200,13 +261,12 @@ function UserProfile() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter new password"
+                  placeholder="Enter new password (leave blank to keep current)"
                 />
               ) : (
                 '••••••••'
               )}
             </UserDetails>
-
           </div>
 
           <div className="border border-gray-500 rounded-2xl p-4 mb-6">
@@ -222,7 +282,7 @@ function UserProfile() {
                   </button>
                 </div>
               ) : (
-                userData.selectedInstruments?.join(", ") || "None selected"
+                userData?.selectedInstruments?.join(", ") || "No instruments selected"
               )}
             </UserDetails>
 
@@ -231,14 +291,14 @@ function UserProfile() {
                 <div className="flex justify-between items-center">
                   <span>{formData.selectedGenres?.join(", ") || "None selected"}</span>
                   <button
-                    onClick={() => navigate("/signup/genres")}
+                    onClick={() => navigate("/signup/genres?from=edit")}
                     className="ml-3 text-blue-500 hover:underline text-sm"
                   >
                     Edit
                   </button>
                 </div>
               ) : (
-                userData.selectedGenres?.join(", ") || "None selected"
+                userData?.selectedGenres?.join(", ") || "No genres selected"
               )}
             </UserDetails>
           </div>
@@ -249,7 +309,7 @@ function UserProfile() {
 
           <div className="flex gap-3 mt-4">
             <button
-              className="flex-1 bg-gray-500 font-semibold py-3 px-6 rounded-2xl"
+              className="flex-1 bg-gray-500 text-white font-semibold py-3 px-6 rounded-2xl hover:bg-gray-600 transition-colors"
               onClick={() => {
                 if (isEditing) {
                   handleSave();
@@ -263,21 +323,15 @@ function UserProfile() {
             </button>
             {isEditing && (
               <button
-                className="flex-1 border border-gray-300 rounded-2xl px-4 py-2"
-                onClick={() => {
-                  setFormData({ ...userData });
-                  setPassword("");
-                  setIsEditing(false);
-                  setGlobalIsEditing(false);
-                }}
-
+                className="flex-1 border border-gray-300 rounded-2xl px-4 py-2 hover:bg-gray-50 transition-colors"
+                onClick={handleCancel}
               >
                 Cancel
               </button>
             )}
           </div>
         </div>
-      </div >
+      </div>
       <NavBar />
     </>
   );
