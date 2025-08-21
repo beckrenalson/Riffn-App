@@ -45,10 +45,6 @@ const UserStore = create(
         set((state) => {
           let updatedData =
             typeof updater === "function" ? updater(state.userData) : updater;
-
-          // Flatten accidental `state` wrapper
-          if (updatedData.state) updatedData = updatedData.state;
-
           return {
             userData: { ...state.userData, ...updatedData },
           };
