@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { USERS_ENDPOINT } from "../../config/api";
 import AlertDialog from "./AlertDialog";
-import SignUpStore from "../../stores/UserStore";
+import UserStore from "../../stores/UserStore";
 function DeleteUser({ userId }) {
     const navigate = useNavigate();
 
@@ -23,7 +23,9 @@ function DeleteUser({ userId }) {
                 alert('Account deleted successfully');
 
                 localStorage.removeItem("riffn-user-storage");
-                SignUpStore.getState().resetUserData();
+                localStorage.removeItem("selected-instruments-storage");
+                localStorage.removeItem("selected-genres-storage");
+                UserStore.getState().resetUserData();
                 navigate('/');
             } else {
                 alert('Failed to delete account. Please try again.');
