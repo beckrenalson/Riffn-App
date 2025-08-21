@@ -1,10 +1,10 @@
 import SignOut from "./SignOut"
 import DeleteUser from "./DeleteUser"
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 import BackBtn from "../BackBtn";
 
 function Settings() {
-    const userData = SignUpStore((state) => state.signUpData);
+    const userData = UserStore((state) => state.userData);
 
     return (
         <>

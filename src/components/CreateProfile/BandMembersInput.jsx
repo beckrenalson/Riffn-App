@@ -6,13 +6,6 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // const API_BASE =
-    //     process.env.NODE_ENV === "development"
-    //         ? "http://localhost:5000/api/users"
-    //         : "/api/users";
-
-    const API_BASE = USERS_ENDPOINT;
-
     // Fetch search results as user types
     useEffect(() => {
         if (!inputValue.trim()) {
@@ -26,7 +19,7 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
             setLoading(true);
             try {
                 const res = await fetch(
-                    `${API_BASE}?search=${encodeURIComponent(inputValue)}`,
+                    `${USERS_ENDPOINT}?search=${encodeURIComponent(inputValue)}`,
                     { signal: controller.signal }
                 );
                 if (!res.ok) throw new Error("Failed to fetch users");
@@ -48,7 +41,7 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
             clearTimeout(debounceTimer);
             controller.abort();
         };
-    }, [inputValue, members, API_BASE]);
+    }, [inputValue, members, USERS_ENDPOINT]);
 
     // Add member both locally and in DB
     const handleAddMember = async (user) => {
@@ -59,7 +52,7 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
 
             // Only make API call if currentUserId is provided
             if (currentUserId) {
-                const res = await fetch(`${API_BASE}/${currentUserId}/bandMembers`, {
+                const res = await fetch(`${USERS_ENDPOINT}/${currentUserId}/bandMembers`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ memberId: user._id }),
@@ -92,7 +85,7 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
             // Only make API call if currentUserId is provided
             if (currentUserId) {
                 const res = await fetch(
-                    `${API_BASE}/${currentUserId}/bandMembers/${memberId}`,
+                    `${USERS_ENDPOINT}/${currentUserId}/bandMembers/${memberId}`,
                     { method: "DELETE" }
                 );
 

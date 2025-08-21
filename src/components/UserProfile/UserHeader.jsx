@@ -1,9 +1,9 @@
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 import ProfileImageUpload from "../CreateProfile/ProfileImageUpload";
 import { API_URL } from "../../config/api";
 
 function UserHeader({ isEditing, profileImage, setImage }) {
-    const userData = SignUpStore((state) => state.signUpData);
+    const userData = UserStore((state) => state.userData);
 
     const imageSrc = profileImage?.startsWith("http")
         ? profileImage

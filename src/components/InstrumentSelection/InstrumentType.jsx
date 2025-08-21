@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import InstrumentStore from "./InstrumentStore";
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 
 function InstrumentType({ type }) {
     const navigate = useNavigate();
     const selectedInstruments = InstrumentStore((state) => state.selectedInstruments || []);
     const instrumentList = InstrumentStore((state) => state.instrumentList || []);
-    const isEditing = SignUpStore((state) => state.isEditing);
+    const isEditing = UserStore((state) => state.isEditing);
 
     const instrumentTypeMap = instrumentList.reduce((acc, inst) => {
         acc[inst.name] = inst.type;

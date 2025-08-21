@@ -6,7 +6,7 @@ import BackBtn from '../BackBtn';
 import SettingsBtn from './SettingsBtn';
 import NavBar from '../NavBar';
 import SelectLocation from '../CreateProfile/SelectLocation';
-import SignUpStore from '../CreateProfile/SignUpStore';
+import UserStore from '../../stores/UserStore';
 import { USERS_ENDPOINT } from '../../config/api';
 import BandMembersInput from '../CreateProfile/BandMembersInput';
 import MusicEmbed from './MusicEmbed';
@@ -15,9 +15,9 @@ import Bio from '../CreateProfile/Bio';
 function UserProfile() {
   const navigate = useNavigate();
 
-  const userData = SignUpStore((state) => state.signUpData);
-  const globalIsEditing = SignUpStore((state) => state.isEditing);
-  const setGlobalIsEditing = SignUpStore((state) => state.setIsEditing);
+  const userData = UserStore((state) => state.userData);
+  const globalIsEditing = UserStore((state) => state.isEditing);
+  const setGlobalIsEditing = UserStore((state) => state.setIsEditing);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function UserProfile() {
     if (savedUser) {
       try {
         const parsedUser = JSON.parse(savedUser);
-        SignUpStore.getState().setSignUpData(parsedUser);
+        UserStore.getState().setUserData(parsedUser);
       } catch (e) {
         console.error("Failed to parse localStorage user:", e);
       }
@@ -95,7 +95,7 @@ function UserProfile() {
 
         // Update both formData and global store
         setFormData(updated);
-        SignUpStore.getState().setSignUpData(updated);
+        UserStore.getState().setUserData(updated);
 
         // Update localStorage
         localStorage.setItem("riffn-user-storage", JSON.stringify(updated));
@@ -161,7 +161,7 @@ function UserProfile() {
             {isEditing ? (
               <>
                 <label className="text-sm text-gray-600 mb-1 block">Bio</label>
-                <Bio signUpData={formData} setSignUpData={setFormData} />
+                <Bio userData={formData} setUserData={setFormData} />
               </>
             ) : (
               <div className="bg-gray-200 text-gray-800 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
@@ -231,7 +231,7 @@ function UserProfile() {
             <UserDetails icon="/images/land-layer-location.png">
               {isEditing ? (
                 <SelectLocation
-                  signUpData={formData}
+                  userData={formData}
                   handleChange={(e) =>
                     setFormData({ ...formData, [e.target.name]: e.target.value })
                   }

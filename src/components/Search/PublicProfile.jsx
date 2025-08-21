@@ -3,13 +3,13 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import BackBtn from "../BackBtn";
 import NavBar from "../NavBar";
 import { API_URL } from '../../config/api';
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 
 function PublicProfile() {
     const { userName } = useParams();
     const { state } = useLocation();
     const navigate = useNavigate();
-    const currentUser = SignUpStore((state) => state.signUpData);
+    const currentUser = UserStore((state) => state.userData);
 
     const [user, setUser] = useState(state?.user || null);
     const [tracks, setTracks] = useState([]);

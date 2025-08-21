@@ -1,8 +1,8 @@
-function SelectLocation({ signUpData, handleChange }) {
+function SelectLocation({ userData, handleChange }) {
     return (
         <select
             name="location"
-            value={signUpData.location}
+            value={userData.location}
             onChange={handleChange}
             className="w-full p-3 rounded-2xl bg-[#0a0a0a] text-white border border-gray-500"
         >

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import NavBar from "../NavBar";
 import { API_URL } from '../../config/api';
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 
 function Connections() {
-    const currentUser = SignUpStore((state) => state.signUpData);
+    const currentUser = UserStore((state) => state.userData);
     const [incomingRequests, setIncomingRequests] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 

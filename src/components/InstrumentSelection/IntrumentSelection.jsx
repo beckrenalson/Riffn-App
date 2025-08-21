@@ -2,7 +2,7 @@ import InstrumentList from "./InstrumentList"
 import BackBtn from "../BackBtn"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 import { INSTRUMENTS_ENDPOINT } from "../../config/api";
 import Loading from "../Loading";
 
@@ -10,18 +10,18 @@ function InstrumentSelection() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const from = searchParams.get("from");
-    const signUpData = SignUpStore((state) => state.signUpData);
-    const setSignUpData = SignUpStore((state) => state.setSignUpData);
-    const [selectedInstruments, setSelectedInstruments] = useState(signUpData.selectedInstruments || []);
+    const userData = UserStore((state) => state.userData);
+    const setUserData = UserStore((state) => state.setUserData);
+    const [selectedInstruments, setSelectedInstruments] = useState(userData.selectedInstruments || []);
     const [loading, setLoading] = useState(false);
 
     const handleContinue = () => {
-        setSignUpData({
-            ...signUpData,
+        setUserData({
+            ...userData,
             selectedInstruments
         })
         if (from === "edit") {
-            SignUpStore.getState().setIsEditing(true);
+            UserStore.getState().setIsEditing(true);
             navigate("/profile", { state: { stayEditing: true, selectedInstruments } });
         } else {
             navigate("/signup/genres");

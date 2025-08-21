@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom"
 import GenreStore from "./GenreStore";
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 
 function Genre({ genre }) {
     const navigate = useNavigate()
     const selectedGenres = GenreStore((state) => state.selectedGenres || []);
     const genreList = GenreStore((state) => state.genreList || []);
-    const isEditing = SignUpStore((state) => state.isEditing);
+    const isEditing = UserStore((state) => state.isEditing);
 
     const genreMap = genreList.reduce((acc, g) => {
         acc[g.name] = g.genre;

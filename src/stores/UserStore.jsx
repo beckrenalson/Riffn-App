@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-const SignUpStore = create(
+const UserStore = create(
   persist(
     (set) => ({
-      signUpData: {
+      userData: {
         userName: "",
         firstName: "",
         lastName: "",
@@ -22,8 +22,8 @@ const SignUpStore = create(
       // Set profile image
       setProfileImage: (file) =>
         set((state) => ({
-          signUpData: {
-            ...state.signUpData,
+          userData: {
+            ...state.userData,
             profileImage: file,
           },
         })),
@@ -31,8 +31,8 @@ const SignUpStore = create(
       // Set band members
       setBandMembers: (members) =>
         set((state) => ({
-          signUpData: {
-            ...state.signUpData,
+          userData: {
+            ...state.userData,
             bandMembers: members,
           },
         })),
@@ -40,24 +40,24 @@ const SignUpStore = create(
       isEditing: false,
       setIsEditing: (bool) => set({ isEditing: bool }),
 
-      // General updater for signUpData
-      setSignUpData: (updater) =>
+      // General updater for userData
+      setUserData: (updater) =>
         set((state) => {
           let updatedData =
-            typeof updater === "function" ? updater(state.signUpData) : updater;
+            typeof updater === "function" ? updater(state.userData) : updater;
 
           // Flatten accidental `state` wrapper
           if (updatedData.state) updatedData = updatedData.state;
 
           return {
-            signUpData: { ...state.signUpData, ...updatedData },
+            userData: { ...state.userData, ...updatedData },
           };
         }),
 
       // Reset all signup data
-      resetSignUpData: () =>
+      resetUserData: () =>
         set({
-          signUpData: {
+          userData: {
             userName: "",
             firstName: "",
             lastName: "",
@@ -75,9 +75,9 @@ const SignUpStore = create(
     }),
     {
       name: "riffn-user-storage",
-      partialize: (state) => ({ signUpData: state.signUpData, isEditing: state.isEditing }),
+      partialize: (state) => ({ userData: state.userData, isEditing: state.isEditing }),
     }
   )
 );
 
-export default SignUpStore;
+export default UserStore;

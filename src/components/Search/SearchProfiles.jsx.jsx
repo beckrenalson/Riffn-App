@@ -3,10 +3,10 @@ import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
 import { USERS_ENDPOINT } from "../../config/api";
 import ProfileSkeleton from "./ProfileSkeleton";
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 
 function SearchProfiles({ profileType }) {
-  const currentUser = SignUpStore((state) => state.signUpData);
+  const currentUser = UserStore((state) => state.userData);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 

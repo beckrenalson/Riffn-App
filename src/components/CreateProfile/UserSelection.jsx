@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import BackBtn from "../BackBtn";
-import SignUpStore from "./SignUpStore";
+import UserStore from "../../stores/UserStore";
 
 function UserSelection() {
     const navigate = useNavigate();
-    const setSignUpData = SignUpStore((state) => state.setSignUpData);
+    const setUserData = UserStore((state) => state.setUserData);
 
     const handleSelect = (profileType) => {
-        setSignUpData({ profileType })
+        setUserData({ profileType })
         navigate("/signup/createuser");
     };
 

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom"
-import SignUpStore from "./CreateProfile/SignUpStore"
+import UserStore from "../stores/UserStore"
 
 function NavBar() {
-    const userData = SignUpStore((state) => state.signUpData);
+    const userData = UserStore((state) => state.userData);
 
     const navigate = useNavigate()
 

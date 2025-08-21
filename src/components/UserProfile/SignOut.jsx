@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 import AlertDialog from "./AlertDialog";
 
 function SignOut() {
@@ -20,7 +20,7 @@ function SignOut() {
         localStorage.removeItem("riffn-user-storage");
         localStorage.removeItem("selected-instruments-storage");
         localStorage.removeItem("selected-genres-storage");
-        SignUpStore.getState().resetSignUpData()
+        UserStore.getState().resetUserData()
         navigate("/")
     };
 

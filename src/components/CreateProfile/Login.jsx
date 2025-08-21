@@ -2,7 +2,7 @@ import { useState } from "react";
 import BackBtn from "../BackBtn";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../config/api";
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -33,7 +33,7 @@ function Login() {
       const data = await response.json();
 
       // Store user data in Zustand and/or localStorage
-      SignUpStore.getState().setSignUpData(data.user);
+      UserStore.getState().setUserData(data.user);
       localStorage.setItem("riffn-user-storage", JSON.stringify(data.user));
 
       const target = data.user.profileType === "solo" ? "band" : "solo";

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { API_URL } from "../../config/api";
-import SignUpStore from "../CreateProfile/SignUpStore";
+import UserStore from "../../stores/UserStore";
 
 function MultiMusicEmbed({ isEditing, setIsEditing }) {
     const [urlInput, setUrlInput] = useState("");
     const [embeds, setEmbeds] = useState([]);
     const [error, setError] = useState("");
-    const currentUser = SignUpStore((state) => state.signUpData);
+    const currentUser = UserStore((state) => state.userData);
 
     const saveTrack = async (embed) => {
         try {

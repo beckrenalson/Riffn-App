@@ -1,12 +1,12 @@
 import { useState } from "react";
-import SignUpStore from "./SignUpStore";
+import UserStore from "../../stores/UserStore";
 import { API_URL } from "../../config/api";
 import imageCompression from "browser-image-compression";
 import { PuffLoader } from "react-spinners";
 
 function ProfileImageUpload() {
     const [preview, setPreview] = useState(null);
-    const setProfileImage = SignUpStore((state) => state.setProfileImage);
+    const setProfileImage = UserStore((state) => state.setProfileImage);
     const [loading, setLoading] = useState(false)
 
     const handleImageChange = async (e) => {

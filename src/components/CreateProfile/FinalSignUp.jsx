@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import SignUpStore from "./SignUpStore";
+import UserStore from "../../stores/UserStore";
 import { USERS_ENDPOINT } from "../../config/api";
 import BackBtn from "../BackBtn";
 
 function FinalSignUp() {
     const navigate = useNavigate();
-    const signUpData = SignUpStore((state) => state.signUpData);
-    const setSignUpData = SignUpStore((state) => state.setSignUpData);
+    const userData = UserStore((state) => state.userData);
+    const setUserData = UserStore((state) => state.setUserData);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,8 +14,8 @@ function FinalSignUp() {
         localStorage.removeItem("selected-genres-storage");
 
         const payload = {
-            ...signUpData,
-            profileImage: signUpData.profileImage || null,
+            ...userData,
+            profileImage: userData.profileImage || null,
         };
 
         try {
@@ -28,10 +28,10 @@ function FinalSignUp() {
             const data = await response.json();
 
             if (response.ok) {
-                // Update store with server response (flattened)
-                setSignUpData({ ...data });
+                // clear signup store
+                UserStore.getState().resetUserData();
 
-                // Navigate: if solo → go to band search, if band → go to solo search
+                // Navigate to correct page
                 const target = data.profileType === "solo" ? "band" : "solo";
                 navigate(`/search/${target}`);
             } else if (data.errors) {
@@ -58,45 +58,45 @@ function FinalSignUp() {
 
                 <div>
                     <p className="text-sm text-gray-500">User/Band Name:</p>
-                    <p className="text-lg font-medium">{signUpData.userName}</p>
+                    <p className="text-lg font-medium">{userData.userName}</p>
                 </div>
 
                 <div>
                     <p className="text-sm text-gray-500">Full Name:</p>
                     <p className="text-lg font-medium">
-                        {signUpData.firstName} {signUpData.lastName}
+                        {userData.firstName} {userData.lastName}
                     </p>
                 </div>
 
                 <div>
                     <p className="text-sm text-gray-500">Email:</p>
-                    <p className="text-lg font-medium">{signUpData.email}</p>
+                    <p className="text-lg font-medium">{userData.email}</p>
                 </div>
 
                 <div>
                     <p className="text-sm text-gray-500">Instruments Played:</p>
                     <p className="text-lg font-medium">
-                        {(signUpData.selectedInstruments || []).join(", ")}
+                        {(userData.selectedInstruments || []).join(", ")}
                     </p>
                 </div>
 
                 <div>
                     <p className="text-sm text-gray-500">Genres Played:</p>
                     <p className="text-lg font-medium">
-                        {(signUpData.selectedGenres || []).join(", ")}
+                        {(userData.selectedGenres || []).join(", ")}
                     </p>
                 </div>
 
                 <div>
                     <p className="text-sm text-gray-500">Location:</p>
-                    <p className="text-lg font-medium">{signUpData.location}</p>
+                    <p className="text-lg font-medium">{userData.location}</p>
                 </div>
 
-                {signUpData.bandMembers?.length > 0 && (
+                {userData.bandMembers?.length > 0 && (
                     <div>
                         <p className="text-sm text-gray-500">Band Members:</p>
                         <p className="text-lg font-medium">
-                            {signUpData.bandMembers.map((m) => m.userName || m.firstName).join(", ")}
+                            {userData.bandMembers.map((m) => m.userName || m.firstName).join(", ")}
                         </p>
                     </div>
                 )}

@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import SignUpStore from "./SignUpStore";
-import { API_URL, USERS_ENDPOINT } from "../../config/api";
-import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
+import UserStore from "../../stores/UserStore";
+import { USERS_ENDPOINT } from "../../config/api";
 
 function SignUp() {
 
   const navigate = useNavigate();
 
-  const signUpData = SignUpStore((state) => state.signUpData)
-  const setSignUpData = SignUpStore((state) => state.setSignUpData)
+  const userData = UserStore((state) => state.userData)
+  const setUserData = UserStore((state) => state.setUserData)
 
   const [fieldErrors, setFieldErrors] = useState({})
 
@@ -19,7 +18,7 @@ function SignUp() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSignUpData({ [name]: value });
+    setUserData({ [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -32,7 +31,7 @@ function SignUp() {
   };
 
   const checkDetailsExist = async () => {
-    const { firstName, lastName, email, password } = signUpData;
+    const { firstName, lastName, email, password } = userData;
 
     const errors = {};
     if (!firstName?.trim()) errors.firstName = "First name is required";
@@ -77,7 +76,7 @@ function SignUp() {
   };
 
   useEffect(() => {
-    SignUpStore.getState().setIsEditing(false);
+    UserStore.getState().setIsEditing(false);
   }, []);
 
   return (
@@ -91,7 +90,7 @@ function SignUp() {
               <input
                 type="text"
                 name="firstName"
-                value={signUpData.firstName}
+                value={userData.firstName}
                 onChange={handleChange}
                 required
                 placeholder="First Name"
@@ -105,7 +104,7 @@ function SignUp() {
               <input
                 type="text"
                 name="lastName"
-                value={signUpData.lastName}
+                value={userData.lastName}
                 onChange={handleChange}
                 required
                 placeholder="Last Name"
@@ -119,7 +118,7 @@ function SignUp() {
               <input
                 type="email"
                 name="email"
-                value={signUpData.email}
+                value={userData.email}
                 onChange={handleChange}
                 onBlur={checkDetailsExist}
                 required
@@ -134,7 +133,7 @@ function SignUp() {
               <input
                 type="password"
                 name="password"
-                value={signUpData.password}
+                value={userData.password}
                 onChange={handleChange}
                 required
                 placeholder="Password"
@@ -158,14 +157,6 @@ function SignUp() {
               Login
             </button>
           </p>
-          {/* <button
-            type="button"
-            onClick={registerWithPasskey}
-            className="w-full mt-4 border p-2 rounded-xl bg-black text-white"
-          >
-            Register with Passkey
-          </button> */}
-
         </div>
       </div>
 
