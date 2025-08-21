@@ -19,6 +19,7 @@ const SignUpStore = create(
         bio: ""
       },
 
+      // Set profile image
       setProfileImage: (file) =>
         set((state) => ({
           signUpData: {
@@ -27,6 +28,7 @@ const SignUpStore = create(
           },
         })),
 
+      // Set band members
       setBandMembers: (members) =>
         set((state) => ({
           signUpData: {
@@ -36,18 +38,23 @@ const SignUpStore = create(
         })),
 
       isEditing: false,
-
       setIsEditing: (bool) => set({ isEditing: bool }),
 
+      // General updater for signUpData
       setSignUpData: (updater) =>
         set((state) => {
-          const updatedData =
+          let updatedData =
             typeof updater === "function" ? updater(state.signUpData) : updater;
+
+          // Flatten accidental `state` wrapper
+          if (updatedData.state) updatedData = updatedData.state;
+
           return {
             signUpData: { ...state.signUpData, ...updatedData },
           };
         }),
 
+      // Reset all signup data
       resetSignUpData: () =>
         set({
           signUpData: {

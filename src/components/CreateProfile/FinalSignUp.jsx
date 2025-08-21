@@ -4,7 +4,7 @@ import { USERS_ENDPOINT } from "../../config/api";
 import BackBtn from "../BackBtn";
 
 function FinalSignUp() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const signUpData = SignUpStore((state) => state.signUpData);
     const setSignUpData = SignUpStore((state) => state.setSignUpData);
 
@@ -14,40 +14,38 @@ function FinalSignUp() {
         localStorage.removeItem("selected-genres-storage");
 
         const payload = {
-            userName: signUpData.userName,
-            firstName: signUpData.firstName,
-            lastName: signUpData.lastName,
-            email: signUpData.email,
-            password: signUpData.password,
-            profileType: signUpData.profileType,
-            location: signUpData.location,
-            bio: signUpData.bio,
-            selectedGenres: signUpData.selectedGenres,
-            selectedInstruments: signUpData.selectedInstruments,
-            bandMembers: signUpData.bandMembers,
+            ...signUpData,
             profileImage: signUpData.profileImage || null,
         };
 
         try {
             const response = await fetch(USERS_ENDPOINT, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
 
+            const data = await response.json();
+
             if (response.ok) {
-                const data = await response.json();
-                setSignUpData(data);
-                const target = signUpData.profileType === "solo" ? "band" : "solo";
+                // Update store with server response (flattened)
+                setSignUpData({ ...data });
+
+                // Navigate: if solo → go to band search, if band → go to solo search
+                const target = data.profileType === "solo" ? "band" : "solo";
                 navigate(`/search/${target}`);
-            } else {
-                const errorData = await response.json();
-                console.error("Signup failed:", errorData);
+            } else if (data.errors) {
+                // Handle field errors if your backend returns { errors: [...] }
+                const fieldErrors = data.errors.reduce(
+                    (acc, e) => ({ ...acc, [e.param]: e.msg }),
+                    {}
+                );
+                console.error("Signup validation errors:", fieldErrors);
+            } else if (data.error) {
+                console.error("Signup error:", data.error);
             }
         } catch (error) {
-            console.error("Signup error:", error);
+            console.error("Signup request failed:", error);
         }
     };
 
@@ -65,7 +63,9 @@ function FinalSignUp() {
 
                 <div>
                     <p className="text-sm text-gray-500">Full Name:</p>
-                    <p className="text-lg font-medium">{signUpData.firstName + " " + signUpData.lastName}</p>
+                    <p className="text-lg font-medium">
+                        {signUpData.firstName} {signUpData.lastName}
+                    </p>
                 </div>
 
                 <div>
@@ -75,12 +75,16 @@ function FinalSignUp() {
 
                 <div>
                     <p className="text-sm text-gray-500">Instruments Played:</p>
-                    <p className="text-lg font-medium">{signUpData.selectedInstruments.join(', ')}</p>
+                    <p className="text-lg font-medium">
+                        {(signUpData.selectedInstruments || []).join(", ")}
+                    </p>
                 </div>
 
                 <div>
                     <p className="text-sm text-gray-500">Genres Played:</p>
-                    <p className="text-lg font-medium">{signUpData.selectedGenres.join(', ')}</p>
+                    <p className="text-lg font-medium">
+                        {(signUpData.selectedGenres || []).join(", ")}
+                    </p>
                 </div>
 
                 <div>
@@ -88,11 +92,11 @@ function FinalSignUp() {
                     <p className="text-lg font-medium">{signUpData.location}</p>
                 </div>
 
-                {signUpData.bandMembers.length > 0 && (
+                {signUpData.bandMembers?.length > 0 && (
                     <div>
                         <p className="text-sm text-gray-500">Band Members:</p>
                         <p className="text-lg font-medium">
-                            {signUpData.bandMembers.join(', ')}
+                            {signUpData.bandMembers.map((m) => m.userName || m.firstName).join(", ")}
                         </p>
                     </div>
                 )}
@@ -107,8 +111,7 @@ function FinalSignUp() {
                 </button>
             </div>
         </>
-
-    )
+    );
 }
 
-export default FinalSignUp
+export default FinalSignUp;

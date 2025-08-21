@@ -127,7 +127,7 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
                             Loading...
                         </div>
                     ) : searchResults.length > 0 ? (
-                        <ul className="border border-gray-300 rounded-xl max-h-48 overflow-y-auto bg-white">
+                        <ul className="border border-gray-300 rounded-xl max-h-48 overflow-y-auto bg-white text-black">
                             {searchResults.map((user) => (
                                 <li
                                     key={user._id}
