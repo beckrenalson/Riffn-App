@@ -28,8 +28,28 @@ function FinalSignUp() {
             const data = await response.json();
 
             if (response.ok) {
-                // clear signup store
-                UserStore.getState().resetUserData();
+                if (response.ok) {
+                    // Instead of setUserData(data) directly
+                    setUserData({
+                        _id: data._id,
+                        userName: data.userName,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        email: data.email,
+                        bio: data.bio,
+                        profileType: data.profileType,
+                        profileImage: data.profileImage,
+                        location: data.location,
+                        selectedGenres: data.selectedGenres,
+                        selectedInstruments: data.selectedInstruments,
+                        bandMembers: data.bandMembers || [],
+                        bands: data.bands || [],
+                    });
+
+                    const target = data.profileType === "solo" ? "band" : "solo";
+                    navigate(`/search/${target}`);
+                }
+
 
                 // Navigate to correct page
                 const target = data.profileType === "solo" ? "band" : "solo";
