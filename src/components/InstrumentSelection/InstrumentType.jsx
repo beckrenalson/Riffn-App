@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import InstrumentStore from "./InstrumentStore";
+import InstrumentStore from "../../stores/InstrumentStore";
 import UserStore from "../../stores/UserStore";
 
 function InstrumentType({ type }) {

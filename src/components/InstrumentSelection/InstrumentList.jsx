@@ -1,4 +1,4 @@
-import InstrumentStore from "./InstrumentStore";
+import InstrumentStore from "../../stores/InstrumentStore";
 
 function InstrumentList({ instruments, onSelectionChange }) {
 

@@ -1,6 +1,6 @@
 import BackBtn from "../BackBtn";
 import InstrumentType from "./InstrumentType";
-import InstrumentStore from "./InstrumentStore";
+import InstrumentStore from "../../stores/InstrumentStore";
 import UserStore from "../../stores/UserStore";
 import { useEffect } from "react";
 import axios from "axios";

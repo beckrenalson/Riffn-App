@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import GenreStore from "./GenreStore";
+import GenreStore from "../../storesGenreStore";
 import UserStore from "../../stores/UserStore";
 
 function Genre({ genre }) {

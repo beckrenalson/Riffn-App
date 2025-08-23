@@ -1,4 +1,4 @@
-import GenreStore from "./GenreStore";
+import GenreStore from "../../storesGenreStore";
 
 function SubGenreList({ genres, onSelectionChange }) {
     const { selectedGenres, setSelectedGenres } = GenreStore();
