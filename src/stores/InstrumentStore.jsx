@@ -5,7 +5,7 @@ const InstrumentStore = create(persist(
     (set) => ({
         instrumentList: [],
         selectedInstruments: [],
-        setSelectedInstruments: (Instruments) => set({ selectedInstruments: Instruments }),
+        setSelectedInstruments: (instruments) => set({ selectedInstruments: instruments }),
         clearSelectedInstruments: () => set({ selectedInstruments: [] }),
         setInstrumentList: (list) => set({ instrumentList: list }),
     }),
