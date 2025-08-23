@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 const UserStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       userData: {
         userName: "",
         firstName: "",
@@ -16,7 +16,8 @@ const UserStore = create(
         location: "",
         bandMembers: [],
         profileImage: null,
-        bio: ""
+        bio: "",
+        passkeyId: null, // <-- store passkey credential ID
       },
 
       // Set profile image
@@ -43,11 +44,9 @@ const UserStore = create(
       // General updater for userData
       setUserData: (updater) =>
         set((state) => {
-          let updatedData =
+          const updatedData =
             typeof updater === "function" ? updater(state.userData) : updater;
-          return {
-            userData: { ...state.userData, ...updatedData },
-          };
+          return { userData: { ...state.userData, ...updatedData } };
         }),
 
       // Reset all signup data
@@ -65,13 +64,55 @@ const UserStore = create(
             location: "",
             bandMembers: [],
             profileImage: null,
-            bio: ""
+            bio: "",
+            passkeyId: null,
           },
         }),
+
+      // --- PASSKEY METHODS ---
+
+      // Register passkey for the user
+      registerPasskey: async (credentialId) => {
+        const userId = get().userData._id;
+        if (!userId) throw new Error("User not logged in");
+        try {
+          await fetch(`/api/users/${userId}/passkeys`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ credentialId }),
+          });
+          set({
+            userData: { ...get().userData, passkeyId: credentialId },
+          });
+        } catch (err) {
+          console.error("Failed to register passkey:", err);
+        }
+      },
+
+      // Login with passkey assertion
+      loginWithPasskey: async (assertion) => {
+        try {
+          const res = await fetch("/api/users/passkey-login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(assertion),
+          });
+          if (!res.ok) throw new Error("Passkey login failed");
+          const data = await res.json();
+          set({ userData: data.user });
+          localStorage.setItem("riffn-user-storage", JSON.stringify(data.user));
+        } catch (err) {
+          console.error("Passkey login error:", err);
+          throw err;
+        }
+      },
     }),
     {
       name: "riffn-user-storage",
-      partialize: (state) => ({ userData: state.userData, isEditing: state.isEditing }),
+      partialize: (state) => ({
+        userData: state.userData,
+        isEditing: state.isEditing,
+      }),
     }
   )
 );

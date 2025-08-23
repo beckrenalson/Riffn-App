@@ -1,77 +1,205 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import UserStore from "../../stores/UserStore";
-import { USERS_ENDPOINT } from "../../config/api";
+import { API_URL } from "../../config/api";
+
+// Helper: base64url → Uint8Array
+function base64urlToBuffer(base64url) {
+  if (!base64url || typeof base64url !== 'string') {
+    throw new Error(`Invalid base64url string: ${base64url}`);
+  }
+
+  try {
+    const padding = "=".repeat((4 - (base64url.length % 4)) % 4);
+    const base64 = (base64url + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const str = atob(base64);
+    const buffer = new Uint8Array(str.length);
+    for (let i = 0; i < str.length; i++) buffer[i] = str.charCodeAt(i);
+    return buffer;
+  } catch (error) {
+    throw new Error(`Failed to decode base64url string "${base64url}": ${error.message}`);
+  }
+}
 
 function SignUp() {
-
   const navigate = useNavigate();
+  const userData = UserStore((state) => state.userData);
+  const setUserData = UserStore((state) => state.setUserData);
 
-  const userData = UserStore((state) => state.userData)
-  const setUserData = UserStore((state) => state.setUserData)
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [passkeyRegistered, setPasskeyRegistered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [fieldErrors, setFieldErrors] = useState({})
-
-  const login = () => {
-    navigate("/login")
-  }
+  const login = () => navigate("/login");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const exists = await checkDetailsExist();
-    if (exists) return;
-
-    navigate("/signup/userselection")
-  };
-
-  const checkDetailsExist = async () => {
-    const { firstName, lastName, email, password } = userData;
-
     const errors = {};
-    if (!firstName?.trim()) errors.firstName = "First name is required";
-    if (!lastName?.trim()) errors.lastName = "Last name is required";
-    if (!email?.trim()) errors.email = "Email is required";
-    if (!password || password.length < 8)
-      errors.password = "Password must be at least 8 characters long";
+    if (!userData.firstName?.trim()) errors.firstName = "First name required";
+    if (!userData.lastName?.trim()) errors.lastName = "Last name required";
+    if (!userData.email?.trim()) errors.email = "Email required";
+    if (!userData.password || userData.password.length < 8)
+      errors.password = "Password must be at least 8 characters";
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
-      return true; // block submission early
+      return;
     }
 
+    navigate("/signup/userselection");
+  };
+
+  const handlePasskeyRegister = async () => {
+    setIsLoading(true);
+
     try {
-      const res = await fetch(`${USERS_ENDPOINT}/check-details`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, password }),
-      });
+      let userId = userData._id;
 
-      const data = await res.json();
+      // 1️⃣ Create user if missing
+      if (!userId) {
+        console.log("Creating user...");
+        const username =
+          userData.userName?.trim() ||
+          `${userData.firstName}${userData.lastName}`.toLowerCase();
 
-      if (!res.ok) {
-        // Convert array of errors to object like: { email: "msg", password: "msg" }
-        const errorMap = {};
-        (data.errors || []).forEach(err => {
-          errorMap[err.param] = err.msg;
+        const resCreate = await fetch(`${API_URL}/api/users`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userName: username,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+            password: userData.password,
+          }),
         });
 
-        setFieldErrors(errorMap);
-        return true;
+        if (!resCreate.ok) {
+          const text = await resCreate.text();
+          console.error("User creation failed:", resCreate.status, text);
+          alert("User creation failed. Check your input.");
+          return;
+        }
+
+        const createdUser = await resCreate.json();
+        userId = createdUser._id;
+        setUserData({ _id: userId, userName: username });
+        console.log("User created with ID:", userId);
       }
 
-      setFieldErrors({});
-      return false;
+      // 2️⃣ Get registration challenge
+      console.log("Getting passkey challenge for userId:", userId);
+      console.log("Request URL:", `${API_URL}/api/passkeys/passkey-challenge`);
+      console.log("Request payload:", { userId });
 
+      const resChallenge = await fetch(`${API_URL}/api/passkeys/passkey-challenge`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+
+      console.log("Challenge response status:", resChallenge.status);
+      console.log("Challenge response ok:", resChallenge.ok);
+
+      if (!resChallenge.ok) {
+        let errorText;
+        let errorData;
+
+        try {
+          errorData = await resChallenge.json();
+          errorText = errorData.error || errorData.message || 'Unknown error';
+        } catch (parseError) {
+          errorText = await resChallenge.text();
+        }
+
+        console.error("Passkey challenge error:", {
+          status: resChallenge.status,
+          statusText: resChallenge.statusText,
+          error: errorText,
+          data: errorData
+        });
+
+        alert(`Failed to get passkey challenge: ${errorText}`);
+        return;
+      }
+
+      const options = await resChallenge.json();
+      console.log("Received options:", options);
+      console.log("Response headers:", Object.fromEntries(resChallenge.headers.entries()));
+
+      // Debug the exact response structure
+      console.log("Options keys:", Object.keys(options));
+      console.log("Challenge value:", options.challenge);
+      console.log("Challenge type:", typeof options.challenge);
+
+      // 3️⃣ Validate and convert challenge & user ID
+      if (!options.challenge) {
+        console.error("Full server response:", JSON.stringify(options, null, 2));
+        throw new Error("No challenge received from server");
+      }
+      if (!options.user?.id) {
+        throw new Error("No user ID received from server");
+      }
+
+      console.log("Original challenge:", options.challenge);
+      console.log("Original user ID:", options.user.id);
+
+      // Convert challenge & user ID
+      try {
+        options.challenge = base64urlToBuffer(options.challenge);
+        options.user.id = base64urlToBuffer(options.user.id);
+        console.log("Converted challenge and user ID successfully");
+      } catch (conversionError) {
+        console.error("Conversion error:", conversionError);
+        throw new Error(`Failed to convert server response: ${conversionError.message}`);
+      }
+
+      // 4️⃣ Call WebAuthn
+      console.log("Calling navigator.credentials.create...");
+      const credential = await navigator.credentials.create({ publicKey: options });
+
+      if (!credential) {
+        throw new Error("Failed to create credential");
+      }
+      console.log("Credential created successfully");
+
+      // 5️⃣ Send attestation to backend
+      console.log("Verifying passkey with server...");
+      const resVerify = await fetch(`${API_URL}/api/passkeys/users/${userId}/passkeys`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ attestationResponse: credential }),
+      });
+
+      if (!resVerify.ok) {
+        const text = await resVerify.text();
+        console.error("Passkey verification failed:", resVerify.status, text);
+        alert("Passkey registration failed.");
+        return;
+      }
+
+      const result = await resVerify.json();
+      console.log("Passkey registered successfully:", result);
+
+      setPasskeyRegistered(true);
+      alert("Passkey registered! You can now login with it.");
     } catch (err) {
-      console.error("Error validating fields:", err);
-      setFieldErrors({ global: "Something went wrong. Please try again." });
-      return true;
+      console.error("Passkey registration error:", err);
+      if (err.name === 'NotSupportedError') {
+        alert("Passkeys are not supported on this device or browser.");
+      } else if (err.name === 'NotAllowedError') {
+        alert("Passkey registration was cancelled or not allowed.");
+      } else {
+        alert(`Passkey registration failed: ${err.message}`);
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,88 +208,73 @@ function SignUp() {
   }, []);
 
   return (
-    <>
+    <div className="h-screen flex items-center justify-center">
+      <div className="p-10 max-w-md w-full">
+        <h2 className="text-4xl font-bold mb-6 text-center">Riffn</h2>
 
-      <div className="h-screen flex items-center justify-center">
-        <div className="p-10 max-w-md w-full">
-          <h2 className="text-4xl font-bold mb-6 text-center">Riffn</h2>
-          <form onSubmit={handleSubmit} method="post" noValidate className="space-y-4">
-            <div>
-              <input
-                type="text"
-                name="firstName"
-                value={userData.firstName}
-                onChange={handleChange}
-                required
-                placeholder="First Name"
-                className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
-              />
-              {fieldErrors.firstName && (
-                <p className="text-red-500 text-sm mt-1">{fieldErrors.firstName}</p>
-              )}
-            </div>
-            <div>
-              <input
-                type="text"
-                name="lastName"
-                value={userData.lastName}
-                onChange={handleChange}
-                required
-                placeholder="Last Name"
-                className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
-              />
-              {fieldErrors.lastName && (
-                <p className="text-red-500 text-sm mt-1">{fieldErrors.lastName}</p>
-              )}
-            </div>
-            <div>
-              <input
-                type="email"
-                name="email"
-                value={userData.email}
-                onChange={handleChange}
-                onBlur={checkDetailsExist}
-                required
-                placeholder="Email"
-                className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
-              />
-              {fieldErrors.email && (
-                <p className="text-red-500 text-sm mt-1">{fieldErrors.email}</p>
-              )}
-            </div>
-            <div>
-              <input
-                type="password"
-                name="password"
-                value={userData.password}
-                onChange={handleChange}
-                required
-                placeholder="Password"
-                className="w-full pl-4 p-2 border border-gray-500 rounded-xl focus:outline-none"
-              />
-              {fieldErrors.password && (
-                <p className="text-red-500 text-sm mt-1">{fieldErrors.password}</p>
-              )}
-            </div>
-            <button
-              type="submit"
-              className="w-full border p-2 rounded-xl cursor-pointer disabled:opacity-50"
-            >
-              CONTINUE
-            </button>
-          </form>
-          <p className="mt-6 text-center">Already have an account?
-            <button onClick={login}
-              className="underline font-bold cursor-pointer" style={{ backgroundColor: 'transparent' }}
-            >
-              Login
-            </button>
-          </p>
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+          <input
+            type="text"
+            name="firstName"
+            value={userData.firstName}
+            onChange={handleChange}
+            placeholder="First Name"
+            className="w-full pl-4 p-2 border rounded-xl"
+          />
+          <input
+            type="text"
+            name="lastName"
+            value={userData.lastName}
+            onChange={handleChange}
+            placeholder="Last Name"
+            className="w-full pl-4 p-2 border rounded-xl"
+          />
+          <input
+            type="email"
+            name="email"
+            value={userData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="w-full pl-4 p-2 border rounded-xl"
+          />
+          <input
+            type="password"
+            name="password"
+            value={userData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full pl-4 p-2 border rounded-xl"
+          />
+          <button
+            type="submit"
+            className="w-full border p-2 rounded-xl bg-black text-white"
+          >
+            CONTINUE
+          </button>
+        </form>
+
+        {!passkeyRegistered && (
+          <button
+            onClick={handlePasskeyRegister}
+            disabled={isLoading}
+            className="w-full border p-2 rounded-xl mt-2 disabled:opacity-50"
+          >
+            {isLoading ? "Registering Passkey..." : "Register Passkey (Optional)"}
+          </button>
+        )}
+        {passkeyRegistered && (
+          <p className="text-green-600 mt-2">Passkey registered!</p>
+        )}
+
+        <p className="mt-6 text-center">
+          Already have an account?
+          <button onClick={login} className="underline ml-2">
+            Login
+          </button>
+        </p>
       </div>
-
-    </>
+    </div>
   );
 }
 
-export default SignUp
+export default SignUp;
