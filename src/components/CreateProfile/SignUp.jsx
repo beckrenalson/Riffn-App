@@ -21,6 +21,17 @@ function base64urlToBuffer(base64url) {
   }
 }
 
+// Helper: Uint8Array → base64url
+function bufferToBase64url(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  const base64 = btoa(binary);
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
 function SignUp() {
   const navigate = useNavigate();
   const userData = UserStore((state) => state.userData);
@@ -169,12 +180,30 @@ function SignUp() {
       }
       console.log("Credential created successfully");
 
+      // 4.5️⃣ Serialize the credential for transmission
+      const serializedCredential = {
+        id: credential.id, // This should already be base64url
+        rawId: bufferToBase64url(credential.rawId),
+        response: {
+          attestationObject: bufferToBase64url(credential.response.attestationObject),
+          clientDataJSON: bufferToBase64url(credential.response.clientDataJSON),
+        },
+        type: credential.type,
+      };
+
+      console.log("Serialized credential:", {
+        id: serializedCredential.id,
+        rawIdLength: serializedCredential.rawId.length,
+        hasAttestationObject: !!serializedCredential.response.attestationObject,
+        hasClientDataJSON: !!serializedCredential.response.clientDataJSON
+      });
+
       // 5️⃣ Send attestation to backend
       console.log("Verifying passkey with server...");
       const resVerify = await fetch(`${API_URL}/api/passkeys/users/${userId}/passkeys`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ attestationResponse: credential }),
+        body: JSON.stringify({ attestationResponse: serializedCredential }),
       });
 
       if (!resVerify.ok) {
