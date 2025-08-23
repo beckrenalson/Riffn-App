@@ -20,18 +20,6 @@ function UserProfile() {
   const setGlobalIsEditing = UserStore((state) => state.setIsEditing);
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const savedUser = localStorage.getItem("riffn-user-storage");
-    if (savedUser) {
-      try {
-        const parsedUser = JSON.parse(savedUser);
-        UserStore.getState().setUserData(parsedUser);
-      } catch (e) {
-        console.error("Failed to parse localStorage user:", e);
-      }
-    }
-  }, []);
-
   const [formData, setFormData] = useState({
     _id: userData?._id,
     firstName: userData?.firstName || '',

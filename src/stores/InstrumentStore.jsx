@@ -1,15 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-// UserStore now only manages the global instrument list
-const UserStore = create(
-    persist(
-        (set) => ({
-            instrumentList: [],
-            setInstrumentList: (list) => set({ instrumentList: list }),
-        }),
-        { name: "instrument-list-storage" }
-    )
-);
+const InstrumentStore = create(persist(
+    (set) => ({
+        instrumentList: [],
+        selectedInstruments: [],
+        setSelectedInstruments: (Instruments) => set({ selectedInstruments: Instruments }),
+        clearSelectedInstruments: () => set({ selectedInstruments: [] }),
+        setInstrumentList: (list) => set({ instrumentList: list }),
+    }),
+    {
+        name: "selected-instruments-storage",
+    }
+));
 
-export default UserStore;
+export default InstrumentStore;

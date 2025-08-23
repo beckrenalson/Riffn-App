@@ -1,6 +1,6 @@
 import BackBtn from "../BackBtn"
 import Genre from "./Genre"
-import GenreStore from "../../storesGenreStore";
+import GenreStore from "../../stores/GenreStore";
 import { useEffect } from "react";
 import axios from "axios";
 import { SUBGENRES_ENDPOINT } from "../../config/api";
