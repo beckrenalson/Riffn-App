@@ -174,39 +174,67 @@ function SignUp() {
       <div className="p-10 max-w-md w-full">
         <h2 className="text-4xl font-bold mb-6 text-center">Riffn</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-          <input
-            type="text"
-            name="firstName"
-            value={userData.firstName || ''}
-            onChange={handleChange}
-            placeholder="First Name"
-            className="w-full pl-4 p-2 border rounded-xl"
-          />
-          <input
-            type="text"
-            name="lastName"
-            value={userData.lastName || ''}
-            onChange={handleChange}
-            placeholder="Last Name"
-            className="w-full pl-4 p-2 border rounded-xl"
-          />
-          <input
-            type="email"
-            name="email"
-            value={userData.email || ''}
-            onChange={handleChange}
-            placeholder="Email"
-            className="w-full pl-4 p-2 border rounded-xl"
-          />
-          <input
-            type="password"
-            name="password"
-            value={userData.password || ''}
-            onChange={handleChange}
-            placeholder="Password"
-            className="w-full pl-4 p-2 border rounded-xl"
-          />
+        <form onSubmit={handleSubmit} noValidate>
+          <div className="mb-2">
+            <input
+              type="text"
+              name="firstName"
+              value={userData.firstName || ''}
+              onChange={handleChange}
+              placeholder="First Name"
+              className={`w-full pl-4 p-2 border rounded-xl ${fieldErrors.firstName ? "border-red-500" : ""
+                }`}
+            />
+            <span className="text-xs h-4 block text-red-500">
+              {fieldErrors.firstName || ""}
+            </span>
+          </div>
+
+          <div className="mb-2">
+            <input
+              type="text"
+              name="lastName"
+              value={userData.lastName || ''}
+              onChange={handleChange}
+              placeholder="Last Name"
+              className={`w-full pl-4 p-2 border rounded-xl ${fieldErrors.lastName ? "border-red-500" : ""
+                }`}
+            />
+            <span className="text-xs h-4 block text-red-500">
+              {fieldErrors.lastName || ""}
+            </span>
+          </div>
+
+          <div className="mb-2">
+            <input
+              type="email"
+              name="email"
+              value={userData.email || ''}
+              onChange={handleChange}
+              placeholder="Email"
+              className={`w-full pl-4 p-2 border rounded-xl ${fieldErrors.email ? "border-red-500" : ""
+                }`}
+            />
+            <span className="text-xs h-4 block text-red-500">
+              {fieldErrors.email || ""}
+            </span>
+          </div>
+
+          <div className="mb-2">
+            <input
+              type="password"
+              name="password"
+              value={userData.password || ''}
+              onChange={handleChange}
+              placeholder="Password"
+              className={`w-full pl-4 p-2 border rounded-xl ${fieldErrors.password ? "border-red-500" : ""
+                }`}
+            />
+            <span className="text-xs h-4 block text-red-500">
+              {fieldErrors.password || ""}
+            </span>
+          </div>
+
           <button
             type="submit"
             className="w-full border p-2 rounded-xl bg-black text-white"
@@ -215,11 +243,17 @@ function SignUp() {
           </button>
         </form>
 
+        <div className="flex items-center my-4">
+          <div className="flex-grow h-px bg-gray-300"></div>
+          <span className="px-3 text-gray-500">or</span>
+          <div className="flex-grow h-px bg-gray-300"></div>
+        </div>
+
         {!passkeyData && (
           <button
             onClick={handlePasskeyRegister}
             disabled={isLoading}
-            className="w-full border p-2 rounded-xl mt-2 disabled:opacity-50"
+            className="w-full border p-2 rounded-xl disabled:opacity-50"
           >
             {isLoading ? "Creating Passkey..." : "Create Passkey (Optional)"}
           </button>
