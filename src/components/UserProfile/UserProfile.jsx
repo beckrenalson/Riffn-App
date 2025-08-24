@@ -127,14 +127,17 @@ function UserProfile() {
   };
 
   const handleCancel = () => {
-    // Reset form data to original userData
+    // Store the current populated band members before resetting
+    const currentPopulatedMembers = formData.bandMembers;
+
+    // Reset form data to original userData, but keep populated band members
     setFormData({
       _id: userData?._id,
       firstName: userData?.firstName || '',
       lastName: userData?.lastName || '',
       email: userData?.email || '',
       location: userData?.location || '',
-      bandMembers: userData?.bandMembers || [],
+      bandMembers: currentPopulatedMembers, // Keep the populated objects instead of reverting to ObjectIds
       selectedInstruments: userData?.selectedInstruments || [],
       selectedGenres: userData?.selectedGenres || [],
       profileImage: userData?.profileImage || '',
@@ -225,10 +228,15 @@ function UserProfile() {
                 ) : (
                   <>
                     {formData?.bandMembers?.length > 0 ? (
-                      <div className="space-y-1">
+                      <div className="flex flex-wrap gap-3">
                         {formData.bandMembers.map((member) => (
-                          <div key={member._id || member} className="text-sm">
-                            {getMemberDisplayName(member)}
+                          <div key={member._id || member} className="flex items-center gap-2">
+                            <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                              <span className="text-xs text-gray-600">
+                                {getMemberDisplayName(member).charAt(0)}
+                              </span>
+                            </div>
+                            <span className="text-sm">{getMemberDisplayName(member)}</span>
                           </div>
                         ))}
                       </div>
