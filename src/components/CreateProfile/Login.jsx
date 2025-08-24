@@ -13,6 +13,27 @@ const base64urlToUint8Array = (base64urlString) => {
   return Uint8Array.from(raw, c => c.charCodeAt(0));
 };
 
+// Helper: convert Uint8Array to base64url for sending to backend
+const uint8ArrayToBase64url = (uint8Array) => {
+  const base64 = btoa(String.fromCharCode.apply(null, uint8Array));
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+};
+
+// Helper: convert WebAuthn assertion to JSON-serializable format
+const serializeAssertion = (assertion) => {
+  return {
+    id: assertion.id,
+    rawId: uint8ArrayToBase64url(new Uint8Array(assertion.rawId)),
+    response: {
+      authenticatorData: uint8ArrayToBase64url(new Uint8Array(assertion.response.authenticatorData)),
+      clientDataJSON: uint8ArrayToBase64url(new Uint8Array(assertion.response.clientDataJSON)),
+      signature: uint8ArrayToBase64url(new Uint8Array(assertion.response.signature)),
+      userHandle: assertion.response.userHandle ? uint8ArrayToBase64url(new Uint8Array(assertion.response.userHandle)) : null,
+    },
+    type: assertion.type,
+  };
+};
+
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -27,7 +48,7 @@ function Login() {
   };
 
   // -----------------------------
-  // Password login
+  // Password login (uses original endpoint)
   // -----------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,52 +72,87 @@ function Login() {
   };
 
   // -----------------------------
-  // Passkey login
+  // Passkey login (updated for unified endpoint)
   // -----------------------------
   const handlePasskeyLogin = async () => {
     setPasskeyError("");
     try {
-      // 1️⃣ Request login challenge
-      const challengeRes = await fetch(`${API_URL}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email, requestPasskey: true }),
-      });
+      console.log("=== FRONTEND PASSKEY LOGIN START ===");
+      console.log("Email:", formData.email);
 
-      if (!challengeRes.ok) throw new Error("Failed to get passkey challenge");
-      const { challenge, tempUserId, user } = await challengeRes.json();
-
-      // 2️⃣ Prepare WebAuthn options
-      const publicKey = {
-        challenge: base64urlToUint8Array(challenge),
-        allowCredentials: user.passkeyId
-          ? [{ type: "public-key", id: base64urlToUint8Array(user.passkeyId) }]
-          : [],
-        userVerification: "preferred",
-      };
-
-      // 3️⃣ Call WebAuthn API
-      const assertion = await navigator.credentials.get({ publicKey });
-
-      // 4️⃣ Send assertion to backend for verification
-      const verifyRes = await fetch(`${API_URL}/api/auth/login`, {
+      // 1️⃣ Request passkey challenge (updated request format)
+      console.log("Step 1: Requesting passkey challenge...");
+      const challengeRes = await fetch(`${API_URL}/api/auth/users/passkey-login-challenge`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: formData.email,
-          tempUserId,
-          passkeyCredential: assertion,
+          requestPasskey: true  // This is the key addition!
         }),
       });
 
-      if (!verifyRes.ok) throw new Error("Passkey login failed");
-      const verifiedUser = await verifyRes.json();
-      setUserData(verifiedUser.user);
+      if (!challengeRes.ok) {
+        const errorData = await challengeRes.json();
+        throw new Error(errorData.message || "Failed to get passkey challenge");
+      }
 
+      const { tempUserId, challenge, userName } = await challengeRes.json();
+      console.log("Step 1 SUCCESS - received challenge, tempUserId:", tempUserId);
+
+      // 2️⃣ Prepare WebAuthn options
+      console.log("Step 2: Preparing WebAuthn options...");
+      const publicKey = {
+        challenge: base64urlToUint8Array(challenge),
+        allowCredentials: [], // Let the authenticator find available credentials
+        userVerification: "preferred",
+        timeout: 60000,
+      };
+      console.log("Step 2 SUCCESS - publicKey ready");
+
+      // 3️⃣ Call WebAuthn API
+      console.log("Step 3: Calling navigator.credentials.get...");
+      const assertion = await navigator.credentials.get({ publicKey });
+      console.log("Step 3 SUCCESS - got assertion");
+
+      // 4️⃣ Serialize assertion
+      console.log("Step 4: Serializing assertion...");
+      const serializedAssertion = serializeAssertion(assertion);
+      console.log("Step 4 SUCCESS - serialized");
+
+      // 5️⃣ Send assertion back to unified endpoint for verification
+      console.log("Step 5: Sending credential to backend for verification...");
+      const verifyRes = await fetch(`${API_URL}/api/auth/users/passkey-login-challenge`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          tempUserId: tempUserId,
+          passkeyCredential: serializedAssertion,
+        }),
+      });
+
+      if (!verifyRes.ok) {
+        const errorData = await verifyRes.json();
+        console.error("Backend error:", errorData);
+        throw new Error(errorData.message || "Passkey login failed");
+      }
+
+      const verifiedUser = await verifyRes.json();
+      console.log("Step 5 SUCCESS - login complete");
+
+      setUserData(verifiedUser.user);
       navigate(`/search/${verifiedUser.user.profileType === "solo" ? "band" : "solo"}`);
+
     } catch (err) {
-      console.error(err);
-      setPasskeyError("Passkey login failed. Make sure your device supports it.");
+      console.error("=== PASSKEY LOGIN ERROR ===", err);
+
+      if (err.name === "NotAllowedError") {
+        setPasskeyError("Passkey authentication was cancelled or timed out.");
+      } else if (err.name === "NotSupportedError") {
+        setPasskeyError("Passkeys are not supported on this device/browser.");
+      } else {
+        setPasskeyError(err.message || "Passkey login failed. Please try again or use password login.");
+      }
     }
   };
 
@@ -115,6 +171,7 @@ function Login() {
               onChange={handleChange}
               placeholder="Email"
               className="w-full pl-4 p-2 border rounded-xl"
+              required
             />
             <input
               type="password"
@@ -132,13 +189,23 @@ function Login() {
             </button>
           </form>
 
+          <div className="flex items-center my-4">
+            <div className="flex-grow h-px bg-gray-300"></div>
+            <span className="px-3 text-gray-500">or</span>
+            <div className="flex-grow h-px bg-gray-300"></div>
+          </div>
+
           <button
             onClick={handlePasskeyLogin}
-            className="w-full border p-2 rounded-xl mt-2"
+            disabled={!formData.email} // Require email for passkey login
+            className="w-full border p-2 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Login with Passkey
           </button>
-          {passkeyError && <p className="text-red-500 mt-2">{passkeyError}</p>}
+          {passkeyError && <p className="text-red-500 mt-2 text-sm">{passkeyError}</p>}
+          {!formData.email && (
+            <p className="text-gray-500 mt-2 text-sm">Enter your email first to use passkey login</p>
+          )}
         </div>
       </div>
     </>
