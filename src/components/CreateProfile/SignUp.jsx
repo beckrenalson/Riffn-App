@@ -38,7 +38,7 @@ function SignUp() {
   const setUserData = UserStore((state) => state.setUserData);
 
   const [fieldErrors, setFieldErrors] = useState({});
-  const [passkeyRegistered, setPasskeyRegistered] = useState(false);
+  const [passkeyData, setPasskeyData] = useState(null); // Store passkey data temporarily
   const [isLoading, setIsLoading] = useState(false);
 
   const login = () => navigate("/login");
@@ -63,6 +63,11 @@ function SignUp() {
       return;
     }
 
+    // Store passkey data in UserStore for the final signup step
+    if (passkeyData) {
+      setUserData({ passkeyData });
+    }
+
     navigate("/signup/userselection");
   };
 
@@ -70,108 +75,53 @@ function SignUp() {
     setIsLoading(true);
 
     try {
-      let userId = userData._id;
+      // Create a temporary user ID for the passkey registration process
+      // We'll use the email as a temporary identifier since it's unique
+      const tempUserId = btoa(userData.email).replace(/[^a-zA-Z0-9]/g, ''); // Simple base64 encode and clean
 
-      // 1️⃣ Create user if missing
-      if (!userId) {
-        console.log("Creating user...");
-        const username =
-          userData.userName?.trim() ||
-          `${userData.firstName}${userData.lastName}`.toLowerCase();
+      console.log("Using temporary ID for passkey registration:", tempUserId);
 
-        const resCreate = await fetch(`${API_URL}/api/users`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userName: username,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            email: userData.email,
-            password: userData.password,
-          }),
-        });
-
-        if (!resCreate.ok) {
-          const text = await resCreate.text();
-          console.error("User creation failed:", resCreate.status, text);
-          alert("User creation failed. Check your input.");
-          return;
-        }
-
-        const createdUser = await resCreate.json();
-        userId = createdUser._id;
-        setUserData({ _id: userId, userName: username });
-        console.log("User created with ID:", userId);
-      }
-
-      // 2️⃣ Get registration challenge
-      console.log("Getting passkey challenge for userId:", userId);
-      console.log("Request URL:", `${API_URL}/api/passkeys/passkey-challenge`);
-      console.log("Request payload:", { userId });
-
-      const resChallenge = await fetch(`${API_URL}/api/passkeys/passkey-challenge`, {
+      // 1️⃣ Get registration challenge using temporary user data
+      const resChallenge = await fetch(`${API_URL}/api/passkeys/passkey-challenge-temp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId }),
+        body: JSON.stringify({
+          tempUserId,
+          email: userData.email,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          userName: userData.userName || `${userData.firstName}${userData.lastName}`.toLowerCase()
+        }),
       });
-
-      console.log("Challenge response status:", resChallenge.status);
-      console.log("Challenge response ok:", resChallenge.ok);
 
       if (!resChallenge.ok) {
         let errorText;
-        let errorData;
-
         try {
-          errorData = await resChallenge.json();
+          const errorData = await resChallenge.json();
           errorText = errorData.error || errorData.message || 'Unknown error';
         } catch (parseError) {
           errorText = await resChallenge.text();
         }
-
-        console.error("Passkey challenge error:", {
-          status: resChallenge.status,
-          statusText: resChallenge.statusText,
-          error: errorText,
-          data: errorData
-        });
-
         alert(`Failed to get passkey challenge: ${errorText}`);
         return;
       }
 
       const options = await resChallenge.json();
-      console.log("Received options:", options);
-      console.log("Response headers:", Object.fromEntries(resChallenge.headers.entries()));
+      console.log("Received passkey options");
 
-      // Debug the exact response structure
-      console.log("Options keys:", Object.keys(options));
-      console.log("Challenge value:", options.challenge);
-      console.log("Challenge type:", typeof options.challenge);
-
-      // 3️⃣ Validate and convert challenge & user ID
+      // 2️⃣ Validate and convert challenge & user ID
       if (!options.challenge) {
-        console.error("Full server response:", JSON.stringify(options, null, 2));
         throw new Error("No challenge received from server");
       }
       if (!options.user?.id) {
         throw new Error("No user ID received from server");
       }
 
-      console.log("Original challenge:", options.challenge);
-      console.log("Original user ID:", options.user.id);
-
       // Convert challenge & user ID
-      try {
-        options.challenge = base64urlToBuffer(options.challenge);
-        options.user.id = base64urlToBuffer(options.user.id);
-        console.log("Converted challenge and user ID successfully");
-      } catch (conversionError) {
-        console.error("Conversion error:", conversionError);
-        throw new Error(`Failed to convert server response: ${conversionError.message}`);
-      }
+      options.challenge = base64urlToBuffer(options.challenge);
+      options.user.id = base64urlToBuffer(options.user.id);
 
-      // 4️⃣ Call WebAuthn
+      // 3️⃣ Call WebAuthn
       console.log("Calling navigator.credentials.create...");
       const credential = await navigator.credentials.create({ publicKey: options });
 
@@ -180,9 +130,9 @@ function SignUp() {
       }
       console.log("Credential created successfully");
 
-      // 4.5️⃣ Serialize the credential for transmission
+      // 4️⃣ Serialize the credential for storage
       const serializedCredential = {
-        id: credential.id, // This should already be base64url
+        id: credential.id,
         rawId: bufferToBase64url(credential.rawId),
         response: {
           attestationObject: bufferToBase64url(credential.response.attestationObject),
@@ -191,33 +141,16 @@ function SignUp() {
         type: credential.type,
       };
 
-      console.log("Serialized credential:", {
-        id: serializedCredential.id,
-        rawIdLength: serializedCredential.rawId.length,
-        hasAttestationObject: !!serializedCredential.response.attestationObject,
-        hasClientDataJSON: !!serializedCredential.response.clientDataJSON
+      // 5️⃣ Store passkey data temporarily (don't save to server yet)
+      setPasskeyData({
+        tempUserId,
+        challenge: options.challenge, // Store original challenge for later verification
+        credential: serializedCredential
       });
 
-      // 5️⃣ Send attestation to backend
-      console.log("Verifying passkey with server...");
-      const resVerify = await fetch(`${API_URL}/api/passkeys/users/${userId}/passkeys`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ attestationResponse: serializedCredential }),
-      });
+      console.log("Passkey created and stored temporarily");
+      alert("Passkey created! It will be registered when you complete signup.");
 
-      if (!resVerify.ok) {
-        const text = await resVerify.text();
-        console.error("Passkey verification failed:", resVerify.status, text);
-        alert("Passkey registration failed.");
-        return;
-      }
-
-      const result = await resVerify.json();
-      console.log("Passkey registered successfully:", result);
-
-      setPasskeyRegistered(true);
-      alert("Passkey registered! You can now login with it.");
     } catch (err) {
       console.error("Passkey registration error:", err);
       if (err.name === 'NotSupportedError') {
@@ -245,7 +178,7 @@ function SignUp() {
           <input
             type="text"
             name="firstName"
-            value={userData.firstName}
+            value={userData.firstName || ''}
             onChange={handleChange}
             placeholder="First Name"
             className="w-full pl-4 p-2 border rounded-xl"
@@ -253,7 +186,7 @@ function SignUp() {
           <input
             type="text"
             name="lastName"
-            value={userData.lastName}
+            value={userData.lastName || ''}
             onChange={handleChange}
             placeholder="Last Name"
             className="w-full pl-4 p-2 border rounded-xl"
@@ -261,7 +194,7 @@ function SignUp() {
           <input
             type="email"
             name="email"
-            value={userData.email}
+            value={userData.email || ''}
             onChange={handleChange}
             placeholder="Email"
             className="w-full pl-4 p-2 border rounded-xl"
@@ -269,7 +202,7 @@ function SignUp() {
           <input
             type="password"
             name="password"
-            value={userData.password}
+            value={userData.password || ''}
             onChange={handleChange}
             placeholder="Password"
             className="w-full pl-4 p-2 border rounded-xl"
@@ -282,17 +215,20 @@ function SignUp() {
           </button>
         </form>
 
-        {!passkeyRegistered && (
+        {!passkeyData && (
           <button
             onClick={handlePasskeyRegister}
             disabled={isLoading}
             className="w-full border p-2 rounded-xl mt-2 disabled:opacity-50"
           >
-            {isLoading ? "Registering Passkey..." : "Register Passkey (Optional)"}
+            {isLoading ? "Creating Passkey..." : "Create Passkey (Optional)"}
           </button>
         )}
-        {passkeyRegistered && (
-          <p className="text-green-600 mt-2">Passkey registered!</p>
+        {passkeyData && (
+          <div className="mt-2">
+            <p className="text-green-600">✓ Passkey created!</p>
+            <p className="text-sm text-gray-600">Will be registered when you complete signup</p>
+          </div>
         )}
 
         <p className="mt-6 text-center">
