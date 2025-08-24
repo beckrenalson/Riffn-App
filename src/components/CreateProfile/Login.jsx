@@ -2,6 +2,16 @@ import { useState } from "react";
 import BackBtn from "../BackBtn";
 import { useNavigate } from "react-router-dom";
 import UserStore from "../../stores/UserStore";
+import { API_URL } from "../../config/api"
+
+// Helper: convert base64url to Uint8Array for WebAuthn
+const base64urlToUint8Array = (base64urlString) => {
+  const base64 = base64urlString.replace(/-/g, '+').replace(/_/g, '/');
+  const pad = base64.length % 4;
+  const padded = base64 + (pad ? '='.repeat(4 - pad) : '');
+  const raw = atob(padded);
+  return Uint8Array.from(raw, c => c.charCodeAt(0));
+};
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -9,19 +19,22 @@ function Login() {
   const [passkeyError, setPasskeyError] = useState("");
 
   const navigate = useNavigate();
-  const loginWithPasskey = UserStore((state) => state.loginWithPasskey);
+  const setUserData = UserStore((state) => state.setUserData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // -----------------------------
+  // Password login
+  // -----------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -30,7 +43,7 @@ function Login() {
       if (!res.ok) throw new Error("Invalid email or password");
 
       const data = await res.json();
-      UserStore.getState().setUserData(data.user);
+      setUserData(data.user);
       navigate(`/search/${data.user.profileType === "solo" ? "band" : "solo"}`);
     } catch (err) {
       setError(err.message || "Login failed");
@@ -43,30 +56,44 @@ function Login() {
   const handlePasskeyLogin = async () => {
     setPasskeyError("");
     try {
-      // 1. Request login challenge
-      const res = await fetch("/api/passkeys/users/passkey-login-challenge", {
+      // 1️⃣ Request login challenge
+      const challengeRes = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email }),
+        body: JSON.stringify({ email: formData.email, requestPasskey: true }),
       });
-      const { options, userId } = await res.json();
 
-      options.challenge = Uint8Array.from(atob(options.challenge), (c) =>
-        c.charCodeAt(0)
-      );
-      options.allowCredentials = options.allowCredentials.map((cred) => ({
-        ...cred,
-        id: Uint8Array.from(atob(cred.id), (c) => c.charCodeAt(0)),
-      }));
+      if (!challengeRes.ok) throw new Error("Failed to get passkey challenge");
+      const { challenge, tempUserId, user } = await challengeRes.json();
 
-      // 2. Call WebAuthn API
-      const assertion = await navigator.credentials.get({ publicKey: options });
+      // 2️⃣ Prepare WebAuthn options
+      const publicKey = {
+        challenge: base64urlToUint8Array(challenge),
+        allowCredentials: user.passkeyId
+          ? [{ type: "public-key", id: base64urlToUint8Array(user.passkeyId) }]
+          : [],
+        userVerification: "preferred",
+      };
 
-      // 3. Send to backend for verification
-      await loginWithPasskey({ userId, assertionResponse: assertion });
+      // 3️⃣ Call WebAuthn API
+      const assertion = await navigator.credentials.get({ publicKey });
 
-      const user = UserStore.getState().userData;
-      navigate(`/search/${user.profileType === "solo" ? "band" : "solo"}`);
+      // 4️⃣ Send assertion to backend for verification
+      const verifyRes = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          tempUserId,
+          passkeyCredential: assertion,
+        }),
+      });
+
+      if (!verifyRes.ok) throw new Error("Passkey login failed");
+      const verifiedUser = await verifyRes.json();
+      setUserData(verifiedUser.user);
+
+      navigate(`/search/${verifiedUser.user.profileType === "solo" ? "band" : "solo"}`);
     } catch (err) {
       console.error(err);
       setPasskeyError("Passkey login failed. Make sure your device supports it.");
@@ -97,7 +124,10 @@ function Login() {
               placeholder="Password"
               className="w-full pl-4 p-2 border rounded-xl"
             />
-            <button type="submit" className="w-full border p-2 rounded-xl bg-black text-white">
+            <button
+              type="submit"
+              className="w-full border p-2 rounded-xl bg-black text-white"
+            >
               LOGIN
             </button>
           </form>
@@ -106,7 +136,7 @@ function Login() {
             onClick={handlePasskeyLogin}
             className="w-full border p-2 rounded-xl mt-2"
           >
-            Login with Passkey (Optional)
+            Login with Passkey
           </button>
           {passkeyError && <p className="text-red-500 mt-2">{passkeyError}</p>}
         </div>
