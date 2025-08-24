@@ -16,7 +16,7 @@ import FinalSignUp from './components/CreateProfile/FinalSignUp.jsx';
 import CreateUser from './components/CreateProfile/CreateUser.jsx';
 import AboutPage from './components/AboutPage.jsx';
 import Settings from './components/UserProfile/Settings.jsx';
-import SearchProfiles from './components/Search/SearchProfiles.jsx.jsx';
+import SearchProfiles from './components/Search/SearchProfiles.jsx';
 import Connections from './components/Search/Connections.jsx';
 
 createRoot(document.getElementById('root')).render(

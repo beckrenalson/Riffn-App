@@ -76,7 +76,7 @@ function SearchProfiles({ profileType }) {
         <p className="text-sm text-gray-400 text-center mt-1">{subHeaderText}</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-4">
+      <div className="mb-13">
         {loading ? (
           <div className="p-5">
             <ProfileSkeleton />

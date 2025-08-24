@@ -52,6 +52,33 @@ function UserProfile() {
     });
   }, [userData]);
 
+  // Fetch band member details only if they are ObjectId strings
+  useEffect(() => {
+    const fetchBandMemberDetails = async () => {
+      const bandMembers = formData.bandMembers;
+
+      // Only fetch if we have band members and they are strings (ObjectIds)
+      if (!bandMembers?.length || typeof bandMembers[0] !== 'string') return;
+
+      try {
+        const memberPromises = bandMembers.map(async (memberId) => {
+          const response = await fetch(`${USERS_ENDPOINT}/${memberId}`);
+          if (response.ok) {
+            return await response.json();
+          }
+          return { _id: memberId, userName: 'Unknown Member' }; // fallback
+        });
+
+        const populatedMembers = await Promise.all(memberPromises);
+        setFormData(prev => ({ ...prev, bandMembers: populatedMembers }));
+      } catch (err) {
+        console.error('Error fetching band member details:', err);
+      }
+    };
+
+    fetchBandMemberDetails();
+  }, [formData.bandMembers?.length, userData?._id]);
+
   const [password, setPassword] = useState("");
 
   const handleSave = async () => {
@@ -84,9 +111,6 @@ function UserProfile() {
         // Update both formData and global store
         setFormData(updated);
         UserStore.getState().setUserData(updated);
-
-        // Update localStorage
-        localStorage.setItem("riffn-user-storage", JSON.stringify(updated));
 
         setIsEditing(false);
         setGlobalIsEditing(false);
@@ -200,10 +224,10 @@ function UserProfile() {
                   />
                 ) : (
                   <>
-                    {userData?.bandMembers?.length > 0 ? (
+                    {formData?.bandMembers?.length > 0 ? (
                       <div className="space-y-1">
-                        {userData.bandMembers.map((member, index) => (
-                          <div key={index} className="text-sm">
+                        {formData.bandMembers.map((member) => (
+                          <div key={member._id || member} className="text-sm">
                             {getMemberDisplayName(member)}
                           </div>
                         ))}

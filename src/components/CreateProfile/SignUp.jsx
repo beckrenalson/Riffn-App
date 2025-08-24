@@ -302,7 +302,7 @@ function SignUp() {
         <p className="mt-6 text-center">
           Already have an account?
           <button onClick={login} className="underline ml-2">
-            Login
+            <b>Login</b>
           </button>
         </p>
       </div>
