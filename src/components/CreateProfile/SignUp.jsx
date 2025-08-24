@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import UserStore from "../../stores/UserStore";
-import { API_URL } from "../../config/api";
+import { API_URL, USERS_ENDPOINT } from "../../config/api";
 
 // Helper: base64url → Uint8Array
 function base64urlToBuffer(base64url) {
@@ -48,7 +48,7 @@ function SignUp() {
     setUserData({ [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = {};
@@ -63,13 +63,47 @@ function SignUp() {
       return;
     }
 
-    // Store passkey data in UserStore for the final signup step
+    // In handleSubmit
+    try {
+      const res = await fetch(`${USERS_ENDPOINT}/check-details`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: userData.email,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          password: userData.password,
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.status === 409 && data.errors) {
+        // Map backend errors to fieldErrors
+        const newErrors = {};
+        data.errors.forEach(err => {
+          newErrors[err.param] = err.msg;
+        });
+        setFieldErrors(newErrors);
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to check details");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to check details. Try again.");
+      return;
+    }
+
     if (passkeyData) {
       setUserData({ passkeyData });
     }
 
     navigate("/signup/userselection");
   };
+
 
   const handlePasskeyRegister = async () => {
     setIsLoading(true);
