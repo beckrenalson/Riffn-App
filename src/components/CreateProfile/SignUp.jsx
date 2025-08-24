@@ -116,7 +116,7 @@ function SignUp() {
       console.log("Using temporary ID for passkey registration:", tempUserId);
 
       // 1️⃣ Get registration challenge using temporary user data
-      const resChallenge = await fetch(`${API_URL}/api/passkeys/passkey-challenge-temp`, {
+      const resChallenge = await fetch(`${API_URL}/api/auth/passkey-challenge-temp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
