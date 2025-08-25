@@ -4,6 +4,7 @@ import BackBtn from "../BackBtn";
 import NavBar from "../NavBar";
 import { API_URL } from '../../config/api';
 import UserStore from "../../stores/UserStore";
+import ProfileList from "../../components/Search/ProfileList";
 
 function PublicProfile() {
     const { userName } = useParams();
@@ -119,7 +120,8 @@ function PublicProfile() {
                                 <>
                                     {user?.profileType === 'band' ? 'Request to Join' : 'Invite to Band'}
                                 </>
-                            )}                        </button>
+                            )}
+                        </button>
                     )}
 
                     {connectionStatus === 'pending' && (
@@ -127,7 +129,6 @@ function PublicProfile() {
                             {user?.profileType === 'band' ? 'Join request sent' : 'Invitation sent'}
                         </div>
                     )}
-
 
                     {connectionStatus === 'connected' && (
                         <div className="space-y-2">
@@ -145,79 +146,109 @@ function PublicProfile() {
                 </div>
 
                 {/* Bio */}
-                <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
+                <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Bio:</p>
                     <p>{user.bio || "No bio provided."}</p>
                 </div>
 
                 {/* Instruments & Genres */}
-                <div className="border p-4 rounded-2xl space-y-2 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
+                <div className="border p-4 rounded-2xl space-y-2 bg-[#1a1a1a] border-gray-800">
                     {user?.profileType === "band" && (
                         <div>
-                            <p className="text-sm font-semibold text-gray-500">Band members:</p>
-                            <p>{user?.bandMembers?.join(', ') || 'Not listed'}</p>
+                            <p className="text-sm font-semibold text-gray-500 mb-3">Band members:</p>
+                            {user?.bandMembers?.length > 0 ? (
+                                <ProfileList
+                                    header=""
+                                    profiles={user.bandMembers.filter(member => typeof member === 'object' && member._id)}
+                                />
+                            ) : (
+                                <p className="text-gray-400">No members listed</p>
+                            )}
                         </div>
                     )}
                     <div>
                         <p className="text-sm font-semibold text-gray-500">
                             {user.profileType === "band" ? "Instruments needed:" : "Instruments played:"}
                         </p>
-                        <p>{user.selectedInstruments?.join(', ') || 'Not specified'}</p>
+                        <p>
+                            {user.selectedInstruments && user.selectedInstruments.length > 0
+                                ? user.selectedInstruments.join(', ')
+                                : 'Not specified'
+                            }
+                        </p>
                     </div>
                     <div>
                         <p className="text-sm font-semibold text-gray-500">Preferred genres:</p>
-                        <p>{user.selectedGenres?.join(', ') || 'Not specified'}</p>
+                        <p>
+                            {user.selectedGenres && user.selectedGenres.length > 0
+                                ? user.selectedGenres.join(', ')
+                                : 'Not specified'
+                            }
+                        </p>
                     </div>
                 </div>
 
                 {/* Contact / Socials */}
-                <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
+                <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Contact / Socials:</p>
                     <div className="text-sm text-gray-600 space-y-1">
                         {user.phone && <p>Phone: {user.phone}</p>}
-                        {user.socials &&
+                        {user.socials && Object.keys(user.socials).length > 0 ? (
                             Object.entries(user.socials).map(([platform, link]) =>
                                 link ? (
                                     <p key={platform}>
                                         {platform.charAt(0).toUpperCase() + platform.slice(1)}:{" "}
-                                        <a href={link} target="_blank" className="text-blue-400 hover:underline">{link}</a>
+                                        <a
+                                            href={link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-400"
+                                        >
+                                            {link}
+                                        </a>
                                     </p>
                                 ) : null
                             )
-                        }
+                        ) : (
+                            <p className="text-gray-400">No social links provided</p>
+                        )}
                         {user.email && <p>Email: {user.email}</p>}
                     </div>
                 </div>
 
                 {/* Music Tracks */}
-                <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800 hover:border-gray-600 transition">
+                <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Music:</p>
                     <div className="space-y-6">
-                        {tracks.map((track, index) => (
-                            <div key={index}>
-                                {track.type === "spotify" ? (
-                                    <iframe
-                                        src={track.src}
-                                        width="100%"
-                                        height="80"
-                                        style={{ borderRadius: "12px" }}
-                                        frameBorder="0"
-                                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                        loading="lazy"
-                                    />
-                                ) : (
-                                    <iframe
-                                        src={track.src}
-                                        width="100%"
-                                        height="166"
-                                        style={{ borderRadius: "12px" }}
-                                        frameBorder="no"
-                                        scrolling="no"
-                                        allow="autoplay"
-                                    />
-                                )}
-                            </div>
-                        ))}
+                        {tracks.length > 0 ? (
+                            tracks.map((track, index) => (
+                                <div key={index}>
+                                    {track.type === "spotify" ? (
+                                        <iframe
+                                            src={track.src}
+                                            width="100%"
+                                            height="80"
+                                            style={{ borderRadius: "12px" }}
+                                            frameBorder="0"
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                            loading="lazy"
+                                        />
+                                    ) : (
+                                        <iframe
+                                            src={track.src}
+                                            width="100%"
+                                            height="166"
+                                            style={{ borderRadius: "12px" }}
+                                            frameBorder="no"
+                                            scrolling="no"
+                                            allow="autoplay"
+                                        />
+                                    )}
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-400">No tracks uploaded</p>
+                        )}
                     </div>
                 </div>
             </div>

@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom"
 import { API_URL } from "../../config/api";
 
 function ProfileList({ header, profiles }) {
-
     const navigate = useNavigate()
 
     const handleClick = (user) => {
@@ -15,8 +14,11 @@ function ProfileList({ header, profiles }) {
 
         const slug = slugify(user.userName);
 
+        // Default to 'solo' if profileType is missing (most band members are solo artists)
+        const profileType = user.profileType || 'solo';
+
         navigate(
-            `/search/${user.profileType}/${slug}`,
+            `/search/${profileType}/${slug}`,
             { state: { user } }
         );
     }
@@ -41,7 +43,6 @@ function ProfileList({ header, profiles }) {
                                         ? `${API_URL}${user.profileImage.startsWith("/") ? user.profileImage : "/" + user.profileImage}`
                                         : "/images/profilepicture.png"
                             }
-
                             alt="Profile"
                         />
                         <div className="pl-4 flex flex-col justify-center">
@@ -49,13 +50,10 @@ function ProfileList({ header, profiles }) {
                             <h2 className="text-sm text-gray-600">{user.location}</h2>
                         </div>
                     </button>
-
                 ))}
             </ul>
         </div>
     )
 }
-
-
 
 export default ProfileList
