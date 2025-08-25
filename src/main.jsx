@@ -37,8 +37,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/login" element={<Login />} />
         <Route path="/search/solo" element={<SearchProfiles profileType="solo" />} />
         <Route path="/search/band" element={<SearchProfiles profileType="band" />} />
-        <Route path="/search/band/:userId" element={<PublicProfile key="band" />} />
-        <Route path="/search/solo/:userId" element={<PublicProfile key="solo" />} />
+        <Route path="/search/band/:userName" element={<PublicProfile key="band" />} />
+        <Route path="/search/solo/:userName" element={<PublicProfile key="solo" />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/settings" element={<Settings />} />
