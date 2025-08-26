@@ -64,6 +64,7 @@ function InstrumentSelection() {
                         <InstrumentList
                             instruments={instrumentList}
                             onSelectionChange={setSelectedInstruments}
+                            initialSelections={selectedInstruments}
                         />
                     )}
                 </div>

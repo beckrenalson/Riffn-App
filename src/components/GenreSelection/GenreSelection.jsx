@@ -62,6 +62,7 @@ function GenreSelection() {
                         <SubGenreList
                             genres={genresList}
                             onSelectionChange={setSelectedGenres}
+                            initialSelections={selectedGenres}
                         />
                     )}
                 </div>

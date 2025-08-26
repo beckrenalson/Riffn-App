@@ -1,8 +1,15 @@
 import InstrumentStore from "../../stores/InstrumentStore";
+import { useEffect } from "react";
 
-function InstrumentList({ instruments, onSelectionChange }) {
+function InstrumentList({ instruments, onSelectionChange, initialSelections }) {
 
     const { selectedInstruments, setSelectedInstruments } = InstrumentStore();
+
+    useEffect(() => {
+        if (initialSelections) {
+            setSelectedInstruments(initialSelections);
+        }
+    }, [initialSelections, setSelectedInstruments]);
 
     const toggleSelection = (instrumentName) => {
         const updatedSelection = selectedInstruments.includes(instrumentName)

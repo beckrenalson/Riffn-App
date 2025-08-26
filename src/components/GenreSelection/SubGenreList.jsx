@@ -1,7 +1,14 @@
 import GenreStore from "../../stores/GenreStore";
+import { useEffect } from "react";
 
-function SubGenreList({ genres, onSelectionChange }) {
+function SubGenreList({ genres, onSelectionChange, initialSelections }) {
     const { selectedGenres, setSelectedGenres } = GenreStore();
+
+    useEffect(() => {
+        if (initialSelections) {
+            setSelectedGenres(initialSelections);
+        }
+    }, [initialSelections, setSelectedGenres]);
 
     const toggleSelection = (genreName) => {
         const updatedSelection = selectedGenres.includes(genreName)
