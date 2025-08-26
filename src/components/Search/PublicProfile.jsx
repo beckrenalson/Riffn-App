@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import BackBtn from "../BackBtn";
 import NavBar from "../NavBar";
-import api, { USERS_ENDPOINT } from '../../services/api'; // Import the new api service and USERS_ENDPOINT
+import api, { USERS_ENDPOINT, API_URL } from '../../services/api'; // Import the new api service and USERS_ENDPOINT
 import UserStore from "../../stores/UserStore";
 import ProfileList from "../../components/Search/ProfileList";
 
@@ -25,6 +25,7 @@ function PublicProfile() {
             try {
                 const res = await api.get(`${USERS_ENDPOINT}/${userName}`); // Use api.get
                 setUser(res.data);
+                // console.log("Fetched user:", res.data); // Remove this line
             } catch (err) {
                 console.error(err);
             }
@@ -49,6 +50,31 @@ function PublicProfile() {
         fetchTracks();
     }, [user]);
 
+    useEffect(() => {
+        if (!user || !currentUser || currentUser._id === user._id) {
+            // console.log("Skipping connection status check. user:", user, "currentUser:", currentUser, "same user:", currentUser?._id === user?._id);
+            return;
+        }
+
+        async function checkConnectionStatus() {
+            try {
+                let res;
+                if (user.profileType === 'band') {
+                    res = await api.get(`/connections/status?fromUserId=${currentUser._id}&toBandId=${user._id}`);
+                } else {
+                    res = await api.get(`/connections/status?fromUserId=${currentUser._id}&toSoloId=${user._id}`);
+                }
+                // console.log("Connection status API response:", res.data);
+                setConnectionStatus(res.data.status);
+            } catch (err) {
+                console.error("Error fetching connection status:", err);
+                setConnectionStatus('none');
+            }
+        }
+
+        checkConnectionStatus();
+    }, [user, currentUser]);
+
     // Send connection request
     const handleConnectionRequest = async () => {
         if (!currentUser) return alert("You must be logged in to request to join.");
@@ -72,6 +98,15 @@ function PublicProfile() {
     };
 
     if (!user) return <div className="p-6">Loading user...</div>;
+
+    const isBandMember = currentUser && user?.profileType === 'band' && user.bandMembers.some(member => member._id === currentUser._id);
+    // console.log("isBandMember:", isBandMember);
+    // console.log("currentUser:", currentUser);
+    // console.log("user:", user);
+    // console.log("user.bandMembers:", user?.bandMembers);
+    // console.log("currentUser._id:", currentUser?._id);
+
+    // console.log("Rendering PublicProfile. Current connectionStatus:", connectionStatus, "currentUser:", currentUser, "user:", user);
 
     return (
         <>
@@ -123,17 +158,13 @@ function PublicProfile() {
                         </div>
                     )}
 
-                    {connectionStatus === 'connected' && (
+                    {connectionStatus === 'accepted' && (
                         <div className="space-y-2">
                             <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
-                                Connected
+                                {user?.profileType === 'band' ? 'Already Member' : 'Joined'}
                             </div>
                             {/* Show contact info when connected */}
-                            <div className="text-sm text-gray-600 space-y-1">
-                                {user?.phone && <p>Phone: {user.phone}</p>}
-                                {user?.instagram && <p>Instagram: @{user.instagram}</p>}
-                                {user?.email && <p>Email: {user.email}</p>}
-                            </div>
+                            {/* Removed: Contact info moved to "Contact / Socials" section */}
                         </div>
                     )}
                 </div>
@@ -184,29 +215,34 @@ function PublicProfile() {
                 {/* Contact / Socials */}
                 <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Contact / Socials:</p>
-                    <div className="text-sm text-gray-600 space-y-1">
-                        {user.phone && <p>Phone: {user.phone}</p>}
-                        {user.socials && Object.keys(user.socials).length > 0 ? (
-                            Object.entries(user.socials).map(([platform, link]) =>
-                                link ? (
-                                    <p key={platform}>
-                                        {platform.charAt(0).toUpperCase() + platform.slice(1)}:{" "}
-                                        <a
-                                            href={link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-blue-400"
-                                        >
-                                            {link}
-                                        </a>
-                                    </p>
-                                ) : null
-                            )
-                        ) : (
-                            <p className="text-gray-400">No social links provided</p>
-                        )}
-                        {user.email && <p>Email: {user.email}</p>}
-                    </div>
+                    {isBandMember || user?.profileType === 'solo' ? (
+                        <div className="text-sm text-gray-600 space-y-1">
+                            {user.phone && <p>Phone: {user.phone}</p>}
+                            {user.socials && Object.keys(user.socials).length > 0 ? (
+                                Object.entries(user.socials).map(([platform, link]) =>
+                                    link ? (
+                                        <p key={platform}>
+                                            {platform.charAt(0).toUpperCase() + platform.slice(1)}:{" "}
+                                            <a
+                                                href={link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-400"
+                                            >
+                                                {link}
+                                            </a>
+                                        </p>
+                                    ) : null
+                                )
+                            ) : (
+                                <p className="text-gray-400">No social links provided</p>
+                            )}
+                            {user.instagram && <p>Instagram: @{user.instagram}</p>}
+                            {user.email && <p>Email: {user.email}</p>}
+                        </div>
+                    ) : (
+                        <p className="text-gray-400">You must be part of this band to contact.</p>
+                    )}
                 </div>
 
                 {/* Music Tracks */}
