@@ -7,7 +7,7 @@ import SettingsBtn from './SettingsBtn';
 import NavBar from '../NavBar';
 import SelectLocation from '../CreateProfile/SelectLocation';
 import UserStore from '../../stores/UserStore';
-import { USERS_ENDPOINT } from '../../config/api';
+import api, { USERS_ENDPOINT } from '../../services/api'; // Import the new api service and USERS_ENDPOINT
 import BandMembersInput from '../CreateProfile/BandMembersInput';
 import MusicEmbed from './MusicEmbed';
 import Bio from '../CreateProfile/Bio';
@@ -62,9 +62,9 @@ function UserProfile() {
 
       try {
         const memberPromises = bandMembers.map(async (memberId) => {
-          const response = await fetch(`${USERS_ENDPOINT}/${memberId}`);
-          if (response.ok) {
-            return await response.json();
+          const response = await api.get(`${USERS_ENDPOINT}/${memberId}`); // Use api.get
+          if (response.status === 200) {
+            return response.data;
           }
           return { _id: memberId, userName: 'Unknown Member' }; // fallback
         });
@@ -99,14 +99,10 @@ function UserProfile() {
         payload.password = password;
       }
 
-      const response = await fetch(`${USERS_ENDPOINT}/${userData._id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await api.patch(`${USERS_ENDPOINT}/${userData._id}`, payload); // Use api.patch
 
-      if (response.ok) {
-        const updated = await response.json();
+      if (response.status === 200) {
+        const updated = response.data;
 
         // Update both formData and global store
         setFormData(updated);
@@ -118,7 +114,7 @@ function UserProfile() {
 
         console.log("Profile updated successfully");
       } else {
-        const errData = await response.json();
+        const errData = response.data; // Assuming response.data contains error details
         console.error("Save failed:", errData);
       }
     } catch (err) {

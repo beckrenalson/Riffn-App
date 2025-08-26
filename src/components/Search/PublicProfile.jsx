@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import BackBtn from "../BackBtn";
 import NavBar from "../NavBar";
-import { API_URL } from '../../config/api';
+import api, { USERS_ENDPOINT } from '../../services/api'; // Import the new api service and USERS_ENDPOINT
 import UserStore from "../../stores/UserStore";
 import ProfileList from "../../components/Search/ProfileList";
 
@@ -23,9 +23,8 @@ function PublicProfile() {
 
         async function fetchUser() {
             try {
-                const res = await fetch(`${API_URL}/api/users/${userName}`);
-                const data = await res.json();
-                setUser(data);
+                const res = await api.get(`${USERS_ENDPOINT}/${userName}`); // Use api.get
+                setUser(res.data);
             } catch (err) {
                 console.error(err);
             }
@@ -40,9 +39,8 @@ function PublicProfile() {
 
         async function fetchTracks() {
             try {
-                const res = await fetch(`${API_URL}/api/tracks/${user._id}`);
-                const data = await res.json();
-                setTracks(data);
+                const res = await api.get(`/tracks/${user._id}`); // Use api.get
+                setTracks(res.data);
             } catch (err) {
                 console.error(err);
             }
@@ -61,14 +59,9 @@ function PublicProfile() {
             if (user.profileType === 'band') body.toBandId = user._id;
             if (user.profileType === 'solo') body.toSoloId = user._id;
 
-            const res = await fetch(`${API_URL}/api/connections/request`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-            });
+            const res = await api.post(`/connections/request`, body); // Use api.post
 
-            const data = await res.json();
-            if (!res.ok) return alert(data.message);
+            if (!res.status === 200) return alert(res.data.message);
 
             setConnectionStatus('pending');
         } catch (err) {

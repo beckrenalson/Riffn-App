@@ -3,8 +3,7 @@ import InstrumentType from "./InstrumentType";
 import InstrumentStore from "../../stores/InstrumentStore";
 import UserStore from "../../stores/UserStore";
 import { useEffect } from "react";
-import axios from "axios";
-import { INSTRUMENTS_ENDPOINT } from "../../config/api";
+import api, { INSTRUMENTS_ENDPOINT } from "../../services/api"; // Import api and INSTRUMENTS_ENDPOINT
 
 function InstrumentTypeList() {
     const clearSelectedInstruments = InstrumentStore((state) => state.clearSelectedInstruments);
@@ -15,7 +14,7 @@ function InstrumentTypeList() {
     useEffect(() => {
         async function fetchInstruments() {
             try {
-                const res = await axios.get(INSTRUMENTS_ENDPOINT);
+                const res = await api.get(INSTRUMENTS_ENDPOINT); // Use api.get
                 setInstrumentList(res.data); // assumes array of { name, type }
             } catch (err) {
                 console.error("Failed to fetch instruments:", err);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import BackBtn from "../BackBtn";
 import { useNavigate } from "react-router-dom";
 import UserStore from "../../stores/UserStore";
-import { API_URL } from "../../config/api"
+import api, { API_URL } from "../../services/api"; // Import api and API_URL
 
 // Helper: convert base64url to Uint8Array for WebAuthn
 const base64urlToUint8Array = (base64urlString) => {
@@ -55,15 +55,11 @@ function Login() {
     setError("");
 
     try {
-      const res = await fetch(`${API_URL}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await api.post(`/auth/login`, formData); // Use api.post
 
-      if (!res.ok) throw new Error("Invalid email or password");
+      if (res.status !== 200) throw new Error(res.data.message || "Invalid email or password");
 
-      const data = await res.json();
+      const data = res.data;
       setUserData(data.user);
       navigate(`/search/${data.user.profileType === "solo" ? "band" : "solo"}`);
     } catch (err) {
@@ -82,21 +78,17 @@ function Login() {
 
       // 1️⃣ Request passkey challenge (updated request format)
       console.log("Step 1: Requesting passkey challenge...");
-      const challengeRes = await fetch(`${API_URL}/api/auth/users/passkey-login-challenge`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          requestPasskey: true  // This is the key addition!
-        }),
+      const challengeRes = await api.post(`/auth/users/passkey-login-challenge`, {
+        email: formData.email,
+        requestPasskey: true  // This is the key addition!
       });
 
-      if (!challengeRes.ok) {
-        const errorData = await challengeRes.json();
+      if (challengeRes.status !== 200) {
+        const errorData = challengeRes.data;
         throw new Error(errorData.message || "Failed to get passkey challenge");
       }
 
-      const { tempUserId, challenge, userName } = await challengeRes.json();
+      const { tempUserId, challenge, userName } = challengeRes.data;
       console.log("Step 1 SUCCESS - received challenge, tempUserId:", tempUserId);
 
       // 2️⃣ Prepare WebAuthn options
@@ -121,23 +113,19 @@ function Login() {
 
       // 5️⃣ Send assertion back to unified endpoint for verification
       console.log("Step 5: Sending credential to backend for verification...");
-      const verifyRes = await fetch(`${API_URL}/api/auth/users/passkey-login-challenge`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          tempUserId: tempUserId,
-          passkeyCredential: serializedAssertion,
-        }),
+      const verifyRes = await api.post(`/auth/users/passkey-login-challenge`, {
+        email: formData.email,
+        tempUserId: tempUserId,
+        passkeyCredential: serializedAssertion,
       });
 
-      if (!verifyRes.ok) {
-        const errorData = await verifyRes.json();
+      if (verifyRes.status !== 200) {
+        const errorData = verifyRes.data;
         console.error("Backend error:", errorData);
         throw new Error(errorData.message || "Passkey login failed");
       }
 
-      const verifiedUser = await verifyRes.json();
+      const verifiedUser = verifyRes.data;
       console.log("Step 5 SUCCESS - login complete");
 
       setUserData(verifiedUser.user);

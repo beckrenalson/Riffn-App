@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
-import { USERS_ENDPOINT } from "../../config/api";
+import api, { USERS_ENDPOINT } from "../../services/api"; // Import api and USERS_ENDPOINT
 import ProfileSkeleton from "./ProfileSkeleton";
 import UserStore from "../../stores/UserStore";
 
@@ -14,9 +14,9 @@ function SearchProfiles({ profileType }) {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        const response = await fetch(USERS_ENDPOINT, { method: "GET" });
-        if (response.ok) {
-          const data = await response.json();
+        const response = await api.get(USERS_ENDPOINT); // Use api.get
+        if (response.status === 200) {
+          const data = response.data;
           setUsers(data);
         }
       } finally {

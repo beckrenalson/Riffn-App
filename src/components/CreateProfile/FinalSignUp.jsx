@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import UserStore from "../../stores/UserStore";
-import { USERS_ENDPOINT } from "../../config/api";
+import api, { USERS_ENDPOINT } from "../../services/api"; // Import api and USERS_ENDPOINT
 import BackBtn from "../BackBtn";
 
 function FinalSignUp() {
@@ -19,16 +19,12 @@ function FinalSignUp() {
         };
 
         try {
-            const response = await fetch(USERS_ENDPOINT, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
+            const response = await api.post(USERS_ENDPOINT, payload); // Use api.post
 
-            const data = await response.json();
+            const data = response.data;
 
-            if (response.ok) {
-                if (response.ok) {
+            if (response.status === 200) {
+                if (response.status === 200) {
                     // Instead of setUserData(data) directly
                     setUserData({
                         _id: data._id,

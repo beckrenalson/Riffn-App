@@ -2,8 +2,7 @@ import BackBtn from "../BackBtn"
 import Genre from "./Genre"
 import GenreStore from "../../stores/GenreStore";
 import { useEffect } from "react";
-import axios from "axios";
-import { SUBGENRES_ENDPOINT } from "../../config/api";
+import api, { SUBGENRES_ENDPOINT } from "../../services/api"; // Import api and SUBGENRES_ENDPOINT
 
 function GenreList() {
     const clearSelectedGenres = GenreStore((state) => state.clearSelectedGenres);
@@ -12,7 +11,7 @@ function GenreList() {
     useEffect(() => {
         async function fetchGenres() {
             try {
-                const res = await axios.get(SUBGENRES_ENDPOINT);
+                const res = await api.get(SUBGENRES_ENDPOINT); // Use api.get
                 setGenreList(res.data); // assumes array of { name, type }
             } catch (err) {
                 console.error("Failed to fetch genres:", err);

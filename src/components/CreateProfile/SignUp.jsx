@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import UserStore from "../../stores/UserStore";
-import { API_URL, USERS_ENDPOINT } from "../../config/api";
+import api, { USERS_ENDPOINT, API_URL } from "../../services/api"; // Import api, USERS_ENDPOINT, and API_URL from the new service
 
 // Helper: base64url → Uint8Array
 function base64urlToBuffer(base64url) {
@@ -65,18 +65,14 @@ function SignUp() {
 
     // In handleSubmit
     try {
-      const res = await fetch(`${USERS_ENDPOINT}/check-details`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: userData.email,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          password: userData.password,
-        })
+      const res = await api.post(`${USERS_ENDPOINT}/check-details`, {
+        email: userData.email,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        password: userData.password,
       });
 
-      const data = await res.json();
+      const data = res.data;
 
       if (res.status === 409 && data.errors) {
         // Map backend errors to fieldErrors
@@ -88,7 +84,7 @@ function SignUp() {
         return;
       }
 
-      if (!res.ok) {
+      if (res.status !== 200) {
         throw new Error(data.error || "Failed to check details");
       }
     } catch (err) {
@@ -116,31 +112,27 @@ function SignUp() {
       console.log("Using temporary ID for passkey registration:", tempUserId);
 
       // 1️⃣ Get registration challenge using temporary user data
-      const resChallenge = await fetch(`${API_URL}/api/auth/passkey-challenge-temp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tempUserId,
-          email: userData.email,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          userName: userData.userName || `${userData.firstName}${userData.lastName}`.toLowerCase()
-        }),
+      const resChallenge = await api.post(`${API_URL}/api/auth/passkey-challenge-temp`, {
+        tempUserId,
+        email: userData.email,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        userName: userData.userName || `${userData.firstName}${userData.lastName}`.toLowerCase()
       });
 
-      if (!resChallenge.ok) {
+      if (resChallenge.status !== 200) {
         let errorText;
         try {
-          const errorData = await resChallenge.json();
+          const errorData = resChallenge.data;
           errorText = errorData.error || errorData.message || 'Unknown error';
         } catch (parseError) {
-          errorText = await resChallenge.text();
+          errorText = JSON.stringify(resChallenge.data); // Fallback to raw data if not JSON
         }
         alert(`Failed to get passkey challenge: ${errorText}`);
         return;
       }
 
-      const options = await resChallenge.json();
+      const options = resChallenge.data;
       console.log("Received passkey options");
 
       // 2️⃣ Validate and convert challenge & user ID

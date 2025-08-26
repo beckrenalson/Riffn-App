@@ -4,7 +4,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserProfile from './components/UserProfile/UserProfile.jsx'
 import UserSelection from './components/CreateProfile/UserSelection.jsx'
-import InstrumentSelection from './components/InstrumentSelection/IntrumentSelection.jsx'
+import InstrumentSelection from './components/InstrumentSelection/InstrumentSelection.jsx'
 import InstrumentTypeList from './components/InstrumentSelection/InstrumentTypeList.jsx'
 import Login from './components/CreateProfile/Login.jsx';
 import PublicProfile from './components/Search/PublicProfile.jsx'

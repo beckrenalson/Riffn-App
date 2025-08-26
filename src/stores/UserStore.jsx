@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import api from "../services/api"; // Import the new api service
 
 const UserStore = create(
   persist(
@@ -76,11 +77,7 @@ const UserStore = create(
         const userId = get().userData._id;
         if (!userId) throw new Error("User not logged in");
         try {
-          await fetch(`/api/users/${userId}/passkeys`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ credentialId }),
-          });
+          await api.post(`/users/${userId}/passkeys`, { credentialId }); // Use api.post
           set({
             userData: { ...get().userData, passkeyId: credentialId },
           });
@@ -92,13 +89,10 @@ const UserStore = create(
       // Login with passkey assertion
       loginWithPasskey: async (assertion) => {
         try {
-          const res = await fetch("/api/users/passkey-login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(assertion),
-          });
-          if (!res.ok) throw new Error("Passkey login failed");
-          const data = await res.json();
+          const res = await api.post("/users/passkey-login", assertion); // Use api.post
+
+          if (res.status !== 200) throw new Error(res.data.message || "Passkey login failed");
+          const data = res.data;
           set({ userData: data.user });
           localStorage.setItem("riffn-user-storage", JSON.stringify(data.user));
         } catch (err) {
