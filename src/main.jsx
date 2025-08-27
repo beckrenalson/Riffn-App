@@ -18,12 +18,13 @@ import AboutPage from './components/AboutPage.jsx';
 import Settings from './components/UserProfile/Settings.jsx';
 import SearchProfiles from './components/Search/SearchProfiles.jsx';
 import Connections from './components/Search/Connections.jsx';
+import AuthRedirector from './AuthRedirector.jsx'; // Import the new AuthRedirector
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SignUpLayout />}>
+        <Route path="/" element={<AuthRedirector />}> {/* Use AuthRedirector for the root path */}
           <Route index element={<SignUp />} />
           <Route path="/signup/userselection" element={<UserSelection />} />
           <Route path="/signup/createuser" element={<CreateUser />} />
