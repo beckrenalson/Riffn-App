@@ -2,11 +2,13 @@ import { useNavigate } from "react-router-dom";
 import UserStore from "../../stores/UserStore";
 import api, { USERS_ENDPOINT } from "../../services/api"; // Import api and USERS_ENDPOINT
 import BackBtn from "../BackBtn";
+import { useState } from "react";
 
 function FinalSignUp() {
     const navigate = useNavigate();
     const userData = UserStore((state) => state.userData);
     const setUserData = UserStore((state) => state.setUserData);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,31 +25,24 @@ function FinalSignUp() {
 
             const data = response.data;
 
-            if (response.status === 200) {
-                if (response.status === 200) {
-                    // Instead of setUserData(data) directly
-                    setUserData({
-                        _id: data._id,
-                        userName: data.userName,
-                        firstName: data.firstName,
-                        lastName: data.lastName,
-                        email: data.email,
-                        bio: data.bio,
-                        profileType: data.profileType,
-                        profileImage: data.profileImage,
-                        location: data.location,
-                        selectedGenres: data.selectedGenres,
-                        selectedInstruments: data.selectedInstruments,
-                        bandMembers: data.bandMembers || [],
-                        bands: data.bands || [],
-                    });
+            if (response.status === 201) { // Changed from 200 to 201
+                // Instead of setUserData(data) directly
+                setUserData({
+                    _id: data._id,
+                    userName: data.userName,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    bio: data.bio,
+                    profileType: data.profileType,
+                    profileImage: data.profileImage,
+                    location: data.location,
+                    selectedGenres: data.selectedGenres,
+                    selectedInstruments: data.selectedInstruments,
+                    bandMembers: data.bandMembers || [],
+                    bands: data.bands || [],
+                });
 
-                    const target = data.profileType === "solo" ? "band" : "solo";
-                    navigate(`/search/${target}`);
-                }
-
-
-                // Navigate to correct page
                 const target = data.profileType === "solo" ? "band" : "solo";
                 navigate(`/search/${target}`);
             } else if (data.errors) {
@@ -62,6 +57,11 @@ function FinalSignUp() {
             }
         } catch (error) {
             console.error("Signup request failed:", error);
+            if (error.response && error.response.status === 409) {
+                setErrorMessage(error.response.data.errors[0].msg);
+            } else {
+                setErrorMessage("An unexpected error occurred during signup.");
+            }
         }
     };
 
@@ -126,6 +126,12 @@ function FinalSignUp() {
                     SIGN UP
                 </button>
             </div>
+
+            {errorMessage && (
+                <div className="text-red-500 text-center mt-4">
+                    {errorMessage}
+                </div>
+            )}
         </>
     );
 }
