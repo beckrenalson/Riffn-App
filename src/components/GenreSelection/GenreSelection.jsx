@@ -18,14 +18,14 @@ function GenreSelection() {
     const [loading, setLoading] = useState(false);
 
     const handleContinue = () => {
-        setUserData({
-            ...userData,
-            selectedGenres
-        })
         if (from === "edit") {
             UserStore.getState().setIsEditing(true);
             navigate("/profile", { state: { stayEditing: true, selectedGenres } });
         } else {
+            setUserData({
+                ...userData,
+                selectedGenres
+            })
             navigate("/signup/confirm");
         }
     }

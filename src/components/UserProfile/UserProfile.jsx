@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
 import BackBtn from '../BackBtn';
@@ -14,6 +14,7 @@ import Bio from '../CreateProfile/Bio';
 
 function UserProfile() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userData = UserStore((state) => state.userData);
   const globalIsEditing = UserStore((state) => state.isEditing);
@@ -50,7 +51,17 @@ function UserProfile() {
       profileImage: userData?.profileImage || '',
       bio: userData?.bio || ''
     });
-  }, [userData]);
+
+    // Update selectedInstruments if coming from InstrumentSelection
+    if (location.state?.selectedInstruments) {
+      setFormData(prev => ({ ...prev, selectedInstruments: location.state.selectedInstruments }));
+    }
+
+    // Update selectedGenres if coming from GenreSelection
+    if (location.state?.selectedGenres) {
+      setFormData(prev => ({ ...prev, selectedGenres: location.state.selectedGenres }));
+    }
+  }, [userData, location.state]);
 
   // Fetch band member details only if they are ObjectId strings
   useEffect(() => {

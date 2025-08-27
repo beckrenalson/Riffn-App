@@ -1,7 +1,7 @@
 import InstrumentList from "./InstrumentList"
 import BackBtn from "../BackBtn"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import UserStore from "../../stores/UserStore";
 import api, { INSTRUMENTS_ENDPOINT } from "../../services/api"; // Import api and INSTRUMENTS_ENDPOINT
 import Loading from "../Loading";
@@ -15,15 +15,16 @@ function InstrumentSelection() {
     const [selectedInstruments, setSelectedInstruments] = useState(userData.selectedInstruments || []);
     const [loading, setLoading] = useState(false);
 
+
     const handleContinue = () => {
-        setUserData({
-            ...userData,
-            selectedInstruments
-        })
         if (from === "edit") {
             UserStore.getState().setIsEditing(true);
             navigate("/profile", { state: { stayEditing: true, selectedInstruments } });
         } else {
+            setUserData({
+                ...userData,
+                selectedInstruments
+            })
             navigate("/signup/genres");
         }
     };
@@ -47,6 +48,13 @@ function InstrumentSelection() {
             getInstruments();
         }
     }, [type])
+
+    useEffect(() => {
+        // Cleanup function to revert selectedInstruments in UserStore if back button is used
+        return () => {
+            // No longer needed as continueClicked is removed
+        };
+    }, []);
 
     if (loading) {
         return (
