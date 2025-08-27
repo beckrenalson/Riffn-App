@@ -19,7 +19,7 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
             setLoading(true);
             try {
                 const res = await fetch(
-                    `${USERS_ENDPOINT}?search=${encodeURIComponent(inputValue)}`,
+                    `${USERS_ENDPOINT}?search=${encodeURIComponent(inputValue)}&profileType=solo`,
                     { signal: controller.signal }
                 );
                 if (!res.ok) throw new Error("Failed to fetch users");
