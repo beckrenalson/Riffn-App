@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import NavBar from "../NavBar";
 import { API_URL } from '../../config/api';
 import UserStore from "../../stores/UserStore";
+import api, { USERS_ENDPOINT } from '../../services/api'; // Import api and USERS_ENDPOINT
 
 function Connections() {
     const currentUser = UserStore((state) => state.userData);
@@ -29,8 +30,15 @@ function Connections() {
 
     const handleAccept = async (requestId) => {
         try {
-            const res = await fetch(`${API_URL}/api/connections/${requestId}/accept`, { method: 'POST' });
-            if (!res.ok) throw new Error("Failed to accept request");
+            const res = await api.post(`${API_URL}/api/connections/${requestId}/accept`, {}); // Use api.post
+            if (!res.status === 200) throw new Error("Failed to accept request");
+            
+            // Re-fetch current user data to update bandMembers/bands array
+            const userResponse = await api.get(`${USERS_ENDPOINT}/${currentUser._id}`);
+            if (userResponse.status === 200) {
+                UserStore.getState().setUserData(userResponse.data);
+            }
+
             setIncomingRequests(prev => prev.filter(r => r._id !== requestId));
         } catch (err) {
             console.error(err);
