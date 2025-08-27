@@ -17,10 +17,9 @@ function SignOut() {
 
     const handleConfirmSignOut = async () => {
         setIsAlertDialogVisible(false);
-        localStorage.removeItem("riffn-user-storage");
         localStorage.removeItem("selected-instruments-storage");
         localStorage.removeItem("selected-genres-storage");
-        UserStore.getState().resetUserData()
+        await UserStore.getState().logout(); // Call the logout function
         navigate("/")
     };
 

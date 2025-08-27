@@ -94,10 +94,37 @@ const UserStore = create(
           if (res.status !== 200) throw new Error(res.data.message || "Passkey login failed");
           const data = res.data;
           set({ userData: data.user });
-          localStorage.setItem("riffn-user-storage", JSON.stringify(data.user));
         } catch (err) {
           console.error("Passkey login error:", err);
           throw err;
+        }
+      },
+
+      // Logout user
+      logout: async () => {
+        try {
+          await api.post("/auth/logout"); // Call backend logout endpoint
+          set({
+            userData: {
+              userName: "",
+              firstName: "",
+              lastName: "",
+              email: "",
+              password: "",
+              profileType: "",
+              selectedInstruments: [],
+              selectedGenres: [],
+              location: "",
+              bandMembers: [],
+              profileImage: null,
+              bio: "",
+              passkeyId: null,
+            },
+          });
+          // Clear the persisted state from local storage
+          localStorage.removeItem("riffn-user-storage");
+        } catch (err) {
+          console.error("Logout error:", err);
         }
       },
     }),
