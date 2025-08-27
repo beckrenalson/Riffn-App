@@ -134,22 +134,36 @@ function PublicProfile() {
 
                     {/* Request to join button */}
                     {connectionStatus === 'none' && currentUser && currentUser._id !== user._id && (
-                        <button
-                            onClick={handleConnectionRequest}
-                            disabled={isLoading}
-                            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center gap-2 mx-auto"
-                        >
-                            {isLoading ? (
-                                <>
-                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                    Sending...
-                                </>
-                            ) : (
-                                <>
-                                    {user?.profileType === 'band' ? 'Request to Join' : 'Invite to Band'}
-                                </>
-                            )}
-                        </button>
+                        // Case 1: Current user is solo, viewed user is band -> "Request to Join"
+                        (user?.profileType === 'band' && currentUser?.profileType === 'solo') ? (
+                            <button
+                                onClick={handleConnectionRequest}
+                                disabled={isLoading}
+                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center gap-2 mx-auto"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        Sending...
+                                    </>
+                                ) : ('Request to Join')}
+                            </button>
+                        ) :
+                        // Case 2: Current user is band, viewed user is solo -> "Invite to Band" (only if not already a member)
+                        (user?.profileType === 'solo' && currentUser?.profileType === 'band' && currentUser.bandMembers && !currentUser.bandMembers.some(member => member._id === user._id)) ? (
+                            <button
+                                onClick={handleConnectionRequest}
+                                disabled={isLoading}
+                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center gap-2 mx-auto"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        Sending...
+                                    </>
+                                ) : ('Invite to Band')}
+                            </button>
+                        ) : null
                     )}
 
                     {connectionStatus === 'pending' && (
