@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './App.css'
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import UserProfile from './components/UserProfile/UserProfile.jsx'
 import UserSelection from './components/CreateProfile/UserSelection.jsx'
 import InstrumentSelection from './components/InstrumentSelection/InstrumentSelection.jsx'
@@ -21,7 +21,7 @@ import Connections from './components/Search/Connections.jsx';
 import AuthRedirector from './AuthRedirector.jsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import AppLayout from './components/Layout/AppLayout.jsx';
-import UserStore from './stores/UserStore'; // Import UserStore is no longer directly needed here for conditional rendering
+
 
 const LocationProvider = ({ children }) => {
   const location = useLocation();

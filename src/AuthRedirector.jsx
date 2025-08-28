@@ -5,14 +5,23 @@ import UserStore from './stores/UserStore';
 
 const AuthRedirector = ({ children }) => {
   const navigate = useNavigate();
-  const { userData } = UserStore();
+  const { userData, _hasHydrated } = UserStore();
 
   useEffect(() => {
+    if (!_hasHydrated) {
+      return; // Wait for the store to rehydrate
+    }
+
     if (!userData || !userData._id) {
       // Not logged in, redirect to the initial signup path
       navigate('/', { replace: true });
     }
-  }, [userData, navigate]);
+  }, [userData, navigate, _hasHydrated]);
+
+  // Render nothing or a loading spinner until hydration is complete
+  if (!_hasHydrated) {
+    return null; // Or a loading spinner component
+  }
 
   // If user data exists, render the children (authenticated content)
   if (userData && userData._id) {

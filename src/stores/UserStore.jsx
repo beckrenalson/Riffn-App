@@ -20,6 +20,8 @@ const UserStore = create(
         bio: "",
         passkeyId: null, // <-- store passkey credential ID
       },
+      _hasHydrated: false, // New state to track hydration
+      setHasHydrated: (state) => set({ _hasHydrated: state }), // New action
 
       // Set profile image
       setProfileImage: (file) =>
@@ -134,6 +136,9 @@ const UserStore = create(
         userData: state.userData,
         isEditing: state.isEditing,
       }),
+      onRehydrateStorage: () => (state) => {
+        state.setHasHydrated(true);
+      },
     }
   )
 );
