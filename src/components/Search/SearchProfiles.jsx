@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import NavBar from "../NavBar";
 import ProfileList from "./ProfileList";
 import api, { USERS_ENDPOINT } from "../../services/api"; // Import api and USERS_ENDPOINT
 import ProfileSkeleton from "./ProfileSkeleton";
@@ -94,7 +93,6 @@ function SearchProfiles({ profileType }) {
         )}
       </div>
 
-      <NavBar />
     </div>
   );
 }

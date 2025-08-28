@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import NavBar from "../NavBar";
 import { API_URL } from '../../config/api';
 import UserStore from "../../stores/UserStore";
 import api, { USERS_ENDPOINT } from '../../services/api'; // Import api and USERS_ENDPOINT
@@ -14,10 +13,9 @@ function Connections() {
 
         async function fetchRequests() {
             try {
-                const res = await fetch(`${API_URL}/api/connections/requests/${currentUser._id}`);
-                if (!res.ok) throw new Error("Failed to fetch requests");
-                const data = await res.json();
-                setIncomingRequests(data);
+                const res = await api.get(`${API_URL}/api/connections/requests/${currentUser._id}`);
+                if (res.status !== 200) throw new Error("Failed to fetch requests");
+                setIncomingRequests(res.data);
             } catch (err) {
                 console.error(err);
             } finally {
@@ -88,7 +86,6 @@ function Connections() {
                     </div>
                 )}
             </div>
-            <NavBar />
         </>
     );
 }

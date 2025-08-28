@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import UserProfile from './components/UserProfile/UserProfile.jsx'
 import UserSelection from './components/CreateProfile/UserSelection.jsx'
 import InstrumentSelection from './components/InstrumentSelection/InstrumentSelection.jsx'
@@ -19,32 +19,261 @@ import Settings from './components/UserProfile/Settings.jsx';
 import SearchProfiles from './components/Search/SearchProfiles.jsx';
 import Connections from './components/Search/Connections.jsx';
 import AuthRedirector from './AuthRedirector.jsx'; // Import the new AuthRedirector
+import { AnimatePresence, motion } from 'framer-motion';
+import AppLayout from './components/Layout/AppLayout.jsx'; // Import AppLayout
+
+const LocationProvider = ({ children }) => {
+  const location = useLocation();
+  return <AnimatePresence mode='wait' initial={false}>{children(location)}</AnimatePresence>;
+};
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    scale: 0.95
+  },
+  in: {
+    opacity: 1,
+    scale: 1
+  },
+  out: {
+    opacity: 0,
+    scale: 0.95
+  }
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "easeInOut",
+  duration: 0.3
+};
+
+const pageStyle = {
+  position: "absolute",
+  width: "100%"
+};
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AuthRedirector />}> {/* Use AuthRedirector for the root path */}
-          <Route index element={<SignUp />} />
-          <Route path="/signup/userselection" element={<UserSelection />} />
-          <Route path="/signup/createuser" element={<CreateUser />} />
-          <Route path="/signup/instruments" element={<InstrumentTypeList />} />
-          <Route path="/signup/instruments/:type" element={<InstrumentSelection />} />
-          <Route path="/signup/genres" element={<GenreList />} />
-          <Route path="/signup/genres/:type" element={<GenreSelection />} />
-          <Route path="/signup/confirm" element={<FinalSignUp />} />
-        </Route>
+      <LocationProvider>
+        {(location) => (
+          <Routes location={location} key={location.pathname}>
+            {/* Routes without Navbar, e.g., authentication flow */}
+            <Route path="/" element={<AuthRedirector />}>
+              <Route index element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <SignUp />
+                </motion.div>
+              } />
+              <Route path="/signup/userselection" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <UserSelection />
+                </motion.div>
+              } />
+              <Route path="/signup/createuser" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <CreateUser />
+                </motion.div>
+              } />
+              <Route path="/signup/instruments" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <InstrumentTypeList />
+                </motion.div>
+              } />
+              <Route path="/signup/instruments/:type" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <InstrumentSelection />
+                </motion.div>
+              } />
+              <Route path="/signup/genres" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <GenreList />
+                </motion.div>
+              } />
+              <Route path="/signup/genres/:type" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <GenreSelection />
+                </motion.div>
+              } />
+              <Route path="/signup/confirm" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <FinalSignUp />
+                </motion.div>
+              } />
+            </Route>
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/search/solo" element={<SearchProfiles profileType="solo" />} />
-        <Route path="/search/band" element={<SearchProfiles profileType="band" />} />
-        <Route path="/search/band/:userName" element={<PublicProfile key="band" />} />
-        <Route path="/search/solo/:userName" element={<PublicProfile key="solo" />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/requests" element={<Connections />} />
-      </Routes>
+            <Route path="/login" element={
+              <motion.div
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+                style={pageStyle}
+              >
+                <Login />
+              </motion.div>
+            } />
+
+            {/* Routes with Navbar */}
+            <Route element={<AppLayout />}>
+              <Route path="/search/solo" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <SearchProfiles profileType="solo" />
+                </motion.div>
+              } />
+              <Route path="/search/band" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <SearchProfiles profileType="band" />
+                </motion.div>
+              } />
+              <Route path="/search/band/:userName" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <PublicProfile key="band" />
+                </motion.div>
+              } />
+              <Route path="/search/solo/:userName" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <PublicProfile key="solo" />
+                </motion.div>
+              } />
+              <Route path="/profile" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <UserProfile />
+                </motion.div>
+              } />
+              <Route path="/about" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <AboutPage />
+                </motion.div>
+              } />
+              <Route path="/settings" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <Settings />
+                </motion.div>
+              } />
+              <Route path="/requests" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <Connections />
+                </motion.div>
+              } />
+            </Route>
+          </Routes>
+        )}
+      </LocationProvider>
     </BrowserRouter>
   </StrictMode>,
 )

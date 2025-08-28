@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import BackBtn from "../BackBtn";
-import NavBar from "../NavBar";
 import api, { USERS_ENDPOINT, API_URL } from '../../services/api'; // Import the new api service and USERS_ENDPOINT
 import UserStore from "../../stores/UserStore";
 import ProfileList from "../../components/Search/ProfileList";
@@ -296,7 +295,6 @@ function PublicProfile() {
                 </div>
             </div>
 
-            <NavBar />
         </>
     );
 }

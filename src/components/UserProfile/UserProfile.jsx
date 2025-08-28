@@ -4,7 +4,6 @@ import UserHeader from './UserHeader';
 import UserDetails from './UserDetails';
 import BackBtn from '../BackBtn';
 import SettingsBtn from './SettingsBtn';
-import NavBar from '../NavBar';
 import SelectLocation from '../CreateProfile/SelectLocation';
 import UserStore from '../../stores/UserStore';
 import api, { USERS_ENDPOINT } from '../../services/api'; // Import the new api service and USERS_ENDPOINT
@@ -288,7 +287,7 @@ function UserProfile() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter new password (leave blank to keep current)"
+                  placeholder="Enter new password"
                 />
               ) : (
                 '••••••••'
@@ -359,7 +358,7 @@ function UserProfile() {
           </div>
         </div>
       </div>
-      <NavBar />
+      
     </>
   );
 }

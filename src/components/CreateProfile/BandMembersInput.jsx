@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { USERS_ENDPOINT } from "../../config/api";
+import api from "../../services/api"; // Import the api service
 
 function BandMembersInput({ members, setMembers, currentUserId }) {
     const [inputValue, setInputValue] = useState("");
@@ -84,12 +85,11 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
 
             // Only make API call if currentUserId is provided
             if (currentUserId) {
-                const res = await fetch(
-                    `${USERS_ENDPOINT}/${currentUserId}/bandMembers/${memberId}`,
-                    { method: "DELETE" }
+                const res = await api.delete(
+                    `${USERS_ENDPOINT}/${currentUserId}/bandMembers/${memberId}`
                 );
 
-                if (!res.ok) {
+                if (res.status !== 200) {
                     console.error("Failed to remove member");
                     // Revert on failure
                     setMembers(originalMembers);
