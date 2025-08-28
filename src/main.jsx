@@ -18,9 +18,10 @@ import AboutPage from './components/AboutPage.jsx';
 import Settings from './components/UserProfile/Settings.jsx';
 import SearchProfiles from './components/Search/SearchProfiles.jsx';
 import Connections from './components/Search/Connections.jsx';
-import AuthRedirector from './AuthRedirector.jsx'; // Import the new AuthRedirector
+import AuthRedirector from './AuthRedirector.jsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import AppLayout from './components/Layout/AppLayout.jsx'; // Import AppLayout
+import AppLayout from './components/Layout/AppLayout.jsx';
+import UserStore from './stores/UserStore'; // Import UserStore is no longer directly needed here for conditional rendering
 
 const LocationProvider = ({ children }) => {
   const location = useLocation();
@@ -59,8 +60,8 @@ createRoot(document.getElementById('root')).render(
       <LocationProvider>
         {(location) => (
           <Routes location={location} key={location.pathname}>
-            {/* Routes without Navbar, e.g., authentication flow */}
-            <Route path="/" element={<AuthRedirector />}>
+            {/* Public routes (signup/login flow) - always accessible */}
+            <Route path="/" element={<SignUpLayout />}> {/* Use SignUpLayout for the root path and nested signup routes */}
               <Route index element={
                 <motion.div
                   initial="initial"
@@ -71,6 +72,18 @@ createRoot(document.getElementById('root')).render(
                   style={pageStyle}
                 >
                   <SignUp />
+                </motion.div>
+              } />
+              <Route path="/login" element={
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  style={pageStyle}
+                >
+                  <Login />
                 </motion.div>
               } />
               <Route path="/signup/userselection" element={
@@ -158,22 +171,9 @@ createRoot(document.getElementById('root')).render(
                 </motion.div>
               } />
             </Route>
-
-            <Route path="/login" element={
-              <motion.div
-                initial="initial"
-                animate="in"
-                exit="out"
-                variants={pageVariants}
-                transition={pageTransition}
-                style={pageStyle}
-              >
-                <Login />
-              </motion.div>
-            } />
-
-            {/* Routes with Navbar */}
-            <Route element={<AppLayout />}>
+            
+            {/* Authenticated routes - protected by AuthRedirector */}
+            <Route element={<AuthRedirector><AppLayout /></AuthRedirector>}>
               <Route path="/search/solo" element={
                 <motion.div
                   initial="initial"

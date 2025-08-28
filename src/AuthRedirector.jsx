@@ -1,25 +1,26 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserStore from './stores/UserStore';
-import SignUpLayout from './components/CreateProfile/SignUpLayout';
+// import SignUpLayout from './components/CreateProfile/SignUpLayout'; // No longer needed directly here
 
-const AuthRedirector = () => {
+const AuthRedirector = ({ children }) => {
   const navigate = useNavigate();
   const { userData } = UserStore();
 
   useEffect(() => {
-    if (userData && userData._id) {
-      // User is logged in, redirect to profile or dashboard
-      const target = userData.profileType === "solo" ? "band" : "solo";
-      navigate(`/search/${target}`, {replace: true})
-    } else {
-      // Not logged in, stay on signup layout
-      // No explicit navigation needed here, SignUpLayout will render by default
+    if (!userData || !userData._id) {
+      // Not logged in, redirect to the initial signup path
+      navigate('/', { replace: true });
     }
   }, [userData, navigate]);
 
-  // Render SignUpLayout by default, it will be replaced by navigation if logged in
-  return <SignUpLayout />;
+  // If user data exists, render the children (authenticated content)
+  if (userData && userData._id) {
+    return children;
+  }
+
+  // Otherwise, return null or a loading spinner while redirecting
+  return null;
 };
 
 export default AuthRedirector;
