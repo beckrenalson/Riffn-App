@@ -69,8 +69,8 @@ api.interceptors.response.use(
     }
 );
 
-export const USERS_ENDPOINT = `api/users`;
-export const INSTRUMENTS_ENDPOINT = `api/instruments`;
-export const SUBGENRES_ENDPOINT = `api/subgenres`;
+export const USERS_ENDPOINT = `/users`;
+export const INSTRUMENTS_ENDPOINT = `/instruments`;
+export const SUBGENRES_ENDPOINT = `/subgenres`;
 
 export default api;
