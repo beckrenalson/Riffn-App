@@ -174,7 +174,7 @@ function PublicProfile() {
                     {connectionStatus === 'accepted' && (
                         <div className="space-y-2">
                             <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
-                                {user?.profileType === 'band' ? 'Already Member' : 'Joined'}
+                                {isBandMember ? 'Already Member' : 'Joined'}
                             </div>
                             {/* Show contact info when connected */}
                             {/* Removed: Contact info moved to "Contact / Socials" section */}
