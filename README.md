@@ -73,12 +73,24 @@ bash
 git clone https://github.com/yourusername/riffn.git
 cd riffn
 ### 2. Environment variables
-Create a .env file inside the riffn-api folder with your own config:
+
+Create a `.env` file inside the `riffn-api` folder with your own config:
+
+```env
 MONGO_URI=your_mongodb_connection
+
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
 JWT_SECRET=your_secret_key
+JWT_REFRESH_SECRET=your_refresh_key
+
 PASSKEY_ORIGIN=http://localhost:5173
 PASSKEY_RPID=localhost
+
 PORT=5000
+
 ### 3. Backend Setup 
 bash
 cd riffn-api
