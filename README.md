@@ -69,9 +69,10 @@ Whether you're a solo musician looking for a band or a band searching for new me
 ---
 ## Local Setup
 ### 1. Clone the repo
-bash
+```bash
 git clone https://github.com/yourusername/riffn.git
 cd riffn
+```
 ### 2. Environment variables
 
 Create a `.env` file inside the `riffn-api` folder with your own config:
