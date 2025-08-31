@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import UserStore from "../../stores/UserStore";
 import api, { USERS_ENDPOINT, API_URL } from "../../services/api"; // Import api, USERS_ENDPOINT, and API_URL from the new service
+import axios from "axios";
 
 // Helper: base64url → Uint8Array
 function base64urlToBuffer(base64url) {
@@ -65,7 +66,7 @@ function SignUp() {
 
     // In handleSubmit
     try {
-      const res = await api.post(`${USERS_ENDPOINT}/check-details`, {
+      const res = await axios.post(`${API_URL}/api/users/check-details`, {
         email: userData.email,
         firstName: userData.firstName,
         lastName: userData.lastName,
@@ -112,7 +113,7 @@ function SignUp() {
       console.log("Using temporary ID for passkey registration:", tempUserId);
 
       // 1️⃣ Get registration challenge using temporary user data
-      const resChallenge = await api.post(`${API_URL}/api/auth/passkey-challenge-temp`, {
+      const resChallenge = await api.post(`/auth/passkey-challenge-temp`, {
         tempUserId,
         email: userData.email,
         firstName: userData.firstName,

@@ -3,8 +3,8 @@ import axios from 'axios';
 export const API_URL = import.meta.env.VITE_RIFFN_API || "http://localhost:5000";
 
 const api = axios.create({
-  baseURL: API_URL + '/api',
-  withCredentials: true, // If your API uses cookies/sessions
+  baseURL: 'http://localhost:5000/api',
+  withCredentials: true, // This is the new line
 });
 
 let isRefreshing = false;
@@ -49,6 +49,7 @@ api.interceptors.response.use(
                         // You might not need to set the token in headers here since it's an HTTP-only cookie.
                         // The browser will automatically send the new 'jwt' cookie with subsequent requests.
                         processQueue(null, newToken);
+                        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
                         resolve(api(originalRequest));
                     })
                     .catch(err => {
