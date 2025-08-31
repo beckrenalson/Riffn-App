@@ -23,7 +23,7 @@ Whether you're a solo musician looking for a band or a band searching for new me
 ---
 ## Road Map
 
-<img src="./todo/riffn.png" alt="Wireframe" width="500"/>
+<img src="./todo/riffin.png" alt="Wireframe" width="500"/>
 
 ### 1. Planning & Design
 - Define core MVP features (musician profiles, band needs, filtering)  
