@@ -1,3 +1,5 @@
+<img src="./images/riffn1.png" alt="Riffn Logo" width="200"/>
+
 # Riffn
 Riffn is a platform for musicians and bands to connect, collaborate, and create.  
 Whether you're a solo musician looking for a band or a band searching for new members, Riffn makes it easy to find matches based on instruments, genres, and location.
