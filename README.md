@@ -90,19 +90,22 @@ PASSKEY_ORIGIN=http://localhost:5173
 PASSKEY_RPID=localhost
 
 PORT=5000
+```
 
 ### 3. Backend Setup 
-bash
+```bash
 cd riffn-api
 npm install
 node server.js
+```
 API will run on:
 http://localhost:5000
 ### 4. Frontend Setup
-From the root project folder:
+```bash
 cd Riffn-App
 bun install
 bun run dev
+```
 Frontend will run on:
 http://localhost:5173
 ## Contributing
