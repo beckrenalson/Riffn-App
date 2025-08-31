@@ -68,10 +68,10 @@ Whether you're a solo musician looking for a band or a band searching for new me
 
 ---
 ## Local Setup
-### 1. Clone the repo
+### 1. Clone the repos
 ```bash
-git clone https://github.com/yourusername/riffn.git
-cd riffn
+git clone https://github.com/yourusername/Riffn-App.git
+git clone https://github.com/yourusername/riffn-api.git
 ```
 ### 2. Environment variables
 
