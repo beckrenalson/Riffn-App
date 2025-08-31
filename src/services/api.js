@@ -3,9 +3,10 @@ import axios from 'axios';
 export const API_URL = import.meta.env.VITE_RIFFN_API || "http://localhost:5000";
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
-  withCredentials: true, // This is the new line
-});
+    baseURL: `${API_URL}/api`,
+    withCredentials: true,
+  });
+  
 
 let isRefreshing = false;
 let failedQueue = [];
