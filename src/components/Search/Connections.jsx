@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { API_URL } from '../../config/api';
+import { API_URL } from '../../services/api';
 import UserStore from "../../stores/UserStore";
 import api, { USERS_ENDPOINT } from '../../services/api'; // Import api and USERS_ENDPOINT
 

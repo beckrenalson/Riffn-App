@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { USERS_ENDPOINT } from "../../config/api";
+import { USERS_ENDPOINT } from "../../services/api";
 import AlertDialog from "./AlertDialog";
 import UserStore from "../../stores/UserStore";
 function DeleteUser({ userId }) {

@@ -1,6 +1,6 @@
 import UserStore from "../../stores/UserStore";
 import ProfileImageUpload from "../CreateProfile/ProfileImageUpload";
-import { API_URL } from "../../config/api";
+import { API_URL } from "../../services/api";
 
 function UserHeader({ isEditing, profileImage, setImage }) {
     const userData = UserStore((state) => state.userData);

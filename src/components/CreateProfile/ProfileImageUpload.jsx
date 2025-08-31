@@ -1,6 +1,6 @@
 import { useState } from "react";
 import UserStore from "../../stores/UserStore";
-import { API_URL } from "../../config/api";
+import { API_URL } from "../../services/api";
 import imageCompression from "browser-image-compression";
 import { PuffLoader } from "react-spinners";
 

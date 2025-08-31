@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import BackBtn from "../BackBtn"
 import SubGenreList from "./SubGenreList"
 import UserStore from "../../stores/UserStore";
-import { SUBGENRES_ENDPOINT } from "../../config/api";
+import { SUBGENRES_ENDPOINT } from "../../services/api";
 import Loading from "../Loading";
 
 function GenreSelection() {

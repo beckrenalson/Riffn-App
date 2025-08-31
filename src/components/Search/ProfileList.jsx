@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { API_URL } from "../../config/api";
+import { API_URL } from "../../services/api";
 
 function ProfileList({ header, profiles }) {
     const navigate = useNavigate()

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { USERS_ENDPOINT } from "../../config/api";
+import { USERS_ENDPOINT } from "../../services/api";
 import api from "../../services/api"; // Import the api service
 
 function BandMembersInput({ members, setMembers, currentUserId }) {
