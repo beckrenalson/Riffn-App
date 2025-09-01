@@ -6,7 +6,6 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // Fetch search results as user types
     useEffect(() => {
         if (!inputValue.trim()) {
             setSearchResults([]);
@@ -22,9 +21,8 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
                     `${USERS_ENDPOINT}?search=${encodeURIComponent(inputValue)}&profileType=solo`,
                     { signal: controller.signal }
                 );
-                const data = res.data; // Axios returns data here
+                const data = res.data;
 
-                // Exclude members already added and current user
                 const filtered = data.filter(
                     (u) => !members.some((m) => m._id === u._id) && u._id !== currentUserId
                 );
@@ -46,7 +44,6 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
         };
     }, [inputValue, members, currentUserId]);
 
-    // Add member optimistically
     const handleAddMember = async (user) => {
         const originalMembers = [...members];
         setMembers([...members, user]);
@@ -59,14 +56,12 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
             await api.post(`${USERS_ENDPOINT}/${currentUserId}/bandMembers`, {
                 memberId: user._id,
             });
-            // Success: nothing else to do, optimistic UI already updated
         } catch (err) {
             console.error("Error adding member:", err);
-            setMembers(originalMembers); // rollback
+            setMembers(originalMembers);
         }
     };
 
-    // Remove member optimistically
     const handleDelete = async (memberId) => {
         const originalMembers = [...members];
         setMembers(members.filter((m) => m._id !== memberId));
@@ -75,10 +70,9 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
 
         try {
             await api.delete(`${USERS_ENDPOINT}/${currentUserId}/bandMembers/${memberId}`);
-            // Success: nothing else to do
         } catch (err) {
             console.error("Error removing member:", err);
-            setMembers(originalMembers); // rollback
+            setMembers(originalMembers);
         }
     };
 
@@ -99,7 +93,6 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
                 aria-label="Search for band members"
             />
 
-            {/* Search results dropdown */}
             {inputValue && (
                 <div className="absolute w-full mt-1 z-50">
                     {loading ? (
@@ -137,7 +130,6 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
                 </div>
             )}
 
-            {/* Current members */}
             {members.length > 0 && (
                 <ul className="mt-4 mb-6 space-y-1">
                     {members.map((member) => (

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import UserStore from "../../stores/UserStore";
 import api, { API_URL } from "../../services/api";
 
-// Helpers for WebAuthn
 const base64urlToUint8Array = (base64urlString) => {
   const base64 = base64urlString.replace(/-/g, '+').replace(/_/g, '/');
   const pad = base64.length % 4;
@@ -45,7 +44,6 @@ function Login() {
     setPasskeyError("");
   };
 
-  // Password login
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -66,7 +64,6 @@ function Login() {
     }
   };
 
-  // Passkey login
   const handlePasskeyLogin = async () => {
     setPasskeyError("");
     try {

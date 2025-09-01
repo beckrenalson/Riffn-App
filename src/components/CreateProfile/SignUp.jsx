@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import UserStore from "../../stores/UserStore";
-import api, { USERS_ENDPOINT, API_URL } from "../../services/api"; // Import api, USERS_ENDPOINT, and API_URL from the new service
+import api, { USERS_ENDPOINT, API_URL } from "../../services/api";
 import axios from "axios";
 
-// Helper: base64url → Uint8Array
 function base64urlToBuffer(base64url) {
   if (!base64url || typeof base64url !== 'string') {
     throw new Error(`Invalid base64url string: ${base64url}`);
@@ -22,7 +21,6 @@ function base64urlToBuffer(base64url) {
   }
 }
 
-// Helper: Uint8Array → base64url
 function bufferToBase64url(buffer) {
   const bytes = new Uint8Array(buffer);
   let binary = '';
@@ -39,7 +37,7 @@ function SignUp() {
   const setUserData = UserStore((state) => state.setUserData);
 
   const [fieldErrors, setFieldErrors] = useState({});
-  const [passkeyData, setPasskeyData] = useState(null); // Store passkey data temporarily
+  const [passkeyData, setPasskeyData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const login = () => navigate("/login");
@@ -51,7 +49,7 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFieldErrors({}); // reset previous errors
+    setFieldErrors({});
 
     const errors = {};
     if (!userData.firstName?.trim()) errors.firstName = "First name required";
@@ -73,7 +71,6 @@ function SignUp() {
         password: userData.password,
       });
 
-      // If backend returns available = true, continue
       if (res.data.available) {
         if (passkeyData) setUserData((prev) => ({ ...prev, passkeyData }));
         navigate("/signup/userselection");
@@ -82,14 +79,12 @@ function SignUp() {
       console.error(err);
 
       if (err.response?.status === 409 && err.response.data?.errors) {
-        // Map "email already in use" to fieldErrors.email
         const newErrors = {};
         err.response.data.errors.forEach((error) => {
           newErrors[error.param] = error.msg;
         });
         setFieldErrors(newErrors);
       } else if (err.response?.data?.errors) {
-        // Other validation errors (400)
         const newErrors = {};
         err.response.data.errors.forEach((error) => {
           newErrors[error.param] = error.msg;
@@ -101,19 +96,12 @@ function SignUp() {
     }
   };
 
-
-
   const handlePasskeyRegister = async () => {
     setIsLoading(true);
 
     try {
-      // Create a temporary user ID for the passkey registration process
-      // We'll use the email as a temporary identifier since it's unique
-      const tempUserId = btoa(userData.email).replace(/[^a-zA-Z0-9]/g, ''); // Simple base64 encode and clean
+      const tempUserId = btoa(userData.email).replace(/[^a-zA-Z0-9]/g, '');
 
-      console.log("Using temporary ID for passkey registration:", tempUserId);
-
-      // 1️⃣ Get registration challenge using temporary user data
       const resChallenge = await api.post(`/auth/passkey-challenge-temp`, {
         tempUserId,
         email: userData.email,
@@ -128,16 +116,14 @@ function SignUp() {
           const errorData = resChallenge.data;
           errorText = errorData.error || errorData.message || 'Unknown error';
         } catch (parseError) {
-          errorText = JSON.stringify(resChallenge.data); // Fallback to raw data if not JSON
+          errorText = JSON.stringify(resChallenge.data);
         }
         alert(`Failed to get passkey challenge: ${errorText}`);
         return;
       }
 
       const options = resChallenge.data;
-      console.log("Received passkey options");
 
-      // 2️⃣ Validate and convert challenge & user ID
       if (!options.challenge) {
         throw new Error("No challenge received from server");
       }
@@ -145,20 +131,15 @@ function SignUp() {
         throw new Error("No user ID received from server");
       }
 
-      // Convert challenge & user ID
       options.challenge = base64urlToBuffer(options.challenge);
       options.user.id = base64urlToBuffer(options.user.id);
 
-      // 3️⃣ Call WebAuthn
-      console.log("Calling navigator.credentials.create...");
       const credential = await navigator.credentials.create({ publicKey: options });
 
       if (!credential) {
         throw new Error("Failed to create credential");
       }
-      console.log("Credential created successfully");
 
-      // 4️⃣ Serialize the credential for storage
       const serializedCredential = {
         id: credential.id,
         rawId: bufferToBase64url(credential.rawId),
@@ -169,14 +150,12 @@ function SignUp() {
         type: credential.type,
       };
 
-      // 5️⃣ Store passkey data temporarily (don't save to server yet)
       setPasskeyData({
         tempUserId,
-        challenge: options.challenge, // Store original challenge for later verification
+        challenge: options.challenge,
         credential: serializedCredential
       });
 
-      console.log("Passkey created and stored temporarily");
       alert("Passkey created! It will be registered when you complete signup.");
 
     } catch (err) {

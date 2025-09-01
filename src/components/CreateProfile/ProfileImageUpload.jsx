@@ -31,11 +31,9 @@ function ProfileImageUpload({ setImage, profileImage }) {
         try {
             validateFile(file);
 
-            // Show blob instantly
             const blobUrl = URL.createObjectURL(file);
             setPreview(blobUrl);
 
-            // Compress before upload
             const options = {
                 maxSizeMB: 0.2,
                 maxWidthOrHeight: 800,
@@ -54,14 +52,12 @@ function ProfileImageUpload({ setImage, profileImage }) {
 
             const data = response.data;
 
-            // Preload new server image before swapping
             const img = new Image();
             img.src = data.url;
             img.onload = () => {
                 setProfileImage(data.url);
                 setPreview(data.url);
 
-                // Clean up blob safely after server image is ready
                 if (blobUrl.startsWith("blob:")) {
                     URL.revokeObjectURL(blobUrl);
                 }
@@ -78,14 +74,12 @@ function ProfileImageUpload({ setImage, profileImage }) {
         }
     };
 
-    // If prop changes (editing mode re-entry)
     useEffect(() => {
         if (profileImage) {
             setPreview(profileImage);
         }
     }, [profileImage]);
 
-    // Fallback to global state if no prop
     useEffect(() => {
         if (currentProfileImage && !preview) {
             setPreview(currentProfileImage);

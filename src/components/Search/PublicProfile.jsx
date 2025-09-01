@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import BackBtn from "../BackBtn";
-import api, { USERS_ENDPOINT, API_URL } from '../../services/api'; // Import the new api service and USERS_ENDPOINT
+import api, { USERS_ENDPOINT, API_URL } from '../../services/api';
 import UserStore from "../../stores/UserStore";
 import ProfileList from "../../components/Search/ProfileList";
 
@@ -16,15 +16,13 @@ function PublicProfile() {
     const [connectionStatus, setConnectionStatus] = useState('none');
     const [isLoading, setIsLoading] = useState(false);
 
-    // Fetch user if not in state
     useEffect(() => {
         if (user) return;
 
         async function fetchUser() {
             try {
-                const res = await api.get(`${USERS_ENDPOINT}/${userName}`); // Use api.get
+                const res = await api.get(`${USERS_ENDPOINT}/${userName}`);
                 setUser(res.data);
-                // console.log("Fetched user:", res.data); // Remove this line
             } catch (err) {
                 console.error(err);
             }
@@ -33,13 +31,12 @@ function PublicProfile() {
         fetchUser();
     }, [user, userName]);
 
-    // Fetch tracks
     useEffect(() => {
         if (!user) return;
 
         async function fetchTracks() {
             try {
-                const res = await api.get(`/tracks/${user._id}`); // Use api.get
+                const res = await api.get(`/tracks/${user._id}`);
                 setTracks(res.data);
             } catch (err) {
                 console.error(err);
@@ -51,7 +48,6 @@ function PublicProfile() {
 
     useEffect(() => {
         if (!user || !currentUser || currentUser._id === user._id) {
-            // console.log("Skipping connection status check. user:", user, "currentUser:", currentUser, "same user:", currentUser?._id === user?._id);
             return;
         }
 
@@ -63,7 +59,6 @@ function PublicProfile() {
                 } else {
                     res = await api.get(`/connections/status?fromUserId=${currentUser._id}&toSoloId=${user._id}`);
                 }
-                // console.log("Connection status API response:", res.data);
                 setConnectionStatus(res.data.status);
             } catch (err) {
                 console.error("Error fetching connection status:", err);
@@ -74,7 +69,6 @@ function PublicProfile() {
         checkConnectionStatus();
     }, [user, currentUser]);
 
-    // Send connection request
     const handleConnectionRequest = async () => {
         if (!currentUser) return alert("You must be logged in to request to join.");
 
@@ -84,7 +78,7 @@ function PublicProfile() {
             if (user.profileType === 'band') body.toBandId = user._id;
             if (user.profileType === 'solo') body.toSoloId = user._id;
 
-            const res = await api.post(`/connections/request`, body); // Use api.post
+            const res = await api.post(`/connections/request`, body);
 
             if (!res.status === 200) return alert(res.data.message);
 
@@ -99,19 +93,11 @@ function PublicProfile() {
     if (!user) return <div className="p-6">Loading user...</div>;
 
     const isBandMember = currentUser && user?.profileType === 'band' && user.bandMembers.some(member => member._id === currentUser._id);
-    // console.log("isBandMember:", isBandMember);
-    // console.log("currentUser:", currentUser);
-    // console.log("user:", user);
-    // console.log("user.bandMembers:", user?.bandMembers);
-    // console.log("currentUser._id:", currentUser?._id);
-
-    // console.log("Rendering PublicProfile. Current connectionStatus:", connectionStatus, "currentUser:", currentUser, "user:", user);
 
     return (
         <>
             <BackBtn />
             <div className="p-6 pt-4 space-y-6 pb-24">
-                {/* Profile Image */}
                 <div className="flex justify-center">
                     <img
                         className="rounded-full w-32 h-32 object-cover border"
@@ -126,14 +112,11 @@ function PublicProfile() {
                     />
                 </div>
 
-                {/* Name, Location, Connection */}
                 <div className="text-center space-y-3">
                     <h1 className="text-2xl font-bold">{user.userName}</h1>
                     <h2 className="text-gray-600">{user.location || 'Location not specified'}</h2>
 
-                    {/* Request to join button */}
                     {connectionStatus === 'none' && currentUser && currentUser._id !== user._id && (
-                        // Case 1: Current user is solo, viewed user is band -> "Request to Join"
                         (user?.profileType === 'band' && currentUser?.profileType === 'solo') ? (
                             <button
                                 onClick={handleConnectionRequest}
@@ -148,7 +131,6 @@ function PublicProfile() {
                                 ) : ('Request to Join')}
                             </button>
                         ) :
-                        // Case 2: Current user is band, viewed user is solo -> "Invite to Band" (only if not already a member)
                         (user?.profileType === 'solo' && currentUser?.profileType === 'band' && currentUser.bandMembers && !currentUser.bandMembers.some(member => member._id === user._id)) ? (
                             <button
                                 onClick={handleConnectionRequest}
@@ -176,19 +158,15 @@ function PublicProfile() {
                             <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
                                 {isBandMember ? 'Already Member' : 'Joined'}
                             </div>
-                            {/* Show contact info when connected */}
-                            {/* Removed: Contact info moved to "Contact / Socials" section */}
                         </div>
                     )}
                 </div>
 
-                {/* Bio */}
                 <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Bio:</p>
                     <p>{user.bio || "No bio provided."}</p>
                 </div>
 
-                {/* Instruments & Genres */}
                 <div className="border p-4 rounded-2xl space-y-2 bg-[#1a1a1a] border-gray-800">
                     {user?.profileType === "band" && (
                         <div>
@@ -225,7 +203,6 @@ function PublicProfile() {
                     </div>
                 </div>
 
-                {/* Contact / Socials */}
                 <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Contact / Socials:</p>
                     {isBandMember || user?.profileType === 'solo' ? (
@@ -258,7 +235,6 @@ function PublicProfile() {
                     )}
                 </div>
 
-                {/* Music Tracks */}
                 <div className="border rounded-2xl p-4 bg-[#1a1a1a] border-gray-800">
                     <p className="text-sm text-gray-500 mb-2 font-semibold">Music:</p>
                     <div className="space-y-6">

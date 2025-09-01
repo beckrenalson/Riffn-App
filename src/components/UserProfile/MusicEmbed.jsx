@@ -13,38 +13,31 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
     const saveTrack = async (embed) => {
         try {
             const response = await api.post(`${API_URL}/api/tracks`, embed);
-            // Handle Axios response structure
             if (response.status && response.status >= 200 && response.status < 300) {
-                const saved = response.data; // Axios puts the data in .data property
-                // Replace the temporary embed with the saved version that has _id
+                const saved = response.data;
                 setEmbeds((prev) => [...prev.slice(0, -1), saved]);
             } else {
                 throw new Error(`Failed to save track: ${response.status} ${response.statusText}`);
             }
         } catch (error) {
             console.error("Error saving track:", error);
-            // Remove the temporary embed on failure
             setEmbeds((prev) => prev.slice(0, -1));
             setError("Failed to save track. Please try again.");
         }
     };
 
     const deleteTrack = async (trackId) => {
-        // Prevent multiple deletions
         if (processingTracks.has(trackId)) return;
 
         setProcessingTracks(prev => new Set(prev).add(trackId));
         setError("");
 
         try {
-            // Store original state for rollback
             const originalEmbeds = [...embeds];
-            // Optimistic update
             setEmbeds((prev) => prev.filter((track) => track._id !== trackId));
 
             const res = await api.delete(`${API_URL}/api/tracks/${trackId}`);
 
-            // Handle Axios response structure
             if (res.status && res.status >= 200 && res.status < 300) {
                 // Deletion successful
             } else {
@@ -53,7 +46,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
 
         } catch (err) {
             console.error("Delete failed:", err);
-            // Revert on failure
             setEmbeds(originalEmbeds);
             setError("Failed to delete track. Please try again.");
         } finally {
@@ -96,7 +88,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
             }
 
             if (embed) {
-                // Optimistic update - add temporarily
                 setEmbeds((prev) => [...prev, embed]);
                 saveTrack(embed);
                 setUrlInput("");
@@ -109,7 +100,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
         }
     };
 
-    // Load saved tracks on component mount
     useEffect(() => {
         async function fetchSavedTracks() {
             if (!currentUser?._id) {
@@ -123,16 +113,13 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
             try {
                 const res = await api.get(`${API_URL}/api/tracks/${currentUser._id}`);
 
-                // Handle Axios response structure
                 if (res.status === 404) {
                     setEmbeds([]);
                     return;
                 }
 
                 if (res.status && res.status >= 200 && res.status < 300) {
-                    const data = res.data; // Axios puts data in .data property
-
-                    // Ensure data is an array and handle different response structures
+                    const data = res.data;
                     const tracksArray = Array.isArray(data) ? data : (data?.tracks || []);
                     setEmbeds(tracksArray);
                 } else {
@@ -140,9 +127,7 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                 }
 
             } catch (error) {
-                // Handle Axios errors
                 if (error.response) {
-                    // Axios error with response
                     const status = error.response.status;
                     if (status === 404) {
                         setEmbeds([]);
@@ -152,10 +137,8 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                         setError(`Failed to load tracks: HTTP ${status}`);
                     }
                 } else if (error.request) {
-                    // Network error
                     setError("Network error: Could not connect to the server.");
                 } else {
-                    // Other error
                     setError(`Failed to load tracks: ${error.message}`);
                 }
             } finally {
@@ -168,7 +151,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
 
     return (
         <div className="max-w-xl mx-auto space-y-4">
-            {/* Add track input */}
             <div className="flex gap-2">
                 <input
                     type="text"
@@ -191,7 +173,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                 </button>
             </div>
 
-            {/* Error message */}
             {error && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
                     {error}
@@ -204,14 +185,12 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                 </div>
             )}
 
-            {/* Loading state */}
             {isLoading && (
                 <div className="flex items-center justify-center py-8">
                     <div className="text-gray-500">Loading tracks...</div>
                 </div>
             )}
 
-            {/* Music embeds */}
             {!isLoading && (
                 <div className="space-y-6">
                     {embeds.length > 0 && (
@@ -223,7 +202,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                     {embeds.map((embed, idx) => {
                         const isProcessing = processingTracks.has(embed._id);
 
-                        // Validate embed data (check actual embed object, not response)
                         if (!embed || !embed.src || !embed.type) {
                             console.warn('Invalid embed data - missing src or type:', embed);
                             return null;
@@ -241,8 +219,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                                         loading="lazy"
                                         title="Spotify track"
-                                        onLoad={() => { }}
-                                        onError={() => { }}
                                     />
                                 ) : embed.type === "soundcloud" ? (
                                     <iframe
@@ -253,8 +229,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                                         frameBorder="no"
                                         src={embed.src}
                                         title="SoundCloud track"
-                                        onLoad={() => console.log('SoundCloud iframe loaded')}
-                                        onError={() => { }}
                                     />
                                 ) : (
                                     <div className="bg-gray-100 p-4 rounded-xl text-center text-gray-600">
@@ -262,14 +236,13 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                                     </div>
                                 )}
 
-                                {/* Delete button (only show when editing and track has _id) */}
                                 {isEditing && embed._id && (
                                     <button
                                         onClick={() => deleteTrack(embed._id)}
                                         disabled={isProcessing}
                                         className="absolute top-2 right-2 bg-red-500 p-2 rounded-lg hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 shadow-lg"
                                         aria-label="Delete track"
-                                        style={{ opacity: 1 }} // Force visible for debugging
+                                        style={{ opacity: 1 }}
                                     >
                                         <img
                                             className="h-4 w-4"
@@ -285,7 +258,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                 </div>
             )}
 
-            {/* Empty state */}
             {!isLoading && embeds.length === 0 && (
                 <div className="text-center text-gray-500 py-8">
                     No tracks added yet. Add your first track above!

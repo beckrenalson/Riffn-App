@@ -22,7 +22,6 @@ import AuthRedirector from './AuthRedirector.jsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import AppLayout from './components/Layout/AppLayout.jsx';
 
-
 const LocationProvider = ({ children }) => {
   const location = useLocation();
   return <AnimatePresence mode='wait' initial={false}>{children(location)}</AnimatePresence>;
@@ -60,8 +59,7 @@ createRoot(document.getElementById('root')).render(
       <LocationProvider>
         {(location) => (
           <Routes location={location} key={location.pathname}>
-            {/* Public routes (signup/login flow) - always accessible */}
-            <Route path="/" element={<SignUpLayout />}> {/* Use SignUpLayout for the root path and nested signup routes */}
+            <Route path="/" element={<SignUpLayout />}>
               <Route index element={
                 <motion.div
                   initial="initial"
@@ -172,7 +170,6 @@ createRoot(document.getElementById('root')).render(
               } />
             </Route>
             
-            {/* Authenticated routes - protected by AuthRedirector */}
             <Route element={<AuthRedirector><AppLayout /></AuthRedirector>}>
               <Route path="/search/solo" element={
                 <motion.div
