@@ -2,9 +2,9 @@ import { useState } from "react";
 import BackBtn from "../BackBtn";
 import { useNavigate } from "react-router-dom";
 import UserStore from "../../stores/UserStore";
-import api, { API_URL } from "../../services/api"; // Import api and API_URL
+import api, { API_URL } from "../../services/api";
 
-// Helper: convert base64url to Uint8Array for WebAuthn
+// Helpers for WebAuthn
 const base64urlToUint8Array = (base64urlString) => {
   const base64 = base64urlString.replace(/-/g, '+').replace(/_/g, '/');
   const pad = base64.length % 4;
@@ -13,26 +13,22 @@ const base64urlToUint8Array = (base64urlString) => {
   return Uint8Array.from(raw, c => c.charCodeAt(0));
 };
 
-// Helper: convert Uint8Array to base64url for sending to backend
-const uint8ArrayToBase64url = (uint8Array) => {
-  const base64 = btoa(String.fromCharCode.apply(null, uint8Array));
-  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-};
+const uint8ArrayToBase64url = (uint8Array) =>
+  btoa(String.fromCharCode(...uint8Array)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 
-// Helper: convert WebAuthn assertion to JSON-serializable format
-const serializeAssertion = (assertion) => {
-  return {
-    id: assertion.id,
-    rawId: uint8ArrayToBase64url(new Uint8Array(assertion.rawId)),
-    response: {
-      authenticatorData: uint8ArrayToBase64url(new Uint8Array(assertion.response.authenticatorData)),
-      clientDataJSON: uint8ArrayToBase64url(new Uint8Array(assertion.response.clientDataJSON)),
-      signature: uint8ArrayToBase64url(new Uint8Array(assertion.response.signature)),
-      userHandle: assertion.response.userHandle ? uint8ArrayToBase64url(new Uint8Array(assertion.response.userHandle)) : null,
-    },
-    type: assertion.type,
-  };
-};
+const serializeAssertion = (assertion) => ({
+  id: assertion.id,
+  rawId: uint8ArrayToBase64url(new Uint8Array(assertion.rawId)),
+  response: {
+    authenticatorData: uint8ArrayToBase64url(new Uint8Array(assertion.response.authenticatorData)),
+    clientDataJSON: uint8ArrayToBase64url(new Uint8Array(assertion.response.clientDataJSON)),
+    signature: uint8ArrayToBase64url(new Uint8Array(assertion.response.signature)),
+    userHandle: assertion.response.userHandle
+      ? uint8ArrayToBase64url(new Uint8Array(assertion.response.userHandle))
+      : null,
+  },
+  type: assertion.type,
+});
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -45,94 +41,70 @@ function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    setError("");
+    setPasskeyError("");
   };
 
-  // -----------------------------
-  // Password login (uses original endpoint)
-  // -----------------------------
+  // Password login
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await api.post(`/auth/login`, formData); // Use api.post
+      const res = await api.post(`/auth/login`, formData);
 
-      if (res.status !== 200) throw new Error(res.data.message || "Invalid email or password");
+      if (!res.data.user) {
+        setError(res.data.message || "Invalid email or password");
+        return;
+      }
 
-      const data = res.data;
-      setUserData(data.user);
-      navigate(`/search/${data.user.profileType === "solo" ? "band" : "solo"}`);
+      setUserData(res.data.user);
+      navigate(`/search/${res.data.user.profileType === "solo" ? "band" : "solo"}`);
     } catch (err) {
-      setError(err.message || "Login failed");
+      console.error("Login error:", err);
+      setError(err.response?.data?.message || "Invalid email or password");
     }
   };
 
-  // -----------------------------
-  // Passkey login (updated for unified endpoint)
-  // -----------------------------
+  // Passkey login
   const handlePasskeyLogin = async () => {
     setPasskeyError("");
     try {
-      console.log("=== FRONTEND PASSKEY LOGIN START ===");
-      console.log("Email:", formData.email);
-
-      // 1️⃣ Request passkey challenge (updated request format)
-      console.log("Step 1: Requesting passkey challenge...");
       const challengeRes = await api.post(`/auth/users/passkey-login-challenge`, {
         email: formData.email,
-        requestPasskey: true  // This is the key addition!
+        requestPasskey: true
       });
 
       if (challengeRes.status !== 200) {
-        const errorData = challengeRes.data;
-        throw new Error(errorData.message || "Failed to get passkey challenge");
+        throw new Error(challengeRes.data.message || "Failed to get passkey challenge");
       }
 
-      const { tempUserId, challenge, userName } = challengeRes.data;
-      console.log("Step 1 SUCCESS - received challenge, tempUserId:", tempUserId);
-
-      // 2️⃣ Prepare WebAuthn options
-      console.log("Step 2: Preparing WebAuthn options...");
+      const { tempUserId, challenge } = challengeRes.data;
       const publicKey = {
         challenge: base64urlToUint8Array(challenge),
-        allowCredentials: [], // Let the authenticator find available credentials
+        allowCredentials: [],
         userVerification: "preferred",
         timeout: 60000,
       };
-      console.log("Step 2 SUCCESS - publicKey ready");
 
-      // 3️⃣ Call WebAuthn API
-      console.log("Step 3: Calling navigator.credentials.get...");
       const assertion = await navigator.credentials.get({ publicKey });
-      console.log("Step 3 SUCCESS - got assertion");
-
-      // 4️⃣ Serialize assertion
-      console.log("Step 4: Serializing assertion...");
       const serializedAssertion = serializeAssertion(assertion);
-      console.log("Step 4 SUCCESS - serialized");
 
-      // 5️⃣ Send assertion back to unified endpoint for verification
-      console.log("Step 5: Sending credential to backend for verification...");
       const verifyRes = await api.post(`/auth/users/passkey-login-challenge`, {
         email: formData.email,
-        tempUserId: tempUserId,
+        tempUserId,
         passkeyCredential: serializedAssertion,
       });
 
-      if (verifyRes.status !== 200) {
-        const errorData = verifyRes.data;
-        console.error("Backend error:", errorData);
-        throw new Error(errorData.message || "Passkey login failed");
+      if (!verifyRes.data.user) {
+        throw new Error(verifyRes.data.message || "Passkey login failed");
       }
 
-      const verifiedUser = verifyRes.data;
-      console.log("Step 5 SUCCESS - login complete");
-
-      setUserData(verifiedUser.user);
-      navigate(`/search/${verifiedUser.user.profileType === "solo" ? "band" : "solo"}`);
+      setUserData(verifyRes.data.user);
+      navigate(`/search/${verifyRes.data.user.profileType === "solo" ? "band" : "solo"}`);
 
     } catch (err) {
-      console.error("=== PASSKEY LOGIN ERROR ===", err);
+      console.error("Passkey login error:", err);
 
       if (err.name === "NotAllowedError") {
         setPasskeyError("Passkey authentication was cancelled or timed out.");
@@ -144,13 +116,17 @@ function Login() {
     }
   };
 
+  const isPasskeySupported = typeof window !== "undefined" && !!window.PublicKeyCredential;
+
   return (
     <>
       <BackBtn />
       <div className="flex justify-center max-h-screen">
-        <div className="p-10">
+        <div className="p-10 w-full max-w-md">
           <h2 className="text-4xl font-bold mb-6 text-center">Login</h2>
+
           {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="email"
@@ -171,7 +147,8 @@ function Login() {
             />
             <button
               type="submit"
-              className="w-full border p-2 rounded-xl bg-black text-white"
+              disabled={!formData.email || !formData.password}
+              className="w-full border p-2 rounded-xl bg-black text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
               LOGIN
             </button>
@@ -185,7 +162,7 @@ function Login() {
 
           <button
             onClick={handlePasskeyLogin}
-            disabled={!formData.email} // Require email for passkey login
+            disabled={!formData.email || !isPasskeySupported}
             className="w-full border p-2 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Login with Passkey

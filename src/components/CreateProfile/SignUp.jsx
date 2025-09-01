@@ -51,6 +51,7 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFieldErrors({}); // reset previous errors
 
     const errors = {};
     if (!userData.firstName?.trim()) errors.firstName = "First name required";
@@ -64,7 +65,6 @@ function SignUp() {
       return;
     }
 
-    // In handleSubmit
     try {
       const res = await axios.post(`${API_URL}/api/users/check-details`, {
         email: userData.email,
@@ -73,33 +73,34 @@ function SignUp() {
         password: userData.password,
       });
 
-      const data = res.data;
-
-      if (res.status === 409 && data.errors) {
-        // Map backend errors to fieldErrors
-        const newErrors = {};
-        data.errors.forEach(err => {
-          newErrors[err.param] = err.msg;
-        });
-        setFieldErrors(newErrors);
-        return;
-      }
-
-      if (res.status !== 200) {
-        throw new Error(data.error || "Failed to check details");
+      // If backend returns available = true, continue
+      if (res.data.available) {
+        if (passkeyData) setUserData((prev) => ({ ...prev, passkeyData }));
+        navigate("/signup/userselection");
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to check details. Try again.");
-      return;
-    }
 
-    if (passkeyData) {
-      setUserData({ passkeyData });
+      if (err.response?.status === 409 && err.response.data?.errors) {
+        // Map "email already in use" to fieldErrors.email
+        const newErrors = {};
+        err.response.data.errors.forEach((error) => {
+          newErrors[error.param] = error.msg;
+        });
+        setFieldErrors(newErrors);
+      } else if (err.response?.data?.errors) {
+        // Other validation errors (400)
+        const newErrors = {};
+        err.response.data.errors.forEach((error) => {
+          newErrors[error.param] = error.msg;
+        });
+        setFieldErrors(newErrors);
+      } else {
+        alert(err.response?.data?.message || err.message || "Failed to check details. Try again.");
+      }
     }
-
-    navigate("/signup/userselection");
   };
+
 
 
   const handlePasskeyRegister = async () => {

@@ -5,8 +5,7 @@ export const API_URL = import.meta.env.VITE_RIFFN_API || "http://localhost:5000"
 const api = axios.create({
     baseURL: `${API_URL}/api`,
     withCredentials: true,
-  });
-  
+});
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -27,11 +26,19 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
+        // Skip refresh for auth endpoints
+        const skipRefresh = originalRequest.url.includes('/auth/login') ||
+            originalRequest.url.includes('/auth/register') ||
+            originalRequest.url.includes('/auth/users/passkey-login-challenge');
+
+        if (skipRefresh) {
+            return Promise.reject(error);
+        }
+
         // If the error is 401 and it's not a refresh token request
         if (error.response.status === 401 && originalRequest.url !== '/auth/refresh-token') {
-            // If a refresh is already in progress, add to queue
             if (isRefreshing) {
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     failedQueue.push({ resolve, reject });
                 }).then(token => {
                     originalRequest.headers['Authorization'] = 'Bearer ' + token;
@@ -46,17 +53,14 @@ api.interceptors.response.use(
             return new Promise((resolve, reject) => {
                 api.post('/auth/refresh-token')
                     .then(res => {
-                        const newToken = res.data.token; // Assuming the new token is returned in res.data.token
-                        // You might not need to set the token in headers here since it's an HTTP-only cookie.
-                        // The browser will automatically send the new 'jwt' cookie with subsequent requests.
+                        const newToken = res.data.token;
                         processQueue(null, newToken);
                         originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
                         resolve(api(originalRequest));
                     })
                     .catch(err => {
                         processQueue(err);
-                        // Redirect to login or handle logout
-                        window.location = '/login'; // Or your specific logout route
+                        window.location = '/login'; // Redirect to login
                         reject(err);
                     })
                     .finally(() => {
