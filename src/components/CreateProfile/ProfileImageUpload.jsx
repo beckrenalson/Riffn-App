@@ -134,10 +134,6 @@ function ProfileImageUpload({ setImage, profileImage }) {
                 disabled={loading}
                 className="hidden"
             />
-
-            <div className="text-xs text-gray-500 text-center max-w-xs">
-                Upload a profile image. Supported formats: JPEG, PNG, WebP.
-            </div>
         </div>
     );
 }

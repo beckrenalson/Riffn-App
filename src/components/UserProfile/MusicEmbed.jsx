@@ -13,9 +13,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
     const saveTrack = async (embed) => {
         try {
             const response = await api.post(`${API_URL}/api/tracks`, embed);
-
-            console.log('Save track response:', response);
-
             // Handle Axios response structure
             if (response.status && response.status >= 200 && response.status < 300) {
                 const saved = response.data; // Axios puts the data in .data property
@@ -47,12 +44,9 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
 
             const res = await api.delete(`${API_URL}/api/tracks/${trackId}`);
 
-            console.log('Delete track response:', res);
-
             // Handle Axios response structure
             if (res.status && res.status >= 200 && res.status < 300) {
                 // Deletion successful
-                console.log('Track deleted successfully');
             } else {
                 throw new Error(`Failed to delete track: ${res.status} ${res.statusText}`);
             }
@@ -127,34 +121,25 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
             setError("");
 
             try {
-                console.log('Fetching tracks for user:', currentUser._id);
-
                 const res = await api.get(`${API_URL}/api/tracks/${currentUser._id}`);
-
-                console.log('Fetch tracks response:', res);
 
                 // Handle Axios response structure
                 if (res.status === 404) {
-                    console.log('No tracks found for user (404) - setting empty array');
                     setEmbeds([]);
                     return;
                 }
 
                 if (res.status && res.status >= 200 && res.status < 300) {
                     const data = res.data; // Axios puts data in .data property
-                    console.log('Tracks data received:', data);
 
                     // Ensure data is an array and handle different response structures
                     const tracksArray = Array.isArray(data) ? data : (data?.tracks || []);
-                    console.log('Setting embeds to:', tracksArray);
                     setEmbeds(tracksArray);
                 } else {
                     throw new Error(`HTTP ${res.status}: ${res.statusText || 'Failed to fetch tracks'}`);
                 }
 
             } catch (error) {
-                console.error("Failed to load saved tracks:", error);
-
                 // Handle Axios errors
                 if (error.response) {
                     // Axios error with response
@@ -236,7 +221,6 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                     )}
 
                     {embeds.map((embed, idx) => {
-                        console.log('Rendering embed:', embed);
                         const isProcessing = processingTracks.has(embed._id);
 
                         // Validate embed data (check actual embed object, not response)
