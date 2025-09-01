@@ -14,7 +14,7 @@ function UserHeader({ isEditing, profileImage, setImage }) {
     return (
         <div className="flex flex-col items-center space-y-2 pb-4">
             {isEditing ? (
-                <ProfileImageUpload setImage={setImage} />
+                <ProfileImageUpload setImage={setImage} profileImage={imageSrc} />
             ) : (
                 <img
                     src={imageSrc}
@@ -22,6 +22,8 @@ function UserHeader({ isEditing, profileImage, setImage }) {
                     className="w-32 h-32 rounded-full object-cover"
                 />
             )}
+
+
             <div className="text-center">
                 <h1 className="text-xl font-semibold">
                     {userData.firstName} {userData.lastName}

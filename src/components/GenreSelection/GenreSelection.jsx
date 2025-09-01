@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import BackBtn from "../BackBtn"
 import SubGenreList from "./SubGenreList"
 import UserStore from "../../stores/UserStore";
-import { SUBGENRES_ENDPOINT } from "../../services/api";
+import api, { SUBGENRES_ENDPOINT } from "../../services/api";
 import Loading from "../Loading";
 
 function GenreSelection() {
@@ -36,8 +36,8 @@ function GenreSelection() {
             const getSubGenres = async () => {
                 setLoading(true)
                 try {
-                    const response = await fetch(`${SUBGENRES_ENDPOINT}/${type}`);
-                    const data = await response.json();
+                    const response = await api.get(`${SUBGENRES_ENDPOINT}/${type}`);
+                    const data = response.data;
                     setGenresList(data)
                 } finally {
                     setLoading(false)
