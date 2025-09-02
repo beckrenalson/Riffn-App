@@ -100,7 +100,7 @@ PORT=5000
 ### 3. Backend Setup 
 ```bash
 cd riffn-api
-npm install
+bun install
 node server.js
 ```
 API will run on:
