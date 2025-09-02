@@ -1,4 +1,4 @@
-<img src="./public/images/riffn1.png" alt="Riffn Logo" width="200"/>
+<img src="./public/images/riffn-lower.png" alt="Riffn Logo" width="200"/>
 
 # Riffn
 Riffn is a platform for musicians and bands to connect, collaborate, and create.  
