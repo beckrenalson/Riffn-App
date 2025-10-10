@@ -76,11 +76,13 @@ function Login() {
         throw new Error(challengeRes.data.message || "Failed to get passkey challenge");
       }
 
-      const { tempUserId, challenge } = challengeRes.data;
+      const { tempUserId, challenge, user } = challengeRes.data;
+
+      // Let browser show all passkeys - backend will validate the correct one
       const publicKey = {
         challenge: base64urlToUint8Array(challenge),
         allowCredentials: [],
-        userVerification: "preferred",
+        userVerification: "required",
         timeout: 60000,
       };
 
@@ -107,8 +109,12 @@ function Login() {
         setPasskeyError("Passkey authentication was cancelled or timed out.");
       } else if (err.name === "NotSupportedError") {
         setPasskeyError("Passkeys are not supported on this device/browser.");
+      } else if (err.response?.status === 401) {
+        setPasskeyError("Invalid passkey for this account. Please use password login.");
+      } else if (err.response?.status === 404) {
+        setPasskeyError("No passkey registered for this account.");
       } else {
-        setPasskeyError(err.message || "Passkey login failed. Please try again or use password login.");
+        setPasskeyError(err.response?.data?.message || err.message || "Passkey login failed. Please try again or use password login.");
       }
     }
   };
