@@ -88,20 +88,6 @@ const UserStore = create(
         }
       },
 
-      // Login with passkey assertion
-      loginWithPasskey: async (assertion) => {
-        try {
-          const res = await api.post("auth/users/passkey-login-challenge", assertion); // Use api.post
-
-          if (res.status !== 200) throw new Error(res.data.message || "Passkey login failed");
-          const data = res.data;
-          set({ userData: data.user });
-        } catch (err) {
-          console.error("Passkey login error:", err);
-          throw err;
-        }
-      },
-
       // Logout user
       logout: async () => {
         try {
