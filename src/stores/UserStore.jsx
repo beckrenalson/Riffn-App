@@ -91,7 +91,7 @@ const UserStore = create(
       // Login with passkey assertion
       loginWithPasskey: async (assertion) => {
         try {
-          const res = await api.post("/users/passkey-login", assertion); // Use api.post
+          const res = await api.post("auth/users/passkey-login-challenge", assertion); // Use api.post
 
           if (res.status !== 200) throw new Error(res.data.message || "Passkey login failed");
           const data = res.data;

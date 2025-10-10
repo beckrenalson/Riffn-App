@@ -41,7 +41,6 @@ api.interceptors.response.use(
                 return new Promise(function (resolve, reject) {
                     failedQueue.push({ resolve, reject });
                 }).then(token => {
-                    originalRequest.headers['Authorization'] = 'Bearer ' + token;
                     return api(originalRequest);
                 }).catch(err => {
                     return Promise.reject(err);
@@ -53,9 +52,8 @@ api.interceptors.response.use(
             return new Promise((resolve, reject) => {
                 api.post('/auth/refresh-token')
                     .then(res => {
-                        const newToken = res.data.token;
-                        processQueue(null, newToken);
-                        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+
+                        processQueue(null, 'refreshed');       
                         resolve(api(originalRequest));
                     })
                     .catch(err => {

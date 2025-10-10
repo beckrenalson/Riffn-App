@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserStore from './stores/UserStore';
+import Loading from './components/Loading';
 // import SignUpLayout from './components/CreateProfile/SignUpLayout'; // No longer needed directly here
 
 const AuthRedirector = ({ children }) => {
@@ -20,7 +21,7 @@ const AuthRedirector = ({ children }) => {
 
   // Render nothing or a loading spinner until hydration is complete
   if (!_hasHydrated) {
-    return null; // Or a loading spinner component
+    return <div><Loading /></div>;
   }
 
   // If user data exists, render the children (authenticated content)
@@ -29,7 +30,7 @@ const AuthRedirector = ({ children }) => {
   }
 
   // Otherwise, return null or a loading spinner while redirecting
-  return null;
+  return <div><Loading /></div>;
 };
 
 export default AuthRedirector;
