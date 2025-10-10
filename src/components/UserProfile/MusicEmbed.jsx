@@ -214,7 +214,7 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                                         style={{ borderRadius: "12px" }}
                                         src={embed.src}
                                         width="100%"
-                                        height="152"
+                                        height="80"
                                         frameBorder="0"
                                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                                         loading="lazy"
@@ -224,7 +224,7 @@ function MultiMusicEmbed({ isEditing, setIsEditing }) {
                                     <iframe
                                         style={{ borderRadius: "12px" }}
                                         width="100%"
-                                        height="166"
+                                        height="80"
                                         scrolling="no"
                                         frameBorder="no"
                                         src={embed.src}

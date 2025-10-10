@@ -335,7 +335,7 @@ function UserProfile() {
 
           <div className="flex gap-3 mt-4">
             <button
-              className="flex-1 bg-gray-500 text-white font-semibold py-3 px-6 rounded-2xl hover:bg-gray-600 transition-colors"
+              className="flex-1 bg-blue-500 text-white font-semibold py-3 px-6 rounded-2xl"
               onClick={() => {
                 if (isEditing) {
                   handleSave();
@@ -349,7 +349,7 @@ function UserProfile() {
             </button>
             {isEditing && (
               <button
-                className="flex-1 border border-gray-300 rounded-2xl px-4 py-2 hover:bg-gray-50 transition-colors"
+                className="flex-1 border border-gray-300 rounded-2xl px-4 py-2"
                 onClick={handleCancel}
               >
                 Cancel
@@ -358,7 +358,7 @@ function UserProfile() {
           </div>
         </div>
       </div>
-      
+
     </>
   );
 }

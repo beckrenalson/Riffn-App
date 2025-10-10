@@ -131,20 +131,20 @@ function PublicProfile() {
                                 ) : ('Request to Join')}
                             </button>
                         ) :
-                        (user?.profileType === 'solo' && currentUser?.profileType === 'band' && currentUser.bandMembers && !currentUser.bandMembers.some(member => member._id === user._id)) ? (
-                            <button
-                                onClick={handleConnectionRequest}
-                                disabled={isLoading}
-                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center gap-2 mx-auto"
-                            >
-                                {isLoading ? (
-                                    <>
-                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                        Sending...
-                                    </>
-                                ) : ('Invite to Band')}
-                            </button>
-                        ) : null
+                            (user?.profileType === 'solo' && currentUser?.profileType === 'band' && currentUser.bandMembers && !currentUser.bandMembers.some(member => member._id === user._id)) ? (
+                                <button
+                                    onClick={handleConnectionRequest}
+                                    disabled={isLoading}
+                                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-200 flex items-center gap-2 mx-auto"
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                            Sending...
+                                        </>
+                                    ) : ('Invite to Band')}
+                                </button>
+                            ) : null
                     )}
 
                     {connectionStatus === 'pending' && (
@@ -255,7 +255,7 @@ function PublicProfile() {
                                         <iframe
                                             src={track.src}
                                             width="100%"
-                                            height="166"
+                                            height="80"
                                             style={{ borderRadius: "12px" }}
                                             frameBorder="no"
                                             scrolling="no"
