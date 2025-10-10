@@ -72,22 +72,6 @@ const UserStore = create(
           },
         }),
 
-      // --- PASSKEY METHODS ---
-
-      // Register passkey for the user
-      registerPasskey: async (credentialId) => {
-        const userId = get().userData._id;
-        if (!userId) throw new Error("User not logged in");
-        try {
-          await api.post(`/users/${userId}/passkeys`, { credentialId }); // Use api.post
-          set({
-            userData: { ...get().userData, passkeyId: credentialId },
-          });
-        } catch (err) {
-          console.error("Failed to register passkey:", err);
-        }
-      },
-
       // Logout user
       logout: async () => {
         try {
