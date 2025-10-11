@@ -1,4 +1,5 @@
 import axios from 'axios';
+import UserStore from '../stores/UserStore';
 
 export const API_URL = import.meta.env.VITE_RIFFN_API || "http://localhost:5000";
 
@@ -27,16 +28,16 @@ api.interceptors.response.use(
         const originalRequest = error.config;
 
         // Skip refresh for auth endpoints
-        const skipRefresh = originalRequest.url.includes('/auth/login') ||
-            originalRequest.url.includes('/auth/register') ||
-            originalRequest.url.includes('/auth/users/passkey-login-challenge');
+        const skipRefresh = originalRequest?.url?.includes('/auth/login') ||
+            originalRequest?.url?.includes('/auth/register') ||
+            originalRequest?.url?.includes('/auth/users/passkey-login-challenge');
 
         if (skipRefresh) {
             return Promise.reject(error);
         }
 
         // If the error is 401 and it's not a refresh token request
-        if (error.response.status === 401 && originalRequest.url !== '/auth/refresh-token') {
+        if (error.response?.status === 401 && originalRequest?.url !== '/auth/refresh-token') {
             if (isRefreshing) {
                 return new Promise(function (resolve, reject) {
                     failedQueue.push({ resolve, reject });
@@ -52,12 +53,17 @@ api.interceptors.response.use(
             return new Promise((resolve, reject) => {
                 api.post('/auth/refresh-token')
                     .then(res => {
-
-                        processQueue(null, 'refreshed');       
+                        console.log('✅ Token refreshed successfully');
+                        processQueue(null, 'refreshed');
                         resolve(api(originalRequest));
                     })
                     .catch(err => {
+                        console.error('❌ Token refresh failed:', err.message);
                         processQueue(err);
+
+                        // Clear user data from store before redirecting
+                        UserStore.getState().resetUserData();
+
                         window.location = '/login'; // Redirect to login
                         reject(err);
                     })
