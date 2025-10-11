@@ -103,7 +103,10 @@ const UserStore = create(
     {
       name: "riffn-user-storage",
       partialize: (state) => ({
-        userData: state.userData,
+        userData: {
+          ...state.userData,
+          password: undefined,
+        },
         isEditing: state.isEditing,
       }),
       onRehydrateStorage: () => (state) => {

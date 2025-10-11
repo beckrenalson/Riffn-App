@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import UserStore from "../../stores/UserStore";
-import api, { USERS_ENDPOINT } from "../../services/api"; // Import api and USERS_ENDPOINT
+import api from "../../services/api"; // Import api and USERS_ENDPOINT
 import BackBtn from "../BackBtn";
 import { useState } from "react";
 
