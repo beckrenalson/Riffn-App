@@ -27,7 +27,7 @@ function ProfileList({ header, profiles }) {
         <div>
             <p>{header}</p>
 
-            <ul className="p-5">
+            <ul className="p-5 space-y-3">
                 {profiles.map((user, index) => (
                     <button
                         key={index}
