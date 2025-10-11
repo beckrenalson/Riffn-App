@@ -156,7 +156,7 @@ function PublicProfile() {
                     {connectionStatus === 'accepted' && (
                         <div className="space-y-2">
                             <div className="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
-                                {isBandMember ? 'Already Member' : 'Joined'}
+                                Already Member
                             </div>
                         </div>
                     )}
