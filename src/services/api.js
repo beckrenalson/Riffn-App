@@ -29,7 +29,7 @@ api.interceptors.response.use(
 
         // Skip refresh for auth endpoints
         const skipRefresh = originalRequest?.url?.includes('/auth/login') ||
-            originalRequest?.url?.includes('/auth/register') ||
+            originalRequest?.url?.includes('/auth/signup') ||
             originalRequest?.url?.includes('/auth/users/passkey-login-challenge');
 
         if (skipRefresh) {

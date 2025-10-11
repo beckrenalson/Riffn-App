@@ -21,7 +21,7 @@ function FinalSignUp() {
         };
 
         try {
-            const response = await api.post(USERS_ENDPOINT, payload); // Use api.post
+            const response = await api.post('auth/signup', payload); // Use api.post
 
             const data = response.data;
 
