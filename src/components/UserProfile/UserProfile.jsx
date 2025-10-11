@@ -163,179 +163,221 @@ function UserProfile() {
   };
 
   return (
-    <>
-      <div className="flex justify-between">
-        <BackBtn />
-        <SettingsBtn />
+    <div className="min-h-screen bg-zinc-950">
+      {/* Animated background gradient */}
+      <div className="fixed inset-0 bg-gradient-to-br from-violet-950/20 via-zinc-950 to-blue-950/20 pointer-events-none"></div>
+
+      {/* Navigation */}
+      <div className="relative z-10">
+        <div className="flex justify-between items-center px-6 py-4">
+          <BackBtn />
+          <SettingsBtn />
+        </div>
       </div>
 
-      <UserHeader
-        isEditing={isEditing}
-        profileImage={formData.profileImage}
-        setImage={(image) => setFormData({ ...formData, profileImage: image })}
-      />
+      {/* Profile Header */}
+      <div className="relative z-10 px-6 pt-4">
+        <UserHeader
+          isEditing={isEditing}
+          profileImage={formData.profileImage}
+          setImage={(image) => setFormData({ ...formData, profileImage: image })}
+        />
+      </div>
 
-      <div className="flex flex-col items-center px-4 pt-4 pb-24">
-        <div className="w-full max-w-md">
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col items-center px-4 pt-8 pb-24">
+        <div className="w-full max-w-2xl space-y-6">
 
-          <div className="my-4">
+          {/* Bio Section */}
+          <div className="group">
             {isEditing ? (
-              <>
-                <label className="text-sm text-gray-600 mb-1 block">Bio</label>
+              <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 transition-all duration-300 hover:border-violet-500/30">
+                <label className="text-xs font-medium text-zinc-400 mb-3 block uppercase tracking-wider">
+                  Bio
+                </label>
                 <Bio userData={formData} setUserData={setFormData} />
-              </>
+              </div>
             ) : (
-              <div className="bg-gray-200 text-gray-800 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
-                {userData?.bio || (
-                  <span className="text-gray-400 italic">No bio provided.</span>
-                )}
+              <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 transition-all duration-300 hover:border-zinc-700/50">
+                <div className="text-zinc-300 whitespace-pre-line leading-relaxed text-sm">
+                  {userData?.bio || (
+                    <span className="text-zinc-500 italic">No bio provided.</span>
+                  )}
+                </div>
               </div>
             )}
           </div>
 
-          <div className="border border-gray-500 rounded-2xl p-4 mb-6">
-            <UserDetails icon="/images/circle-user.png">
-              {isEditing ? (
-                <div className="space-y-2">
-                  <label className="block">
-                    <span className="text-sm text-gray-500">First Name</span>
-                    <input
-                      className="w-full border rounded-xl px-3 py-2 mt-1"
-                      type="text"
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm text-gray-500">Last Name</span>
-                    <input
-                      className="w-full border rounded-xl px-3 py-2 mt-1"
-                      type="text"
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    />
-                  </label>
-                </div>
-              ) : (
-                `${userData?.firstName || ''} ${userData?.lastName || ''}`.trim() || 'No name provided'
-              )}
-            </UserDetails>
+          {/* Personal Details */}
+          <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-zinc-700/50">
+            <div className="px-6 py-4 border-b border-zinc-800/50">
+              <h3 className="text-zinc-100 font-semibold text-sm uppercase tracking-wider">Personal Details</h3>
+            </div>
 
-            {userData?.profileType === "band" && (
-              <UserDetails icon="/images/members.png">
+            <div className="divide-y divide-zinc-800/30 px-6 pt-6 pb-6">
+              <UserDetails icon="/images/circle-user.png">
                 {isEditing ? (
-                  <BandMembersInput
-                    members={formData.bandMembers || []}
-                    setMembers={(updated) =>
-                      setFormData({ ...formData, bandMembers: updated })
-                    }
-                    currentUserId={userData?._id}
-                  />
+                  <div className="space-y-4 py-3">
+                    <label className="block">
+                      <span className="text-xs text-zinc-400 font-medium uppercase tracking-wider">First Name</span>
+                      <input
+                        className="w-full bg-zinc-800/50 border border-zinc-700/50 text-zinc-100 rounded-xl px-4 py-3 mt-2 focus:border-violet-500 focus:bg-zinc-800/80 transition-all outline-none placeholder-zinc-500"
+                        type="text"
+                        value={formData.firstName}
+                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      />
+                    </label>
+                    <label className="block">
+                      <span className="text-xs text-zinc-400 font-medium uppercase tracking-wider">Last Name</span>
+                      <input
+                        className="w-full bg-zinc-800/50 border border-zinc-700/50 text-zinc-100 rounded-xl px-4 py-3 mt-2 focus:border-violet-500 focus:bg-zinc-800/80 transition-all outline-none placeholder-zinc-500"
+                        type="text"
+                        value={formData.lastName}
+                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      />
+                    </label>
+                  </div>
                 ) : (
-                  <>
-                    {formData?.bandMembers?.length > 0 ? (
-                      <div className="flex flex-wrap gap-3">
-                        {formData.bandMembers.map((member) => (
-                          <div key={member._id || member} className="flex items-center gap-2">
-                            <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
-                              <span className="text-xs text-gray-600">
-                                {getMemberDisplayName(member).charAt(0)}
-                              </span>
-                            </div>
-                            <span className="text-sm">{getMemberDisplayName(member)}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      "No band members added"
-                    )}
-                  </>
+                  <span className="text-zinc-200 font-medium">
+                    {`${userData?.firstName || ''} ${userData?.lastName || ''}`.trim() || 'No name provided'}
+                  </span>
                 )}
               </UserDetails>
-            )}
 
-            <UserDetails icon="/images/land-layer-location.png">
-              {isEditing ? (
-                <SelectLocation
-                  userData={formData}
-                  handleChange={(e) =>
-                    setFormData({ ...formData, [e.target.name]: e.target.value })
-                  }
-                />
-              ) : (
-                userData?.location || "Location not set"
+              {userData?.profileType === "band" && (
+                <UserDetails icon="/images/members.png">
+                  {isEditing ? (
+                    <div className="py-3">
+                      <BandMembersInput
+                        members={formData.bandMembers || []}
+                        setMembers={(updated) =>
+                          setFormData({ ...formData, bandMembers: updated })
+                        }
+                        currentUserId={userData?._id}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      {formData?.bandMembers?.length > 0 ? (
+                        <div className="flex flex-wrap gap-2 py-2">
+                          {formData.bandMembers.map((member) => (
+                            <div key={member._id || member} className="flex items-center gap-2 bg-zinc-800/50 px-3 py-2 rounded-lg border border-zinc-700/30 transition-all hover:border-violet-500/30">
+                              <div className="w-7 h-7 bg-gradient-to-br from-violet-500 to-blue-500 rounded-full flex items-center justify-center">
+                                <span className="text-xs font-semibold text-white">
+                                  {getMemberDisplayName(member).charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                              <span className="text-sm text-zinc-300">{getMemberDisplayName(member)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-zinc-500 italic text-sm">No band members added</span>
+                      )}
+                    </>
+                  )}
+                </UserDetails>
               )}
-            </UserDetails>
 
-            <UserDetails icon="/images/envelope.png">
-              {isEditing ? (
-                <input
-                  className="w-full border rounded-xl px-3 py-2"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              ) : (
-                userData?.email || "Email not provided"
-              )}
-            </UserDetails>
+              <UserDetails icon="/images/land-layer-location.png">
+                {isEditing ? (
+                  <div className="py-3">
+                    <SelectLocation
+                      userData={formData}
+                      handleChange={(e) =>
+                        setFormData({ ...formData, [e.target.name]: e.target.value })
+                      }
+                    />
+                  </div>
+                ) : (
+                  <span className="text-zinc-200">{userData?.location || "Location not set"}</span>
+                )}
+              </UserDetails>
 
-            <UserDetails icon="/images/eye.png">
-              {isEditing ? (
-                <input
-                  className="w-full border rounded-xl px-3 py-2"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter new password"
-                />
-              ) : (
-                '••••••••'
-              )}
-            </UserDetails>
+              <UserDetails icon="/images/envelope.png">
+                {isEditing ? (
+                  <input
+                    className="w-full bg-zinc-800/50 border border-zinc-700/50 text-zinc-100 rounded-xl px-4 py-3 my-2 focus:border-violet-500 focus:bg-zinc-800/80 transition-all outline-none placeholder-zinc-500"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                ) : (
+                  <span className="text-zinc-200">{userData?.email || "Email not provided"}</span>
+                )}
+              </UserDetails>
+
+              <UserDetails icon="/images/eye.png">
+                {isEditing ? (
+                  <input
+                    className="w-full bg-zinc-800/50 border border-zinc-700/50 text-zinc-100 rounded-xl px-4 py-3 my-2 focus:border-violet-500 focus:bg-zinc-800/80 transition-all outline-none placeholder-zinc-500"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter new password"
+                  />
+                ) : (
+                  <span className="text-zinc-400 font-mono text-sm">••••••••</span>
+                )}
+              </UserDetails>
+            </div>
           </div>
 
-          <div className="border border-gray-500 rounded-2xl p-4 mb-6">
-            <UserDetails icon="/images/instruments/guitar.png">
-              {isEditing ? (
-                <div className="flex justify-between items-center">
-                  <span>{formData.selectedInstruments?.join(", ") || "None selected"}</span>
-                  <button
-                    onClick={() => navigate("/signup/instruments?from=edit")}
-                    className="ml-3 text-blue-500 hover:underline text-sm"
-                  >
-                    Edit
-                  </button>
-                </div>
-              ) : (
-                userData?.selectedInstruments?.join(", ") || "No instruments selected"
-              )}
-            </UserDetails>
+          {/* Musical Info */}
+          <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-zinc-700/50">
+            <div className="px-6 py-4 border-b border-zinc-800/50">
+              <h3 className="text-zinc-100 font-semibold text-sm uppercase tracking-wider">Musical Profile</h3>
+            </div>
 
-            <UserDetails icon="/images/music-alt.png">
-              {isEditing ? (
-                <div className="flex justify-between items-center">
-                  <span>{formData.selectedGenres?.join(", ") || "None selected"}</span>
-                  <button
-                    onClick={() => navigate("/signup/genres?from=edit")}
-                    className="ml-3 text-blue-500 hover:underline text-sm"
-                  >
-                    Edit
-                  </button>
-                </div>
-              ) : (
-                userData?.selectedGenres?.join(", ") || "No genres selected"
-              )}
-            </UserDetails>
+            <div className="divide-y divide-zinc-800/30 px-6 pt-6 pb-6">
+              <UserDetails icon="/images/instruments/guitar.png">
+                {isEditing ? (
+                  <div className="flex justify-between items-center py-2 gap-3">
+                    <span className="text-zinc-300">{formData.selectedInstruments?.join(", ") || "None selected"}</span>
+                    <button
+                      onClick={() => navigate("/signup/instruments?from=edit")}
+                      className="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium rounded-lg transition-all uppercase tracking-wider"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                ) : (
+                  <span className="text-zinc-200">{userData?.selectedInstruments?.join(", ") || "No instruments selected"}</span>
+                )}
+              </UserDetails>
+
+              <UserDetails icon="/images/music-alt.png">
+                {isEditing ? (
+                  <div className="flex justify-between items-center py-2 gap-3">
+                    <span className="text-zinc-300">{formData.selectedGenres?.join(", ") || "None selected"}</span>
+                    <button
+                      onClick={() => navigate("/signup/genres?from=edit")}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-all uppercase tracking-wider"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                ) : (
+                  <span className="text-zinc-200">{userData?.selectedGenres?.join(", ") || "No genres selected"}</span>
+                )}
+              </UserDetails>
+            </div>
           </div>
 
-          <div className="border border-gray-500 rounded-2xl p-4">
-            <MusicEmbed isEditing={isEditing} setIsEditing={setIsEditing} />
+          {/* Music Embed */}
+          <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-zinc-700/50">
+            <div className="px-6 py-4 border-b border-zinc-800/50">
+              <h3 className="text-zinc-100 font-semibold text-sm uppercase tracking-wider">Music</h3>
+            </div>
+            <div className="p-6">
+              <MusicEmbed isEditing={isEditing} setIsEditing={setIsEditing} />
+            </div>
           </div>
 
-          <div className="flex gap-3 mt-4">
+          {/* Action Buttons */}
+          <div className="flex gap-3 pt-2">
             <button
-              className="flex-1 bg-blue-500 text-white font-semibold py-3 px-6 rounded-2xl"
+              className="flex-1 bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 uppercase tracking-wider text-sm"
               onClick={() => {
                 if (isEditing) {
                   handleSave();
@@ -349,7 +391,7 @@ function UserProfile() {
             </button>
             {isEditing && (
               <button
-                className="flex-1 border border-gray-300 rounded-2xl px-4 py-2"
+                className="flex-1 bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700/50 text-zinc-300 font-semibold rounded-xl px-6 py-4 transition-all duration-200 uppercase tracking-wider text-sm"
                 onClick={handleCancel}
               >
                 Cancel
@@ -358,8 +400,7 @@ function UserProfile() {
           </div>
         </div>
       </div>
-
-    </>
+    </div>
   );
 }
 
