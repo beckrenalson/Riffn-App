@@ -342,7 +342,20 @@ function UserProfile() {
                     </button>
                   </div>
                 ) : (
-                  <span className="text-zinc-200">{userData?.selectedInstruments?.join(", ") || "No instruments selected"}</span>
+                  userData?.selectedInstruments && userData.selectedInstruments.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {userData.selectedInstruments.map((instrument, index) => (
+                        <span
+                          key={index}
+                          className="bg-violet-500/10 border border-violet-500/30 text-violet-300 px-3 py-1.5 rounded-lg text-xs font-medium"
+                        >
+                          {instrument}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-zinc-500 italic text-sm">No instruments selected</span>
+                  )
                 )}
               </UserDetails>
 
@@ -358,7 +371,20 @@ function UserProfile() {
                     </button>
                   </div>
                 ) : (
-                  <span className="text-zinc-200">{userData?.selectedGenres?.join(", ") || "No genres selected"}</span>
+                  userData?.selectedGenres && userData.selectedGenres.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {userData.selectedGenres.map((genre, index) => (
+                        <span
+                          key={index}
+                          className="bg-blue-500/10 border border-blue-500/30 text-blue-300 px-3 py-1.5 rounded-lg text-xs font-medium"
+                        >
+                          {genre}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-zinc-500 italic text-sm">No genres selected</span>
+                  )
                 )}
               </UserDetails>
             </div>

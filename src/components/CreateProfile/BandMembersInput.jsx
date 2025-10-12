@@ -83,9 +83,9 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
     };
 
     return (
-        <div className="mt-4 relative">
+        <div className="relative">
             <input
-                className="border border-gray-500 p-2 w-full rounded-xl"
+                className="w-full bg-zinc-800/50 border border-zinc-700/50 text-zinc-100 rounded-xl px-4 py-3 focus:border-violet-500 focus:bg-zinc-800/80 transition-all outline-none placeholder-zinc-500"
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
@@ -94,17 +94,17 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
             />
 
             {inputValue && (
-                <div className="absolute w-full mt-1 z-50">
+                <div className="absolute w-full mt-2 z-50">
                     {loading ? (
-                        <div className="bg-white border border-gray-300 rounded-xl p-2 text-gray-500">
+                        <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl p-3 text-zinc-400 shadow-xl">
                             Loading...
                         </div>
                     ) : searchResults.length > 0 ? (
-                        <ul className="border border-gray-300 rounded-xl max-h-48 overflow-y-auto bg-white text-black shadow-lg">
+                        <ul className="bg-zinc-900 border border-zinc-700/50 rounded-xl max-h-48 overflow-y-auto shadow-xl">
                             {searchResults.map((user) => (
                                 <li
                                     key={user._id}
-                                    className="p-2 hover:bg-gray-200 cursor-pointer transition-colors"
+                                    className="p-3 hover:bg-zinc-800 cursor-pointer transition-colors text-zinc-200 border-b border-zinc-800/50 last:border-b-0"
                                     onClick={() => handleAddMember(user)}
                                     role="button"
                                     tabIndex={0}
@@ -115,15 +115,17 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
                                         }
                                     }}
                                 >
-                                    {user.userName}{" "}
-                                    {user.firstName && user.lastName
-                                        ? `(${user.firstName} ${user.lastName})`
-                                        : ""}
+                                    <span className="font-medium">{user.userName}</span>
+                                    {user.firstName && user.lastName && (
+                                        <span className="text-zinc-400 text-sm ml-2">
+                                            ({user.firstName} {user.lastName})
+                                        </span>
+                                    )}
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <div className="bg-white border border-gray-300 rounded-xl p-2 text-gray-500">
+                        <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl p-3 text-zinc-400 shadow-xl">
                             No users found
                         </div>
                     )}
@@ -131,25 +133,29 @@ function BandMembersInput({ members, setMembers, currentUserId }) {
             )}
 
             {members.length > 0 && (
-                <ul className="mt-4 mb-6 space-y-1">
+                <ul className="mt-4 space-y-2">
                     {members.map((member) => (
                         <li
                             key={member._id}
-                            className="flex justify-between items-center border border-gray-500 p-2 rounded-2xl"
+                            className="flex justify-between items-center bg-zinc-800/50 border border-zinc-700/50 p-3 rounded-xl hover:border-violet-500/30 transition-all"
                         >
-                            <span>{displayName(member)}</span>
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-blue-500 rounded-full flex items-center justify-center">
+                                    <span className="text-xs font-semibold text-white">
+                                        {displayName(member).charAt(0).toUpperCase()}
+                                    </span>
+                                </div>
+                                <span className="text-zinc-200 font-medium">{displayName(member)}</span>
+                            </div>
                             <button
                                 type="button"
-                                className="bg-red-500 p-1 rounded-lg hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-400"
+                                className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 p-2 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-red-400"
                                 onClick={() => handleDelete(member._id)}
                                 aria-label={`Remove ${displayName(member)}`}
                             >
-                                <img
-                                    className="h-6"
-                                    src="/images/trash.png"
-                                    alt="Delete"
-                                    style={{ filter: "invert(1)" }}
-                                />
+                                <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
                             </button>
                         </li>
                     ))}

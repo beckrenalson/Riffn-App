@@ -5,10 +5,11 @@ function SubGenreList({ genres, onSelectionChange, initialSelections }) {
     const { selectedGenres, setSelectedGenres } = GenreStore();
 
     useEffect(() => {
-        if (initialSelections) {
+        // Only initialize if the store is empty and we have initial selections
+        if (selectedGenres.length === 0 && initialSelections && initialSelections.length > 0) {
             setSelectedGenres(initialSelections);
         }
-    }, [initialSelections, setSelectedGenres]);
+    }, []); // Empty dependency array - only run once on mount
 
     const toggleSelection = (genreName) => {
         const updatedSelection = selectedGenres.includes(genreName)
@@ -20,21 +21,23 @@ function SubGenreList({ genres, onSelectionChange, initialSelections }) {
     };
 
     return (
-        <div className="">
-            {genres.map((genre, index) => (
-                <button
-                    className="flex flex-col mt-6 w-full"
-                    key={index}
-                    onClick={() => toggleSelection(genre.name)}
-                >
-                    <div className={`w-full text-white border border-gray-500 rounded-xl p-4 flex justify-center items-center ${selectedGenres.includes(genre.name)
-                        ? "bg-gray-800"
-                        : "bg-transparent"
-                        }`}>
-                        <p>{genre.name}</p>
-                    </div>
-                </button>
-            ))}
+        <div className="space-y-3">
+            {genres.map((genre, index) => {
+                const isSelected = selectedGenres.includes(genre.name);
+
+                return (
+                    <button
+                        key={index}
+                        onClick={() => toggleSelection(genre.name)}
+                        className={`w-full text-center rounded-xl p-4 font-medium text-sm transition-all duration-200 ${isSelected
+                                ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white border-2 border-violet-500/50 shadow-lg shadow-violet-500/20"
+                                : "bg-zinc-800/50 text-zinc-300 border-2 border-zinc-700/50 hover:bg-zinc-800/80 hover:border-zinc-600/50"
+                            }`}
+                    >
+                        {genre.name}
+                    </button>
+                );
+            })}
         </div>
     );
 }

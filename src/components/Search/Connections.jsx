@@ -96,10 +96,15 @@ function Connections() {
 
     if (isLoading) {
         return (
-            <div className="p-6">
-                <h1 className="text-2xl font-bold mb-4">Connections</h1>
-                <div className="flex items-center justify-center py-8">
-                    <div className="text-gray-500">Loading requests...</div>
+            <div className="min-h-screen bg-zinc-950">
+                <div className="fixed inset-0 bg-gradient-to-br from-violet-950/20 via-zinc-950 to-blue-950/20 pointer-events-none"></div>
+                <div className="relative z-10">
+                    <div className="sticky top-0 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 px-6 py-4 shadow-lg">
+                        <h1 className="text-3xl font-bold text-zinc-100 text-center tracking-tight">Connections</h1>
+                    </div>
+                    <div className="flex items-center justify-center min-h-[50vh]">
+                        <div className="text-zinc-400">Loading requests...</div>
+                    </div>
                 </div>
             </div>
         );
@@ -107,82 +112,116 @@ function Connections() {
 
     if (!currentUser) {
         return (
-            <div className="p-6">
-                <h1 className="text-2xl font-bold mb-4">Connections</h1>
-                <div className="text-gray-500">Please log in to view connection requests.</div>
+            <div className="min-h-screen bg-zinc-950">
+                <div className="fixed inset-0 bg-gradient-to-br from-violet-950/20 via-zinc-950 to-blue-950/20 pointer-events-none"></div>
+                <div className="relative z-10">
+                    <div className="sticky top-0 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 px-6 py-4 shadow-lg">
+                        <h1 className="text-3xl font-bold text-zinc-100 text-center tracking-tight">Connections</h1>
+                    </div>
+                    <div className="flex items-center justify-center min-h-[50vh]">
+                        <div className="text-zinc-400">Please log in to view connection requests.</div>
+                    </div>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="p-6 space-y-4">
-            <h1 className="text-2xl font-bold">Connections</h1>
+        <div className="min-h-screen bg-zinc-950">
+            {/* Animated background gradient */}
+            <div className="fixed inset-0 bg-gradient-to-br from-violet-950/20 via-zinc-950 to-blue-950/20 pointer-events-none"></div>
 
-            {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
-                    {error}
-                </div>
-            )}
-
-            {incomingRequests.length === 0 && (
-                <div className="text-center py-8">
-                    <div className="text-gray-500 text-lg">No pending connection requests</div>
-                    <div className="text-gray-400 text-sm mt-2">
-                        New requests will appear here when other users want to connect with you.
-                    </div>
-                </div>
-            )}
-
-            {incomingRequests.length > 0 && (
-                <div className="space-y-3">
-                    <div className="text-sm text-gray-600 mb-3">
+            {/* Header */}
+            <div className="relative z-10 sticky top-0 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 px-6 py-4 shadow-lg">
+                <h1 className="text-3xl font-bold text-zinc-100 text-center tracking-tight">Connections</h1>
+                {incomingRequests.length > 0 && (
+                    <p className="text-sm text-zinc-400 text-center mt-2">
                         {incomingRequests.length} pending request{incomingRequests.length !== 1 ? 's' : ''}
-                    </div>
-                    {incomingRequests.map(req => {
-                        const isProcessing = processingRequests.has(req._id);
-                        const displayName = req.fromUser?.userName ||
-                            `${req.fromUser?.firstName || ''} ${req.fromUser?.lastName || ''}`.trim() ||
-                            'Unknown User';
+                    </p>
+                )}
+            </div>
 
-                        return (
-                            <div
-                                key={req._id}
-                                className="flex justify-between items-center bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
-                            >
-                                <div className="flex-1">
-                                    <p className="font-semibold text-white">{displayName}</p>
-                                    <p className="text-sm text-gray-400">
-                                        {req.fromUser?.profileType === 'band' ? 'Band' : 'Solo Artist'}
-                                    </p>
-                                    {req.message && (
-                                        <p className="text-sm text-gray-300 mt-1 italic">
-                                            "{req.message}"
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex space-x-2 ml-4">
-                                    <button
-                                        onClick={() => handleAccept(req._id)}
-                                        disabled={isProcessing}
-                                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-green-400"
-                                        aria-label={`Accept connection request from ${displayName}`}
-                                    >
-                                        {isProcessing ? '...' : 'Accept'}
-                                    </button>
-                                    <button
-                                        onClick={() => handleReject(req._id)}
-                                        disabled={isProcessing}
-                                        className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-red-400"
-                                        aria-label={`Reject connection request from ${displayName}`}
-                                    >
-                                        {isProcessing ? '...' : 'Reject'}
-                                    </button>
-                                </div>
+            {/* Main Content */}
+            <div className="relative z-10 px-4 pt-6 pb-24">
+                <div className="max-w-2xl mx-auto space-y-4">
+                    {error && (
+                        <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl">
+                            {error}
+                        </div>
+                    )}
+
+                    {incomingRequests.length === 0 && (
+                        <div className="text-center py-12">
+                            <svg className="w-16 h-16 mx-auto mb-4 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <div className="text-zinc-500 text-lg font-medium">No pending connection requests</div>
+                            <div className="text-zinc-600 text-sm mt-2">
+                                New requests will appear here when other users want to connect with you.
                             </div>
-                        );
-                    })}
+                        </div>
+                    )}
+
+                    {incomingRequests.length > 0 && (
+                        <div className="space-y-3">
+                            {incomingRequests.map(req => {
+                                const isProcessing = processingRequests.has(req._id);
+                                const displayName = req.fromUser?.userName ||
+                                    `${req.fromUser?.firstName || ''} ${req.fromUser?.lastName || ''}`.trim() ||
+                                    'Unknown User';
+
+                                return (
+                                    <div
+                                        key={req._id}
+                                        className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-5 transition-all duration-300 hover:border-zinc-700/50"
+                                    >
+                                        <div className="flex justify-between items-start gap-4">
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-semibold text-zinc-100 text-lg truncate">{displayName}</p>
+                                                <p className="text-sm text-zinc-400 mt-1">
+                                                    {req.fromUser?.profileType === 'band' ? 'Band' : 'Solo Artist'}
+                                                </p>
+                                                {req.message && (
+                                                    <p className="text-sm text-zinc-300 mt-3 italic leading-relaxed">
+                                                        "{req.message}"
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-3 mt-4">
+                                            <button
+                                                onClick={() => handleAccept(req._id)}
+                                                disabled={isProcessing}
+                                                className="flex-1 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 disabled:from-zinc-700 disabled:to-zinc-700 text-white px-4 py-2.5 rounded-xl font-semibold transition-all duration-200 disabled:cursor-not-allowed text-sm"
+                                                aria-label={`Accept connection request from ${displayName}`}
+                                            >
+                                                {isProcessing ? (
+                                                    <div className="flex items-center justify-center gap-2">
+                                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                                    </div>
+                                                ) : 'Accept'}
+                                            </button>
+                                            <button
+                                                onClick={() => handleReject(req._id)}
+                                                disabled={isProcessing}
+                                                className="flex-1 bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-800 disabled:opacity-50 text-zinc-300 px-4 py-2.5 rounded-xl font-semibold transition-all duration-200 disabled:cursor-not-allowed text-sm"
+                                                aria-label={`Reject connection request from ${displayName}`}
+                                            >
+                                                {isProcessing ? (
+                                                    <div className="flex items-center justify-center gap-2">
+                                                        <div className="w-4 h-4 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin"></div>
+                                                    </div>
+                                                ) : 'Reject'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
     );
 }

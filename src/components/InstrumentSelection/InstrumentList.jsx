@@ -1,15 +1,16 @@
 import InstrumentStore from "../../stores/InstrumentStore";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 function InstrumentList({ instruments, onSelectionChange, initialSelections }) {
-
     const { selectedInstruments, setSelectedInstruments } = InstrumentStore();
+    const hasInitialized = useRef(false);
 
     useEffect(() => {
-        if (initialSelections) {
+        // Only initialize if the store is empty and we have initial selections
+        if (selectedInstruments.length === 0 && initialSelections && initialSelections.length > 0) {
             setSelectedInstruments(initialSelections);
         }
-    }, [initialSelections, setSelectedInstruments]);
+    }, []); // Empty dependency array - only run once on mount
 
     const toggleSelection = (instrumentName) => {
         const updatedSelection = selectedInstruments.includes(instrumentName)
