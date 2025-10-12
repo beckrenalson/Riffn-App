@@ -3,7 +3,7 @@ import InstrumentType from "./InstrumentType";
 import InstrumentStore from "../../stores/InstrumentStore";
 import UserStore from "../../stores/UserStore";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api, { INSTRUMENTS_ENDPOINT } from "../../services/api";
 
 function InstrumentTypeList() {
@@ -13,6 +13,8 @@ function InstrumentTypeList() {
     const selectedInstruments = InstrumentStore((state) => state.selectedInstruments || []);
     const userData = UserStore((state) => state.userData);
     const setUserData = UserStore((state) => state.setUserData);
+    const [searchParams] = useSearchParams();
+    const from = searchParams.get("from");
 
     useEffect(() => {
         async function fetchInstruments() {
@@ -28,11 +30,16 @@ function InstrumentTypeList() {
     }, []);
 
     const handleContinue = () => {
-        setUserData({
-            ...userData,
-            selectedInstruments
-        });
-        navigate("/signup/genres");
+        if (from === "edit") {
+            UserStore.getState().setIsEditing(true);
+            navigate("/profile", { state: { stayEditing: true, selectedInstruments } });
+        } else {
+            setUserData({
+                ...userData,
+                selectedInstruments
+            })
+            navigate("/signup/genres");
+        }
     };
 
     return (

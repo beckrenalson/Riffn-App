@@ -3,7 +3,7 @@ import Genre from "./Genre"
 import GenreStore from "../../stores/GenreStore";
 import UserStore from "../../stores/UserStore";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api, { SUBGENRES_ENDPOINT } from "../../services/api";
 
 function GenreList() {
@@ -13,6 +13,8 @@ function GenreList() {
     const selectedGenres = GenreStore((state) => state.selectedGenres || []);
     const userData = UserStore((state) => state.userData);
     const setUserData = UserStore((state) => state.setUserData);
+    const [searchParams] = useSearchParams();
+    const from = searchParams.get("from");
 
     useEffect(() => {
         async function fetchGenres() {
@@ -28,12 +30,17 @@ function GenreList() {
     }, []);
 
     const handleContinue = () => {
-        setUserData({
-            ...userData,
-            selectedGenres
-        });
-        navigate("/signup/confirm");
-    };
+        if (from === "edit") {
+            UserStore.getState().setIsEditing(true);
+            navigate("/profile", { state: { stayEditing: true, selectedGenres } });
+        } else {
+            setUserData({
+                ...userData,
+                selectedGenres
+            })
+            navigate("/signup/confirm");
+        }
+    }
 
     return (
         <div className="min-h-screen bg-zinc-950">
