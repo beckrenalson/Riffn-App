@@ -5,6 +5,7 @@ import UserStore from '../../stores/UserStore';
 import api, { USERS_ENDPOINT } from '../../services/api';
 
 function AppLayout() {
+  // 🔄 Refresh user data when window regains focus
   useEffect(() => {
     const handleFocus = async () => {
       const currentUser = UserStore.getState().userData;
@@ -22,6 +23,13 @@ function AppLayout() {
 
     window.addEventListener('focus', handleFocus);
     return () => window.removeEventListener('focus', handleFocus);
+  }, []);
+
+  // 🚫 Disable browser scroll restoration globally
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
   }, []);
 
   return (

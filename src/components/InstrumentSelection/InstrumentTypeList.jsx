@@ -16,6 +16,18 @@ function InstrumentTypeList() {
     const [searchParams] = useSearchParams();
     const from = searchParams.get("from");
 
+    // ✅ Always scroll to top when page loads
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    // ✅ Disable browser scroll restoration to stop “bottom jump” effect
+    useEffect(() => {
+        if ("scrollRestoration" in window.history) {
+            window.history.scrollRestoration = "manual";
+        }
+    }, []);
+
     useEffect(() => {
         async function fetchInstruments() {
             try {
@@ -36,15 +48,15 @@ function InstrumentTypeList() {
         } else {
             setUserData({
                 ...userData,
-                selectedInstruments
-            })
+                selectedInstruments,
+            });
             navigate("/signup/genres");
         }
     };
 
     return (
         <div className="min-h-screen bg-zinc-950">
-            {/* Animated background gradient */}
+            {/* Subtle background gradient */}
             <div className="fixed inset-0 bg-gradient-to-br from-violet-950/20 via-zinc-950 to-blue-950/20 pointer-events-none"></div>
 
             {/* Navigation */}
@@ -57,7 +69,6 @@ function InstrumentTypeList() {
             {/* Main Content */}
             <div className="relative z-10 flex flex-col items-center px-4 pt-6 pb-24">
                 <div className="w-full max-w-2xl space-y-8">
-
                     {/* Title Section */}
                     <div className="text-center space-y-2">
                         {userData.profileType === "solo" && (
@@ -91,10 +102,21 @@ function InstrumentTypeList() {
                     {selectedInstruments.length > 0 && (
                         <div className="text-center">
                             <span className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/30 text-violet-300 px-4 py-2 rounded-xl text-sm font-medium">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                    className="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
                                 </svg>
-                                {selectedInstruments.length} instrument{selectedInstruments.length !== 1 ? 's' : ''} selected
+                                {selectedInstruments.length} instrument
+                                {selectedInstruments.length !== 1 ? "s" : ""} selected
                             </span>
                         </div>
                     )}
@@ -119,7 +141,6 @@ function InstrumentTypeList() {
                             Clear All Selections
                         </button>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
-import BackBtn from "../BackBtn"
-import Genre from "./Genre"
+import BackBtn from "../BackBtn";
+import Genre from "./Genre";
 import GenreStore from "../../stores/GenreStore";
 import UserStore from "../../stores/UserStore";
 import { useEffect } from "react";
@@ -15,6 +15,18 @@ function GenreList() {
     const setUserData = UserStore((state) => state.setUserData);
     const [searchParams] = useSearchParams();
     const from = searchParams.get("from");
+
+    // ✅ Always scroll to top when page loads
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    // ✅ Disable browser scroll restoration (prevents bottom jump)
+    useEffect(() => {
+        if ("scrollRestoration" in window.history) {
+            window.history.scrollRestoration = "manual";
+        }
+    }, []);
 
     useEffect(() => {
         async function fetchGenres() {
@@ -36,11 +48,11 @@ function GenreList() {
         } else {
             setUserData({
                 ...userData,
-                selectedGenres
-            })
+                selectedGenres,
+            });
             navigate("/signup/confirm");
         }
-    }
+    };
 
     return (
         <div className="min-h-screen bg-zinc-950">
@@ -57,7 +69,6 @@ function GenreList() {
             {/* Main Content */}
             <div className="relative z-10 flex flex-col items-center px-4 pt-6 pb-24">
                 <div className="w-full max-w-2xl space-y-8">
-
                     {/* Title Section */}
                     <div className="text-center space-y-2">
                         <h1 className="text-xl font-semibold text-zinc-100 tracking-tight">
@@ -85,10 +96,21 @@ function GenreList() {
                     {selectedGenres.length > 0 && (
                         <div className="text-center">
                             <span className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/30 text-violet-300 px-4 py-2 rounded-xl text-sm font-medium">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                    className="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
                                 </svg>
-                                {selectedGenres.length} genre{selectedGenres.length !== 1 ? 's' : ''} selected
+                                {selectedGenres.length} genre
+                                {selectedGenres.length !== 1 ? "s" : ""} selected
                             </span>
                         </div>
                     )}
@@ -113,11 +135,10 @@ function GenreList() {
                             Clear All Selections
                         </button>
                     </div>
-
                 </div>
             </div>
         </div>
     );
 }
 
-export default GenreList
+export default GenreList;
