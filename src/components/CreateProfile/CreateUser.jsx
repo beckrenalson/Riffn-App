@@ -113,7 +113,7 @@ function CreateUser() {
 
                     {/* Band Members Section */}
                     {userData.profileType === "band" && (
-                        <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 transition-all duration-300 hover:border-zinc-700/50">
+                        <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 transition-all duration-300 hover:border-zinc-700/50 relative z-20">
                             <label className="text-xs font-medium text-zinc-400 mb-3 block uppercase tracking-wider">
                                 Band Members
                             </label>

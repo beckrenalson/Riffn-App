@@ -81,7 +81,7 @@ function SearchProfiles({ profileType }) {
       <div className="fixed inset-0 bg-gradient-to-br from-violet-950/20 via-zinc-950 to-blue-950/20 pointer-events-none"></div>
 
       {/* Header */}
-      <div className="relative z-10 sticky top-0 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 px-6 py-4 shadow-lg">
+      <div className="relative z-20 sticky top-0 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 px-6 py-4 shadow-lg">
         <h1 className="text-3xl font-bold text-zinc-100 text-center tracking-tight">{headerText}</h1>
         <p className="text-sm text-zinc-400 text-center mt-2">{subHeaderText}</p>
       </div>
