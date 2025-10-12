@@ -20,6 +20,11 @@ function FinalSignUp() {
             profileImage: userData.profileImage || null,
         };
 
+        // Remove password from payload if passkey is being used
+        if (userData.passkeyData) {
+            delete payload.password;
+        }
+
         try {
             const response = await api.post('auth/signup', payload);
 
@@ -115,6 +120,15 @@ function FinalSignUp() {
                                 </p>
                                 <p className="text-base text-zinc-100">{userData.email}</p>
                             </div>
+
+                            {userData.passkeyData && (
+                                <div className="pt-4">
+                                    <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-1">
+                                        Authentication
+                                    </p>
+                                    <p className="text-base text-green-400">✓ Passkey enabled</p>
+                                </div>
+                            )}
 
                             <div className="pt-4">
                                 <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-1">

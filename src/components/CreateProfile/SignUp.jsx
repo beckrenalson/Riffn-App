@@ -55,8 +55,12 @@ function SignUp() {
     if (!userData.firstName?.trim()) errors.firstName = "First name required";
     if (!userData.lastName?.trim()) errors.lastName = "Last name required";
     if (!userData.email?.trim()) errors.email = "Email required";
-    if (!userData.password || userData.password.length < 8)
-      errors.password = "Password must be at least 8 characters";
+
+    // Only require password if no passkey was created
+    if (!passkeyData) {
+      if (!userData.password || userData.password.length < 8)
+        errors.password = "Password must be at least 8 characters";
+    }
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -64,12 +68,18 @@ function SignUp() {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/api/users/check-details`, {
+      const payload = {
         email: userData.email,
         firstName: userData.firstName,
         lastName: userData.lastName,
-        password: userData.password,
-      });
+      };
+
+      // Only include password if no passkey
+      if (!passkeyData) {
+        payload.password = userData.password;
+      }
+
+      const res = await axios.post(`${API_URL}/api/users/check-details`, payload);
 
       if (res.data.available) {
         if (passkeyData) setUserData((prev) => ({ ...prev, passkeyData }));
@@ -97,6 +107,17 @@ function SignUp() {
   };
 
   const handlePasskeyRegister = async () => {
+    // Validate required fields first
+    const errors = {};
+    if (!userData.firstName?.trim()) errors.firstName = "First name required";
+    if (!userData.lastName?.trim()) errors.lastName = "Last name required";
+    if (!userData.email?.trim()) errors.email = "Email required";
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -156,7 +177,11 @@ function SignUp() {
         credential: serializedCredential
       });
 
-      alert("Passkey created! It will be registered when you complete signup.");
+      // Clear password field since passkey is now the auth method
+      setUserData({ password: '' });
+      setFieldErrors({});
+
+      alert("Passkey created! You can now continue without a password.");
 
     } catch (err) {
       console.error("Passkey registration error:", err);
@@ -179,11 +204,9 @@ function SignUp() {
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="p-10 max-w-md w-full">
-        {/* <h2 className="text-4xl font-bold mb-6 text-center">Riffn</h2> */}
         <div className="flex justify-center mb-5">
           <img src="./images/riffn-lower.png" className="w-30" />
         </div>
-
 
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-2">
@@ -231,20 +254,22 @@ function SignUp() {
             </span>
           </div>
 
-          <div className="mb-2">
-            <input
-              type="password"
-              name="password"
-              value={userData.password || ''}
-              onChange={handleChange}
-              placeholder="Password"
-              className={`w-full pl-4 p-2 border rounded-xl ${fieldErrors.password ? "border-red-500" : ""
-                }`}
-            />
-            <span className="text-xs h-4 block text-red-500">
-              {fieldErrors.password || ""}
-            </span>
-          </div>
+          {!passkeyData && (
+            <div className="mb-2">
+              <input
+                type="password"
+                name="password"
+                value={userData.password || ''}
+                onChange={handleChange}
+                placeholder="Password"
+                className={`w-full pl-4 p-2 border rounded-xl ${fieldErrors.password ? "border-red-500" : ""
+                  }`}
+              />
+              <span className="text-xs h-4 block text-red-500">
+                {fieldErrors.password || ""}
+              </span>
+            </div>
+          )}
 
           <button
             type="submit"
@@ -266,7 +291,7 @@ function SignUp() {
             disabled={isLoading}
             className="w-full border p-2 rounded-xl disabled:opacity-50"
           >
-            {isLoading ? "Creating Passkey..." : "Create Passkey (Optional)"}
+            {isLoading ? "Creating Passkey..." : "Sign up with Passkey"}
           </button>
         )}
         {passkeyData && (
